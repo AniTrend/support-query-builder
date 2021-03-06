@@ -2,6 +2,7 @@ import java.net.URI
 
 plugins {
 	`kotlin-dsl`
+	`maven-publish`
 }
 
 repositories {
@@ -10,9 +11,6 @@ repositories {
 	mavenCentral()
 	maven {
 		url = URI("https://jitpack.io")
-	}
-	maven {
-		url = URI("http://oss.sonatype.org/content/repositories/snapshots")
 	}
 }
 

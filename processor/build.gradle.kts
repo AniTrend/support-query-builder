@@ -5,7 +5,6 @@ plugins {
 }
 
 dependencies {
-	//implementation(project(":annotations"))
 
 	implementation(Libraries.Google.AutoService.autoService)
 	kapt(Libraries.Google.AutoService.autoService)

@@ -25,6 +25,7 @@ fun Project.isCoreModule() = name == Modules.Common.Core.id
 fun Project.isProcessorModule() = name == Modules.Processor.Core.id
 fun Project.isProcessorRoomModule() = name == Modules.Processor.Room.id
 
+fun Project.isKotlinLibraryGroup() = name.startsWith(Modules.processorModulePattern) || isAnnotationModule()
 fun Project.matchesProcessorModule() = name.startsWith(Modules.processorModulePattern)
 
 internal fun Project.baseExtension() =
@@ -71,6 +72,9 @@ internal fun Project.androidExtensionsExtension() =
 
 internal fun Project.publishingExtension() =
     extensions.getByType<PublishingExtension>()
+
+internal fun Project.defaultPublicationSet() =
+    extensions.getByType<DefaultArtifactPublicationSet>()
 
 internal fun Project.containsAndroidPlugin(): Boolean {
     return project.plugins.toList().any { plugin ->
