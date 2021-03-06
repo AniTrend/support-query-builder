@@ -115,7 +115,7 @@ fun AbstractQueryBuilder.asSupportSQLiteQuery() : SupportSQLiteQuery {
 
 
 @TestOnly
-fun AbstractQueryBuilder.asFullSqlString(): String {
+internal fun AbstractQueryBuilder.asFullSqlString(): String {
     fun appendEscapedSQLString(sb: StringBuilder, sqlString: String) {
         sb.append('\'')
         if (sqlString.indexOf('\'') != -1) {

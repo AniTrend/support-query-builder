@@ -31,7 +31,7 @@ class QueryBuilderTest : TestCase() {
     fun `test general select statement`() {
         val expected = "SELECT * FROM table_name"
         val query = builder select "*" from "table_name"
-        val actual = query.build()
+        val actual = query.asFullSqlString()
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class QueryBuilderTest : TestCase() {
     fun `test general select statement without select clause`() {
         val expected = "SELECT * FROM table_name"
         val query = builder from "table_name"
-        val actual = query.build()
+        val actual = query.asFullSqlString()
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class QueryBuilderTest : TestCase() {
     fun `test general select statement with alias on column`() {
         val expected = "SELECT column_name AS t FROM table_name"
         val query = builder select (column `as` "t") from "table_name"
-        val actual = query.build()
+        val actual = query.asFullSqlString()
 
         assertEquals(expected, actual)
     }
@@ -55,7 +55,7 @@ class QueryBuilderTest : TestCase() {
     fun `test general select statement with alias on table`() {
         val expected = "SELECT * FROM table_name AS n"
         val query = builder from ("table_name".asTable() `as` "n")
-        val actual = query.build()
+        val actual = query.asFullSqlString()
 
         assertEquals(expected, actual)
     }
