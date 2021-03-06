@@ -25,23 +25,23 @@ infix fun Projection.notEquals(value: Any?): Criteria {
     return Criteria.Operator(this, NOT_EQUALS, value)
 }
 
-infix fun Projection.Column.greaterThan(value: Any?): Criteria {
+infix fun Projection.Column.greaterThan(value: Any): Criteria {
     return Criteria.Operator(this, GREATER, value)
 }
 
-infix fun Projection.Column.lesserThan(value: Any?): Criteria {
+infix fun Projection.Column.lesserThan(value: Any): Criteria {
     return Criteria.Operator(this, LESSER, value)
 }
 
-infix fun Projection.Column.greaterThanOrEqual(value: Any?): Criteria {
+infix fun Projection.Column.greaterThanOrEqual(value: Any): Criteria {
     return Criteria.Operator(this, GREATER_OR_EQUALS, value)
 }
 
-infix fun Projection.Column.lesserThanOrEqual(value: Any?): Criteria {
+infix fun Projection.Column.lesserThanOrEqual(value: Any): Criteria {
     return Criteria.Operator(this, LESSER_OR_EQUALS, value)
 }
 
-infix fun Projection.Column.matches(value: Any?): Criteria {
+infix fun Projection.Column.matches(value: Any): Criteria {
     return Criteria.Operator(this, MATCH, value)
 }
 
