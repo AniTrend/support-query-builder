@@ -13,7 +13,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.io.File
 
-
 @Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isAppModule()) {
