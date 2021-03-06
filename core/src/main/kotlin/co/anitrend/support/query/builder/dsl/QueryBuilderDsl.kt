@@ -16,38 +16,46 @@ import org.jetbrains.annotations.TestOnly
 import java.math.BigDecimal
 
 fun AbstractQueryBuilder.select(
-    projections: List<Projection.Column>
+    projections: List<Projection>
 ) = also { this.projections.addAll(projections) }
 
 fun AbstractQueryBuilder.select(
     vararg columns: String
 ) = select(columns.asColumn())
 
-fun AbstractQueryBuilder.from(
+infix fun AbstractQueryBuilder.select(
+    column: String
+) = also { this.projections.add(column.asColumn()) }
+
+infix fun AbstractQueryBuilder.select(
+    column: Projection
+) = also { this.projections.add(column) }
+
+infix fun AbstractQueryBuilder.from(
     from: From
 ) = also { this.from = from }
 
-fun AbstractQueryBuilder.from(
+infix fun AbstractQueryBuilder.from(
     subQuery: IQueryBuilder
 ) = also { this.from = From.SubQuery(subQuery) }
 
-fun AbstractQueryBuilder.from(
+infix fun AbstractQueryBuilder.from(
     table: String
 ) = also { this.from = From.Table(table) }
 
-fun AbstractQueryBuilder.where(
+infix fun AbstractQueryBuilder.where(
     criteria: Criteria
 ) = also { this.criteria = criteria }
 
-fun AbstractQueryBuilder.whereAnd(
+infix fun AbstractQueryBuilder.whereAnd(
     criteria: Criteria
 ) = also { this.criteria = this.criteria and criteria }
 
-fun AbstractQueryBuilder.whereOr(
+infix fun AbstractQueryBuilder.whereOr(
     criteria: Criteria
 ) = also { this.criteria = this.criteria or criteria }
 
-fun AbstractQueryBuilder.groupBy(
+infix fun AbstractQueryBuilder.groupBy(
     projections: List<Projection.Column>
 ) = also { this.projections.addAll(projections) }
 
@@ -79,24 +87,24 @@ fun AbstractQueryBuilder.clearOrderBy() = also {
     this.orderBy.clear()
 }
 
-fun AbstractQueryBuilder.skip(skip: Int) = also {
+infix fun AbstractQueryBuilder.skip(skip: Int) = also {
     this.skip = skip
 }
 
-fun AbstractQueryBuilder.take(take: Int) = also {
+infix fun AbstractQueryBuilder.take(take: Int) = also {
     this.skip = take
 }
 
-fun AbstractQueryBuilder.distinct(distinct: Boolean) = also {
+infix fun AbstractQueryBuilder.distinct(distinct: Boolean) = also {
     this.distinct = distinct
 }
 
-fun AbstractQueryBuilder.union(query: AbstractQueryBuilder) = also {
+infix fun AbstractQueryBuilder.union(query: AbstractQueryBuilder) = also {
     query.unionAll = false
     this.unionQueryBuilders.add(query)
 }
 
-fun AbstractQueryBuilder.unionAll(query: AbstractQueryBuilder) = also {
+infix fun AbstractQueryBuilder.unionAll(query: AbstractQueryBuilder) = also {
     query.unionAll = true
     this.unionQueryBuilders.add(query)
 }
