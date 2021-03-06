@@ -53,10 +53,6 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
-
-before_script:
-  - chmod +x ./scripts/configuration.sh
-  - ./scripts/configuration.sh
   
 script:
     - ./gradlew test

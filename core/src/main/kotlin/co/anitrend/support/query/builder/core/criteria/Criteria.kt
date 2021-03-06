@@ -11,8 +11,13 @@ sealed class Criteria : IQueryBuilder {
         private val right: Criteria?
     ) : Criteria() {
         override fun build(): String {
-            val expression = "(${left?.build()} AND ${right?.build()})"
-            return expression.trim()
+            var expression = " AND "
+            if (left != null)
+                expression = "${left.build()}$expression"
+            if (right != null)
+                expression = "$expression${right.build()}"
+
+            return "(${expression.trim()})"
         }
 
         override fun buildParameters() =
@@ -137,7 +142,7 @@ sealed class Criteria : IQueryBuilder {
                     else -> stringBuilder.append("?")
                 }
             }
-            return stringBuilder.toString()
+            return stringBuilder.toString().trim()
         }
 
         override fun buildParameters() =

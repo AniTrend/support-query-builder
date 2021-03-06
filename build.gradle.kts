@@ -25,9 +25,6 @@ allprojects {
         maven {
             url = java.net.URI("https://jitpack.io")
         }
-        maven {
-            url = java.net.URI("https://dl.bintray.com/pdvrieze/maven")
-        }
     }
 }
 

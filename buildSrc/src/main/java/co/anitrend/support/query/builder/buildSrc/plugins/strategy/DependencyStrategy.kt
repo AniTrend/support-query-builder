@@ -1,13 +1,9 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.strategy
 
-import org.gradle.api.artifacts.dsl.DependencyHandler
 import co.anitrend.support.query.builder.buildSrc.Libraries
 import co.anitrend.support.query.builder.buildSrc.extension.*
-import co.anitrend.support.query.builder.buildSrc.extension.implementation
-import co.anitrend.support.query.builder.buildSrc.extension.isAppModule
-import co.anitrend.support.query.builder.buildSrc.extension.matchesProcessorModule
-import co.anitrend.support.query.builder.buildSrc.extension.test
 import org.gradle.api.Project
+import org.gradle.api.artifacts.dsl.DependencyHandler
 
 internal class DependencyStrategy(private val project: Project) {
 
@@ -37,7 +33,7 @@ internal class DependencyStrategy(private val project: Project) {
         handler.applyDefaultDependencies()
         if (project.isAppModule())
             handler.applyLifeCycleDependencies()
-        if (!project.matchesProcessorModule())
+        if (!project.isKotlinLibraryGroup())
             handler.applyAndroidTestDependencies()
     }
 }

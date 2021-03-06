@@ -97,7 +97,7 @@ object Libraries {
     object Google {
 
         object AutoService {
-            private const val version = "1.0-rc4"
+            private const val version = "1.0-rc7"
             const val autoService = "com.google.auto.service:auto-service:$version"
         }
 
@@ -125,10 +125,6 @@ object Libraries {
             object Android {
                 const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
             }
-
-            object Serialization {
-                const val serialization = "org.jetbrains.kotlin:kotlin-serialization:$version"
-            }
         }
 
         object KotlinX {
@@ -138,17 +134,12 @@ object Libraries {
                 const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
                 const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
             }
-
-            object Serialization {
-                private const val version = "1.1.0"
-                const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
-            }
         }
     }
 
     object Square {
         object KotlinPoet {
-            private const val version = "1.0.0"
+            private const val version = "1.7.2"
             const val kotlinPoet = "com.squareup:kotlinpoet:$version"
         }
     }

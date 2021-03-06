@@ -1,11 +1,12 @@
 package co.anitrend.support.query.builder.buildSrc.plugins
 
 
+import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureAndroid
-import co.anitrend.support.query.builder.buildSrc.plugins.components.configureKotlinJvm
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureDependencies
+import co.anitrend.support.query.builder.buildSrc.plugins.components.configureOptions
+import co.anitrend.support.query.builder.buildSrc.plugins.components.configureKotlinJvm
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configurePlugins
-import co.anitrend.support.query.builder.buildSrc.extension.matchesProcessorModule
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -42,9 +43,10 @@ open class CorePlugin : Plugin<Project> {
         target.configurePlugins()
         target.availableExtensions()
         target.availableComponents()
-        if (!target.matchesProcessorModule())
+        if (!target.isKotlinLibraryGroup())
             target.configureAndroid()
         else target.configureKotlinJvm()
         target.configureDependencies()
+        target.configureOptions()
     }
 }
