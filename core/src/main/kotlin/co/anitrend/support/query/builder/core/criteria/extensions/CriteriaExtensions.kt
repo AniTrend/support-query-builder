@@ -17,11 +17,11 @@ fun Projection.notIsNull(): Criteria {
     return Criteria.Operator(this, IS_NOT_NULL, null)
 }
 
-infix fun Projection.equal(value: Any?): Criteria {
+infix fun Projection.equal(value: Any): Criteria {
     return Criteria.Operator(this, EQUALS, value)
 }
 
-infix fun Projection.notEquals(value: Any?): Criteria {
+infix fun Projection.notEquals(value: Any): Criteria {
     return Criteria.Operator(this, NOT_EQUALS, value)
 }
 

@@ -43,45 +43,72 @@ infix fun AbstractQueryBuilder.from(
     table: String
 ) = also { this.from = From.Table(table) }
 
-infix fun AbstractQueryBuilder.where(
-    criteria: Criteria
-) = also { this.criteria = criteria }
+inline infix fun AbstractQueryBuilder.where(
+    block: AbstractQueryBuilder.() -> Criteria
+): AbstractQueryBuilder {
+    this.criteria = block()
+    return this
+}
 
-infix fun AbstractQueryBuilder.whereAnd(
-    criteria: Criteria
-) = also { this.criteria = this.criteria and criteria }
+/**
+ * Applied AND operator with a when statement, this is useful when chaining multiple WHERE clauses
+ */
+inline infix fun AbstractQueryBuilder.whereAnd(
+    block: AbstractQueryBuilder.() -> Criteria
+): AbstractQueryBuilder {
+    criteria = when {
+        criteria != null -> criteria and block()
+        else -> block()
+    }
+    return this
+}
 
-infix fun AbstractQueryBuilder.whereOr(
-    criteria: Criteria
-) = also { this.criteria = this.criteria or criteria }
+/**
+ * Applied OR operator with a when statement, this is useful when chaining multiple WHERE clauses
+ */
+inline infix fun AbstractQueryBuilder.whereOr(
+    block: AbstractQueryBuilder.() -> Criteria
+): AbstractQueryBuilder {
+    criteria = when {
+        criteria != null -> criteria or block()
+        else -> block()
+    }
+    return this
+}
 
 infix fun AbstractQueryBuilder.groupBy(
     projections: List<Projection.Column>
-) = also { this.projections.addAll(projections) }
+) = also { this.groupBy.addAll(projections) }
 
-fun AbstractQueryBuilder.groupBy(
-    vararg columns: String
-) = groupBy(columns.asColumn())
+infix fun AbstractQueryBuilder.groupBy(
+    column: Projection.Column
+) = also { this.groupBy.add(column) }
 
 fun AbstractQueryBuilder.clearGroupBy() = also {
     this.groupBy.clear()
 }
 
-fun AbstractQueryBuilder.orderByAscending(
-    projections: List<Projection.Column>, ignoreCase: Boolean
-) = also { this.orderBy.addAll(projections.map { it.orderAsc(ignoreCase) }) }
+infix fun AbstractQueryBuilder.orderByAsc(
+    column: Projection.Column
+) = also { this.orderBy.add(column.orderAsc(false)) }
 
-fun AbstractQueryBuilder.orderByAscending(
-    vararg columns: String, ignoreCase: Boolean
-) = orderByAscending(columns.asColumn(), ignoreCase)
+/**
+ * Order by asc case insensitive
+ */
+infix fun AbstractQueryBuilder.orderByAscCollate(
+    column: Projection.Column
+) = also { this.orderBy.add(column.orderAsc(true)) }
 
-fun AbstractQueryBuilder.orderByDescending(
-    projections: List<Projection.Column>, ignoreCase: Boolean
-) = also { this.orderBy.addAll(projections.map { it.orderDesc(ignoreCase) }) }
+infix fun AbstractQueryBuilder.orderByDesc(
+    column: Projection.Column
+) = also { this.orderBy.add(column.orderDesc(false)) }
 
-fun AbstractQueryBuilder.orderByDescending(
-    vararg columns: String, ignoreCase: Boolean
-) = orderByDescending(columns.asColumn(), ignoreCase)
+/**
+ * Order by desc case insensitive
+ */
+infix fun AbstractQueryBuilder.orderByDescCollate(
+    column: Projection.Column
+) = also { this.orderBy.add(column.orderDesc(true)) }
 
 fun AbstractQueryBuilder.clearOrderBy() = also {
     this.orderBy.clear()

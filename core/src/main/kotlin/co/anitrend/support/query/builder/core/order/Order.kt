@@ -13,7 +13,7 @@ sealed class Order : IQueryBuilder {
         return when (ignoreCase) {
             true -> "$column COLLATE NOCASE $order"
             else -> "$column $order"
-        }.prependIndent(" ")
+        }
     }
 
     override fun buildParameters() = projection.buildParameters()

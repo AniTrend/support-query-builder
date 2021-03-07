@@ -20,28 +20,28 @@ class OrderTest : TestCase() {
     }
 
     fun `test ascending order on column projection`() {
-        val expected = " user_name ASC"
+        val expected = "user_name ASC"
         val order = projection orderAsc false
         val actual = order.build()
         assertEquals(expected, actual)
     }
 
     fun `test descending order on column projection`() {
-        val expected = " user_name DESC"
+        val expected = "user_name DESC"
         val order = projection orderDesc false
         val actual = order.build()
         assertEquals(expected, actual)
     }
 
     fun `test ascending order on column projection with ignore case`() {
-        val expected = " user_name COLLATE NOCASE ASC"
+        val expected = "user_name COLLATE NOCASE ASC"
         val order = projection orderAsc true
         val actual = order.build()
         assertEquals(expected, actual)
     }
 
     fun `test descending order on column projection with ignore case`() {
-        val expected = " user_name COLLATE NOCASE DESC"
+        val expected = "user_name COLLATE NOCASE DESC"
         val order = projection orderDesc true
         val actual = order.build()
         assertEquals(expected, actual)
