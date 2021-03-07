@@ -119,7 +119,7 @@ public object PetEntitySchema {
 }
 ```
 
-> **N.B.** If your you do not set the `tableName` protery on @Entity then the class name is used instead, the same applies to `name` property on `@ColumnInfo` and `prefix` on `@Embedded`
+> **N.B.** If you do not set the `tableName` protery on @Entity then the class name is used instead, the same applies to `name` property on `@ColumnInfo` and `prefix` on `@Embedded`
 
 ### Basic statement
 
