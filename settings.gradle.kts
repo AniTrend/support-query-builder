@@ -2,8 +2,7 @@ rootProject.name= "support-query-builder"
 include(
 	":core",
 	":annotations",
-	":processor",
-	":processor-room"
+	":processor"
 )
 
 if (!System.getenv().containsKey("CI"))
