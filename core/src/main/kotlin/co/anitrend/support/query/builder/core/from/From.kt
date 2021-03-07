@@ -4,6 +4,7 @@ import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
 import co.anitrend.support.query.builder.core.criteria.Criteria
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
 import co.anitrend.support.query.builder.core.projection.Projection
+import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 
 sealed class From : IQueryBuilder {
 
@@ -29,11 +30,14 @@ sealed class From : IQueryBuilder {
             private val right: From,
             private val type: Type
         ) : From() {
-            infix fun on(criteria: Criteria) =
+            infix fun on(criteria: Criteria): From =
                 Join(left, right, type, criteria)
 
-            infix fun Projection.Column.on(other: Projection.Column) =
-                on(this equal other)
+            fun on(left: String, right: String) =
+                on(left.asColumn() equal right.asColumn())
+
+            fun on(left: Projection.Column, right: Projection.Column) =
+                on(left equal right)
 
             override fun build(): String {
                 return "${left.build()} ${type.actual} ${right.build()}"

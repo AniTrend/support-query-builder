@@ -1,16 +1,13 @@
 package co.anitrend.support.query.builder.core
 
+import co.anitrend.support.query.builder.core.criteria.extensions.and
+import co.anitrend.support.query.builder.core.criteria.extensions.endsWith
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
 import co.anitrend.support.query.builder.core.from.From
-import co.anitrend.support.query.builder.core.from.extentions.`as`
-import co.anitrend.support.query.builder.core.from.extentions.asTable
+import co.anitrend.support.query.builder.core.from.extentions.*
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.projection.extensions.`as`
-import co.anitrend.support.query.builder.core.projection.extensions.asColumn
-import co.anitrend.support.query.builder.dsl.asFullSqlString
-import co.anitrend.support.query.builder.dsl.from
-import co.anitrend.support.query.builder.dsl.select
-import co.anitrend.support.query.builder.dsl.where
+import co.anitrend.support.query.builder.dsl.*
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase
@@ -62,9 +59,81 @@ class QueryBuilderTest : TestCase() {
 
     fun `test select with where clause`() {
         val expected = "SELECT * FROM table_name WHERE column_name = 'something'"
-        val query = builder from table where ("column_name".asColumn() equal "something")
+        val query = builder from table where {
+            column equal "something"
+        }
 
         val actual = query.asFullSqlString()
+
+        assertEquals(expected, actual)
+    }
+
+    fun `test select with inner join clause`() {
+        val expected = "SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id"
+        builder from table.innerJoin("other_table_name".asTable()) {
+            on("other_column_id", "column_id")
+        }
+        val actual = builder.asFullSqlString()
+
+        assertEquals(expected, actual)
+    }
+
+    fun `test select with inner join and where clause`() {
+        val expected = "SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id WHERE column_name = 'something'"
+        builder from table.innerJoin("other_table_name".asTable()) {
+            on("other_column_id", "column_id")
+        } where { column equal "something" }
+        val actual = builder.asFullSqlString()
+
+        assertEquals(expected, actual)
+    }
+
+    fun `test select with inner join, where and order by clause`() {
+        val expected = "SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id WHERE column_name = 'something' ORDER BY column_name DESC"
+        builder from table.innerJoin("other_table_name".asTable()) {
+            on("other_column_id", "column_id")
+        } where {
+            column equal "something"
+        } orderByDesc column
+        val actual = builder.asFullSqlString()
+
+        assertEquals(expected, actual)
+    }
+
+    fun `test select with inner join, where, order by and group by clause`() {
+        val expected = "SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id WHERE column_name = 'something' GROUP BY column_name ORDER BY column_name DESC"
+        builder from table.innerJoin("other_table_name".asTable()) {
+            on("other_column_id", "column_id")
+        } where {
+            column equal "something"
+        } orderByDesc column groupBy column
+        val actual = builder.asFullSqlString()
+
+        assertEquals(expected, actual)
+    }
+
+    fun `test select with inner join and where clause plus filter`() {
+        val expected = "SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')"
+        builder from table.innerJoin("other_table_name".asTable()) {
+            on("other_column_id", "column_id")
+        } where {
+            column.equal("something") and column.endsWith("pe")
+        }
+        val actual = builder.asFullSqlString()
+
+        assertEquals(expected, actual)
+    }
+
+    fun `test select with inner join, left join and where clause plus filter`() {
+        val expected = "SELECT * FROM ((table_name) INNER JOIN other_table_name ON other_column_id = column_id) LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')"
+        builder from table.innerJoin("other_table_name".asTable()) {
+            on("other_column_id", "column_id")
+        }.leftJoin("some_table_name".asTable()) {
+            on("some_other_column_id", "column_id")
+        } where {
+            (column equal "something") and (column endsWith "pe")
+        }
+        val actual = builder.asFullSqlString()
 
         assertEquals(expected, actual)
     }

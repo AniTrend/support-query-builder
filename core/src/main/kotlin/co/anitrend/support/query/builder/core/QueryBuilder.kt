@@ -1,6 +1,5 @@
 package co.anitrend.support.query.builder.core
 
-import android.database.DatabaseUtils
 import co.anitrend.support.query.builder.core.contract.AbstractQueryBuilder
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
 import co.anitrend.support.query.builder.core.criteria.Criteria
@@ -8,7 +7,6 @@ import co.anitrend.support.query.builder.core.from.From
 import co.anitrend.support.query.builder.core.order.Order
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.projection.extensions.removeAliasIfExists
-import org.jetbrains.annotations.TestOnly
 
 class QueryBuilder : AbstractQueryBuilder() {
 
@@ -19,7 +17,6 @@ class QueryBuilder : AbstractQueryBuilder() {
     override var orderBy = mutableListOf<Order>()
     override val unionQueryBuilders = mutableListOf<IQueryBuilder>()
 
-
     override fun buildParameters(): List<Any> {
         val selectClauseParameters: MutableList<Any> = ArrayList()
         var oldOrderBy: List<Order>
@@ -28,15 +25,17 @@ class QueryBuilder : AbstractQueryBuilder() {
 
         selectClauseParameters.addAll(projections.map(Projection::buildParameters))
 
-        from?.also {
-            selectClauseParameters.addAll(it.buildParameters())
-        }
-
         criteria?.let {
             selectClauseParameters.addAll(it.buildParameters())
         }
 
-        selectClauseParameters.addAll(groupBy.map(Projection::buildParameters))
+        from?.also {
+            selectClauseParameters.addAll(it.buildParameters())
+        }
+
+        selectClauseParameters.addAll(
+            groupBy.map(Projection::buildParameters)
+        )
 
         for (union in unionQueryBuilders) {
             union as AbstractQueryBuilder

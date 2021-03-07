@@ -64,6 +64,29 @@ object Libraries {
             const val liveDataCoreKtx = "androidx.lifecycle:lifecycle-livedata-core-ktx:$version"
         }
 
+        object Navigation {
+            private const val version = "2.3.0"
+            const val common = "androidx.navigation:navigation-common:$version"
+            const val commonKtx = "androidx.navigation:navigation-common-ktx:$version"
+
+            const val dynamicFragment = "androidx.navigation:navigation-dynamic-features-fragment:$version"
+            const val dynamicRuntime = "androidx.navigation:navigation-dynamic-features-runtime:$version"
+
+            const val fragment = "androidx.navigation:navigation-fragment:$version"
+            const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$version"
+
+            const val runtime = "androidx.navigation:navigation-runtime:$version"
+            const val runtimeKtx = "androidx.navigation:navigation-runtime-ktx:$version"
+
+            const val safeArgsGenerator = "androidx.navigation:navigation-safe-args-generator:$version"
+            const val safeArgsGradlePlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
+
+            const val test = "androidx.navigation:navigation-testing:$version"
+
+            const val ui = "androidx.navigation:navigation-ui:$version"
+            const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
+        }
+
         object Room {
             private const val version = "2.2.5"
             const val compiler = "androidx.room:room-compiler:$version"

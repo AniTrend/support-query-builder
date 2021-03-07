@@ -2,8 +2,6 @@ package co.anitrend.support.query.builder.buildSrc.module
 
 internal object Modules {
 
-    const val processorModulePattern = "processor"
-
     interface Module {
         val id: String
 
@@ -18,8 +16,7 @@ internal object Modules {
     }
 
     enum class Processor(override val id: String) : Module {
-        Core("processor"),
-        Room("processor-room")
+        Core("processor")
     }
 
     enum class Common(override val id: String) : Module {

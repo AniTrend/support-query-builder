@@ -2,9 +2,9 @@ package co.anitrend.support.query.builder.buildSrc.common
 
 object Versions {
 
-    private const val major = 0
-    private const val minor = 0
-    private const val patch = 1
+    private const val major = 1
+    private const val minor = 1
+    private const val patch = 0
     private const val candidate = 1
 
     private const val channel = "alpha"
