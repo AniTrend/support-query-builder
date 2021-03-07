@@ -16,7 +16,7 @@ import java.io.File
 @Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isAppModule()) {
-        applicationId = "co.anitrend.support.query.builder"
+        applicationId = "co.anitrend.support.query.builder.sample"
         project.baseAppExtension().buildFeatures {
             viewBinding = true
         }

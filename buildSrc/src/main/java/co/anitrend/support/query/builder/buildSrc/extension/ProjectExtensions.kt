@@ -23,10 +23,8 @@ fun Project.isAppModule() = name == Modules.App.Main.id
 fun Project.isAnnotationModule() = name == Modules.Common.Annotation.id
 fun Project.isCoreModule() = name == Modules.Common.Core.id
 fun Project.isProcessorModule() = name == Modules.Processor.Core.id
-fun Project.isProcessorRoomModule() = name == Modules.Processor.Room.id
 
-fun Project.isKotlinLibraryGroup() = name.startsWith(Modules.processorModulePattern) || isAnnotationModule()
-fun Project.matchesProcessorModule() = name.startsWith(Modules.processorModulePattern)
+fun Project.isKotlinLibraryGroup() = isProcessorModule() || isAnnotationModule()
 
 internal fun Project.baseExtension() =
     extensions.getByType<BaseExtension>()
