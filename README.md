@@ -1,4 +1,6 @@
 # [ :biohazard: W.I.P :biohazard: ] support-query-builder 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAniTrend%2Fsupport-query-builder.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FAniTrend%2Fsupport-query-builder?ref=badge_shield)
+
 
 
 
@@ -19,3 +21,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAniTrend%2Fsupport-query-builder.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FAniTrend%2Fsupport-query-builder?ref=badge_large)
