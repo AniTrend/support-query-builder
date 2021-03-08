@@ -9,6 +9,6 @@ dependencies {
 	implementation(Libraries.Google.AutoService.autoService)
 	kapt(Libraries.Google.AutoService.autoService)
 
-	implementation(Libraries.Square.KotlinPoet.kotlinPoet)
+	api(Libraries.Square.KotlinPoet.kotlinPoet)
 	compileOnly(Libraries.AndroidX.Room.runtime)
 }
