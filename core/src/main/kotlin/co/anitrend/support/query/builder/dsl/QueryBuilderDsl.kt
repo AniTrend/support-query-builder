@@ -77,11 +77,11 @@ inline infix fun AbstractQueryBuilder.whereOr(
 }
 
 infix fun AbstractQueryBuilder.groupBy(
-    projections: List<Projection.Column>
+    projections: List<Projection>
 ) = also { this.groupBy.addAll(projections) }
 
 infix fun AbstractQueryBuilder.groupBy(
-    column: Projection.Column
+    column: Projection
 ) = also { this.groupBy.add(column) }
 
 fun AbstractQueryBuilder.clearGroupBy() = also {
@@ -89,25 +89,25 @@ fun AbstractQueryBuilder.clearGroupBy() = also {
 }
 
 infix fun AbstractQueryBuilder.orderByAsc(
-    column: Projection.Column
+    column: Projection
 ) = also { this.orderBy.add(column.orderAsc(false)) }
 
 /**
  * Order by asc case insensitive
  */
 infix fun AbstractQueryBuilder.orderByAscCollate(
-    column: Projection.Column
+    column: Projection
 ) = also { this.orderBy.add(column.orderAsc(true)) }
 
 infix fun AbstractQueryBuilder.orderByDesc(
-    column: Projection.Column
+    column: Projection
 ) = also { this.orderBy.add(column.orderDesc(false)) }
 
 /**
  * Order by desc case insensitive
  */
 infix fun AbstractQueryBuilder.orderByDescCollate(
-    column: Projection.Column
+    column: Projection
 ) = also { this.orderBy.add(column.orderDesc(true)) }
 
 fun AbstractQueryBuilder.clearOrderBy() = also {
