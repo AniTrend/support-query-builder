@@ -20,14 +20,14 @@ sealed class Order : IQueryBuilder {
 
     data class Ascending(
         override val ignoreCase: Boolean,
-        override val projection: Projection.Column
+        override val projection: Projection
     ) : Order() {
         override val order: String = "ASC"
     }
 
     data class Descending(
         override val ignoreCase: Boolean,
-        override val projection: Projection.Column
+        override val projection: Projection
     ) : Order() {
         override val order: String = "DESC"
     }
