@@ -4,7 +4,7 @@ object Versions {
 
     private const val major = 0
     private const val minor = 1
-    private const val patch = 1
+    private const val patch = 2
     private const val candidate = 1
 
     private const val channel = "alpha"
