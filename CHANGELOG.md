@@ -3,6 +3,11 @@
 Change Log
 ==========
 
+Version 0.1.2-alpha01 *(2021-03-08)*
+----------------------------
+
+- **Fix**: Replace `implementation` with `api` in annotation proccessor [16648d](https://github.com/AniTrend/support-query-builder/commit/16648da9f641e37717a1e81e22ca30f7c71062bf)
+
 Version 0.1.1-alpha01 *(2021-03-08)*
 ----------------------------
 
