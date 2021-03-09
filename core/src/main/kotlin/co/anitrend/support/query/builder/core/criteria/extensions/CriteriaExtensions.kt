@@ -41,10 +41,13 @@ infix fun Projection.Column.lesserThanOrEqual(value: Any): Criteria {
     return Criteria.Operator(this, LESSER_OR_EQUALS, value)
 }
 
-infix fun Projection.Column.matches(value: Any): Criteria {
+infix fun Projection.Column.match(value: Any): Criteria {
     return Criteria.Operator(this, MATCH, value)
 }
 
+infix fun String.match(value: Any): Criteria {
+    return asColumn().match(value)
+}
 
 
 infix fun Projection.Column.startsWith(value: String): Criteria {
