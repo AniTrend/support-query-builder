@@ -66,11 +66,11 @@ infix fun Projection.Column.notEndsWith(value: String): Criteria {
     return Criteria.Operator(this, NOT_LIKE, "%$value")
 }
 
-infix fun Projection.Column.contains(value: String): Criteria {
+infix fun Projection.Column.like(value: String): Criteria {
     return Criteria.Operator(this, LIKE, "%$value%")
 }
 
-infix fun Projection.Column.notContains(value: String): Criteria {
+infix fun Projection.Column.notLike(value: String): Criteria {
     return Criteria.Operator(this, NOT_LIKE, "%$value%")
 }
 
