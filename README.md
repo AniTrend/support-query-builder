@@ -30,7 +30,7 @@ ____
 allprojects {
     repositories {
         ...
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://www.jitpack.io' }
     }
 }
 ```
@@ -119,7 +119,10 @@ public object PetEntitySchema {
 }
 ```
 
+You may use the newly created schema object when building out your queries
+
 > **N.B.** If you do not set the `tableName` protery on @Entity then the class name is used instead, the same applies to `name` property on `@ColumnInfo` and `prefix` on `@Embedded`
+> **Check out the sample project and tests located [in the core module](./core/src/test/kotlin/co/anitrend/support/query/builder/core) for more samples**
 
 ### Basic statement
 
@@ -174,68 +177,106 @@ builder from table where {
 }
 ```
 
+Which can also be written as
+```kotlin
+val builder = QueryBuilder()
+val column = "column_name".asColumn()
+builder.from(table).where(column.equal("something"))
+```
+
 
 ### Statement with inner join clause
 
 > ```sql
->SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id
+>SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id
 >```
 ```kotlin
 val builder = QueryBuilder()
-builder from table.innerJoin("other_table_name".asTable()) {
-    // `on` also supports `asColumn()`
+builder from table.innerJoin("other_table_name") {
     on("other_column_id", "column_id")
 }
+```
+
+Which can also be written as
+```kotlin
+val builder = QueryBuilder()
+builder.from(table.innerJoin("other_table_name").on("other_column_id", "column_id"))
 ```
 
 
 ### Statement with inner join and where clause and order by
 
 > ```sql
->SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id WHERE column_name = 'something'
+>SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id WHERE column_name = 'something'
 >```
 ```kotlin
 val builder = QueryBuilder()
 val column = "column_name".asColumn()
+// You can ommit the `.asTable` if you want
 builder from table.innerJoin("other_table_name".asTable()) {
     on("other_column_id", "column_id")
-} where { 
-    column equal "something" 
+} where {
+    column equal "something"
 } orderByDesc column
 ```
 
-### Statement with inner join and where clause and flter
+### Statement with inner join and where clause and filter
 
 > ```sql
->SELECT * FROM (table_name) INNER JOIN other_table_name ON other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe') = 'something'
+>SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')
 >```
 ```kotlin
 val builder = QueryBuilder()
 val column = "column_name".asColumn()
-builder from table.innerJoin("other_table_name".asTable()) {
-    on("other_column_id", "column_id")
+builder from {
+    table.innerJoin("other_table_name").on(
+        "other_column_id", "column_id"
+    )
 } where {
     column.equal("something") and column.endsWith("pe")
 }
 ```
 
 
-### Statement with multiple join and where clause and flter
+### Statement with multiple join and where clause and filter
 
 > ```sql
->SELECT * FROM ((table_name) INNER JOIN other_table_name ON other_column_id = column_id) LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')
+>SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')
 >```
 ```kotlin
 val builder = QueryBuilder()
 val column = "column_name".asColumn()
-builder from table.innerJoin("other_table_name".asTable()) {
-    on("other_column_id", "column_id")
-}.leftJoin("some_table_name".asTable()) {
-    on("some_other_column_id", "column_id")
+builder from {
+    table.innerJoin("other_table_name").on(
+        "other_column_id", "column_id"
+    )
+    .leftJoin("some_table_name").
+        on("some_other_column_id", "column_id")
+
 } where {
     (column equal "something") and (column endsWith "pe")
 }
 ```
+
+Which can also be written as:
+
+```kotlin
+builder from table
+builder from {
+    innerJoin("other_table_name") {
+        on("other_column_id", "column_id")
+    }
+}
+builder from {
+    leftJoin("some_table_name").on(
+        "some_other_column_id", "column_id"
+    )
+}
+builder where {
+    (column equal "something") and (column endsWith "pe")
+}
+```
+
 
 ## License
 
