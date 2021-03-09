@@ -57,7 +57,7 @@ class FromTest : TestCase() {
     }
 
     fun `test join table with alias`() {
-        val expected = "(table_name AS n) INNER JOIN other_table_name AS o ON column_name = ?"
+        val expected = "table_name AS n INNER JOIN other_table_name AS o ON column_name = ?"
         val `n alias` = "table_name".asTable() `as` "n"
         val `o alias` = "other_table_name".asTable() `as` "o"
         val join = `n alias` innerJoin `o alias` on column.equal("jack")
