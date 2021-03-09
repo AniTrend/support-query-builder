@@ -23,7 +23,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven {
-            url = java.net.URI("https://jitpack.io")
+            url = java.net.URI("https://www.jitpack.io")
         }
     }
 }
