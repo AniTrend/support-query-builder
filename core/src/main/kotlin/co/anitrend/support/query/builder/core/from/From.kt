@@ -30,7 +30,7 @@ sealed class From : IQueryBuilder {
             private val right: From,
             private val type: Type
         ) : From() {
-            infix fun on(criteria: Criteria): From =
+
                 Join(left, right, type, criteria)
 
             fun on(left: String, right: String) =
