@@ -44,6 +44,18 @@ fun Projection.Column.total() =
         Projection.Aggregate.Function.TOTAL
     )
 
+fun String.min() = asColumn().min()
+
+fun String.max() = asColumn().max()
+
+fun String.average() = asColumn().average()
+
+fun String.count() = asColumn().count()
+
+fun String.sum() = asColumn().sum()
+
+fun String.total() = asColumn().total()
+
 fun IQueryBuilder.asSubQuery() = Projection.SubQuery(this)
 
 infix fun Projection.Column.`as`(alias: String): Projection {
