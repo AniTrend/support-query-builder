@@ -2,7 +2,7 @@ package co.anitrend.support.query.builder.sample.data.entity.person.query
 
 import co.anitrend.support.query.builder.core.QueryBuilder
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
-import co.anitrend.support.query.builder.core.criteria.extensions.matches
+import co.anitrend.support.query.builder.core.criteria.extensions.match
 import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 import co.anitrend.support.query.builder.dsl.*
 import co.anitrend.support.query.builder.sample.data.entity.person.PersonEntity
@@ -21,8 +21,8 @@ internal class PersonQueryBuilder(
         val builder = QueryBuilder()
         builder from PersonEntitySchema.tableName
         query.id?.also { builder.whereAnd { PersonEntitySchema.id.asColumn() equal it } }
-        query.firstName?.also { builder.whereAnd { PersonEntitySchema.firstName.asColumn() matches it } }
-        query.lastName?.also { builder.whereAnd { PersonEntitySchema.lastName.asColumn() matches it } }
+        query.firstName?.also { builder.whereAnd { PersonEntitySchema.firstName.asColumn() match it } }
+        query.lastName?.also { builder.whereAnd { PersonEntitySchema.lastName.asColumn() match it } }
         query.cityName?.also { builder.whereAnd { PersonEntitySchema.cityName.asColumn() equal it } }
         query.cityRegion?.also { builder.whereAnd { PersonEntitySchema.cityRegion.asColumn() equal it } }
         query.cityCountry?.also { builder.whereAnd { PersonEntitySchema.cityCountry.asColumn() equal it } }
