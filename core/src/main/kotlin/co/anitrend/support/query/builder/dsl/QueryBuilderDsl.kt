@@ -8,6 +8,7 @@ import co.anitrend.support.query.builder.core.criteria.Criteria
 import co.anitrend.support.query.builder.core.criteria.extensions.and
 import co.anitrend.support.query.builder.core.criteria.extensions.or
 import co.anitrend.support.query.builder.core.from.From
+import co.anitrend.support.query.builder.core.from.extentions.*
 import co.anitrend.support.query.builder.core.order.extensions.orderAsc
 import co.anitrend.support.query.builder.core.order.extensions.orderDesc
 import co.anitrend.support.query.builder.core.projection.Projection
@@ -42,6 +43,74 @@ infix fun AbstractQueryBuilder.from(
 infix fun AbstractQueryBuilder.from(
     table: String
 ) = also { this.from = From.Table(table) }
+
+inline infix fun AbstractQueryBuilder.from(
+    block: AbstractQueryBuilder.() -> From
+): AbstractQueryBuilder {
+    this.from = block()
+    return this
+}
+
+inline fun AbstractQueryBuilder.join(
+    other: From.Table,
+    block: From.Join.Partial.() -> From.Join
+) = let {
+    val joinResult = requireNotNull(from) {
+        "`from` has not been set on your query yet"
+    }.join(other)
+    block(joinResult)
+}
+
+inline fun AbstractQueryBuilder.join(
+    other: String,
+    block: From.Join.Partial.() -> From.Join
+) = join(other.asTable(), block)
+
+
+inline fun AbstractQueryBuilder.innerJoin(
+    other: From.Table,
+    block: From.Join.Partial.() -> From.Join
+) = let {
+    val joinResult = requireNotNull(from) {
+        "`from` has not been set on your query yet"
+    }.innerJoin(other)
+    block(joinResult)
+}
+
+inline fun AbstractQueryBuilder.innerJoin(
+    other: String,
+    block: From.Join.Partial.() -> From.Join
+) = innerJoin(other.asTable(), block)
+
+inline fun AbstractQueryBuilder.leftJoin(
+    other: From.Table,
+    block: From.Join.Partial.() -> From.Join
+) = let {
+    val joinResult = requireNotNull(from) {
+        "`from` has not been set on your query yet"
+    }.leftJoin(other)
+    block(joinResult)
+}
+
+inline fun AbstractQueryBuilder.leftJoin(
+    other: String,
+    block: From.Join.Partial.() -> From.Join
+) = leftJoin(other.asTable(), block)
+
+inline fun AbstractQueryBuilder.crossJoin(
+    other: From.Table,
+    block: From.Join.Partial.() -> From.Join
+) = let {
+    val joinResult = requireNotNull(from) {
+        "`from` has not been set on your query yet"
+    }.crossJoin(other)
+    block(joinResult)
+}
+
+inline fun AbstractQueryBuilder.crossJoin(
+    other: String,
+    block: From.Join.Partial.() -> From.Join
+) = crossJoin(other.asTable(), block)
 
 inline infix fun AbstractQueryBuilder.where(
     block: AbstractQueryBuilder.() -> Criteria
