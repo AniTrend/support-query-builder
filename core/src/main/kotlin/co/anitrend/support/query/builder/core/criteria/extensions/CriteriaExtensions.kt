@@ -21,7 +21,7 @@ infix fun Projection.equal(value: Any): Criteria {
     return Criteria.Operator(this, EQUALS, value)
 }
 
-infix fun Projection.notEquals(value: Any): Criteria {
+infix fun Projection.notEqual(value: Any): Criteria {
     return Criteria.Operator(this, NOT_EQUALS, value)
 }
 
