@@ -23,19 +23,13 @@ class QueryBuilder : AbstractQueryBuilder() {
         var oldSkip: Int
         var oldTake: Int
 
-        selectClauseParameters.addAll(projections.map(Projection::buildParameters))
+        selectClauseParameters.addAll(projections.flatMap(Projection::buildParameters))
 
-        criteria?.let {
-            selectClauseParameters.addAll(it.buildParameters())
-        }
+        criteria?.let { selectClauseParameters.addAll(it.buildParameters()) }
 
-        from?.also {
-            selectClauseParameters.addAll(it.buildParameters())
-        }
+        from?.also { selectClauseParameters.addAll(it.buildParameters()) }
 
-        selectClauseParameters.addAll(
-            groupBy.map(Projection::buildParameters)
-        )
+        selectClauseParameters.addAll(groupBy.flatMap(Projection::buildParameters))
 
         for (union in unionQueryBuilders) {
             union as AbstractQueryBuilder
@@ -53,9 +47,7 @@ class QueryBuilder : AbstractQueryBuilder() {
             union.take = oldTake
         }
 
-        selectClauseParameters.addAll(
-            orderBy.map(Order::buildParameters)
-        )
+        selectClauseParameters.addAll(orderBy.flatMap(Order::buildParameters))
 
         return selectClauseParameters
     }

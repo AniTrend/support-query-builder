@@ -2,7 +2,6 @@ package co.anitrend.support.query.builder.core.criteria
 
 import co.anitrend.support.query.builder.core.criteria.extensions.*
 import co.anitrend.support.query.builder.core.projection.Projection
-import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase
@@ -61,7 +60,7 @@ class CriteriaTest : TestCase() {
 
     fun `test contains using like criteria`() {
         val expected = "column_name LIKE ?"
-        val criteria = columnName.contains("pink")
+        val criteria = columnName.like("pink")
         val actual = criteria.build()
 
         assertEquals(expected, actual)
@@ -77,7 +76,7 @@ class CriteriaTest : TestCase() {
 
     fun `test operator criteria`() {
         val expected = "column_name MATCH ?"
-        val criteria = columnName.matches("pie")
+        val criteria = columnName.match("pie")
         val actual = criteria.build()
 
         assertEquals(expected, actual)

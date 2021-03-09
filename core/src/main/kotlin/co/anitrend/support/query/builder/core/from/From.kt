@@ -30,12 +30,44 @@ sealed class From : IQueryBuilder {
             private val right: From,
             private val type: Type
         ) : From() {
-            infix fun on(criteria: Criteria): From =
+
+            /** 
+            * Creates a Join on the [criteria] 
+            *
+            * __Usage:__
+            * ```
+            * "table_name".asTable() innerJoin "other_table_name".asTable() on column.equal("jack")
+            * ```
+            *
+            * @return Join
+            */
+            infix fun on(criteria: Criteria) =
                 Join(left, right, type, criteria)
 
+            /** 
+            * Creates a Join on the [left] constraint and the [right] constraint 
+            *
+            * __Usage:__
+            * ```
+            * "table_name".asTable().innerJoin("other_table_name".asTable()).on("column", "some_column")
+            * ```
+            *
+            * @return on
+            */
             fun on(left: String, right: String) =
                 on(left.asColumn() equal right.asColumn())
 
+
+            /** 
+            * Creates a Join on the [left] constraint and the [right] constraint
+            *
+            * __Usage:__
+            * ```
+            * "table_name".asTable().innerJoin("other_table_name".asTable()).on(column, some_column)
+            * ```
+            *
+            * @return on
+            */
             fun on(left: Projection.Column, right: Projection.Column) =
                 on(left equal right)
 

@@ -1,10 +1,13 @@
 package co.anitrend.support.query.builder.core.projection.extensions
 
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
+import co.anitrend.support.query.builder.core.from.From
 import co.anitrend.support.query.builder.core.projection.Projection
 
 fun String.asColumn(table: String? = null) = Projection.Column(this, table)
+fun String.asColumn(table: From.Table) = Projection.Column(this, table.build())
 fun Array<out String>.asColumn(table: String? = null) = map { Projection.Column(it, table) }
+fun Array<out String>.asColumn(table: From.Table) = map { Projection.Column(it, table.build()) }
 
 fun Any?.asConstant() = Projection.Constant(this)
 
@@ -43,6 +46,18 @@ fun Projection.Column.total() =
         this,
         Projection.Aggregate.Function.TOTAL
     )
+
+fun String.min() = asColumn().min()
+
+fun String.max() = asColumn().max()
+
+fun String.average() = asColumn().average()
+
+fun String.count() = asColumn().count()
+
+fun String.sum() = asColumn().sum()
+
+fun String.total() = asColumn().total()
 
 fun IQueryBuilder.asSubQuery() = Projection.SubQuery(this)
 

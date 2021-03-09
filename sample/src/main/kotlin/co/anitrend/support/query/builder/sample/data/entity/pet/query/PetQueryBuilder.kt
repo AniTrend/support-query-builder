@@ -2,11 +2,10 @@ package co.anitrend.support.query.builder.sample.data.entity.pet.query
 
 import co.anitrend.support.query.builder.core.QueryBuilder
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
-import co.anitrend.support.query.builder.core.criteria.extensions.matches
+import co.anitrend.support.query.builder.core.criteria.extensions.match
 import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 import co.anitrend.support.query.builder.dsl.asSupportSQLiteQuery
 import co.anitrend.support.query.builder.dsl.from
-import co.anitrend.support.query.builder.dsl.where
 import co.anitrend.support.query.builder.dsl.whereAnd
 import co.anitrend.support.query.builder.sample.data.entity.pet.PetEntity
 import co.anitrend.support.query.builder.sample.data.entity.pet.PetEntitySchema
@@ -23,7 +22,7 @@ internal class PetQueryBuilder(
         val builder = QueryBuilder()
         builder from PetEntitySchema.tableName
         query.id?.also { builder.whereAnd { PetEntitySchema.id.asColumn() equal it } }
-        query.name?.also { builder.whereAnd { PetEntitySchema.name.asColumn() matches it } }
+        query.name?.also { builder.whereAnd { PetEntitySchema.name.asColumn() match it } }
         query.owner?.also { builder.whereAnd { PetEntitySchema.owner.asColumn() equal it } }
         query.breedType?.also { builder.whereAnd { PetEntitySchema.breedGroup.asColumn() equal it } }
         query.breedOrigin?.also { builder.whereAnd { PetEntitySchema.breedOrigin.asColumn() equal it } }

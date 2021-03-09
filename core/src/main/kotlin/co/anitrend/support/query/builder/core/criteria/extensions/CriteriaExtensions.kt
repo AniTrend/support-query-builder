@@ -4,6 +4,7 @@ import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
 import co.anitrend.support.query.builder.core.criteria.Criteria
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.*
+import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 
 
 infix fun Criteria?.and(criteria: Criteria?) = Criteria.And(this, criteria)
@@ -21,7 +22,7 @@ infix fun Projection.equal(value: Any): Criteria {
     return Criteria.Operator(this, EQUALS, value)
 }
 
-infix fun Projection.notEquals(value: Any): Criteria {
+infix fun Projection.notEqual(value: Any): Criteria {
     return Criteria.Operator(this, NOT_EQUALS, value)
 }
 
@@ -41,10 +42,37 @@ infix fun Projection.Column.lesserThanOrEqual(value: Any): Criteria {
     return Criteria.Operator(this, LESSER_OR_EQUALS, value)
 }
 
-infix fun Projection.Column.matches(value: Any): Criteria {
+infix fun Projection.Column.match(value: Any): Criteria {
     return Criteria.Operator(this, MATCH, value)
 }
 
+infix fun String.equal(value: Any): Criteria {
+    return asColumn().equal(value)
+}
+
+infix fun String.notEqual(value: Any): Criteria {
+    return asColumn().notEqual(value)
+}
+
+infix fun String.greaterThan(value: Any): Criteria {
+    return asColumn().greaterThan(value)
+}
+
+infix fun String.lesserThan(value: Any): Criteria {
+    return asColumn().lesserThan(value)
+}
+
+infix fun String.greaterThanOrEqual(value: Any): Criteria {
+    return asColumn().greaterThanOrEqual(value)
+}
+
+infix fun String.lesserThanOrEqual(value: Any): Criteria {
+    return asColumn().lesserThanOrEqual(value)
+}
+
+infix fun String.match(value: Any): Criteria {
+    return asColumn().match(value)
+}
 
 
 infix fun Projection.Column.startsWith(value: String): Criteria {
@@ -63,11 +91,11 @@ infix fun Projection.Column.notEndsWith(value: String): Criteria {
     return Criteria.Operator(this, NOT_LIKE, "%$value")
 }
 
-infix fun Projection.Column.contains(value: String): Criteria {
+infix fun Projection.Column.like(value: String): Criteria {
     return Criteria.Operator(this, LIKE, "%$value%")
 }
 
-infix fun Projection.Column.notContains(value: String): Criteria {
+infix fun Projection.Column.notLike(value: String): Criteria {
     return Criteria.Operator(this, NOT_LIKE, "%$value%")
 }
 
@@ -75,6 +103,35 @@ infix fun Projection.Column.notContains(value: String): Criteria {
 fun Projection.Column.between(valueMin: Any, valueMax: Any): Criteria {
     return Criteria.Between(this, valueMin, valueMax)
 }
+
+infix fun String.startsWith(value: String): Criteria {
+    return asColumn().startsWith("$value%")
+}
+
+infix fun String.notStartsWith(value: String): Criteria {
+    return asColumn().notStartsWith("$value%")
+}
+
+infix fun String.endsWith(value: String): Criteria {
+    return asColumn().endsWith("%$value")
+}
+
+infix fun String.notEndsWith(value: String): Criteria {
+    return asColumn().notEndsWith("%$value")
+}
+
+infix fun String.like(value: String): Criteria {
+    return asColumn().like("%$value%")
+}
+
+infix fun String.notLike(value: String): Criteria {
+    return asColumn().notLike("%$value%")
+}
+
+fun String.between(valueMin: Any, valueMax: Any): Criteria {
+    return asColumn().between(valueMin, valueMax)
+}
+
 
 fun Any.valueBetween(columnMin: Projection.Column, columnMax: Projection.Column): Criteria {
     return Criteria.ValueBetween(columnMin, columnMax, this)
@@ -98,4 +155,12 @@ infix fun Projection.Column.`in`(values: Collection<Any>): Criteria {
 
 infix fun Projection.Column.notIn(values: Collection<Any>): Criteria {
     return Criteria.Contains(this, values, false)
+}
+
+infix fun String.`in`(values: Collection<Any>): Criteria {
+    return asColumn().`in`(values)
+}
+
+infix fun String.notIn(values: Collection<Any>): Criteria {
+    return asColumn().notIn(values)
 }
