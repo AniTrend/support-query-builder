@@ -20,7 +20,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven {
             url = java.net.URI("https://www.jitpack.io")
