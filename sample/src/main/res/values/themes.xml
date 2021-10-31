@@ -1,11 +1,11 @@
 <resources>
 
-    <style name="Theme.AppCompat.NoActionBar">
+    <style name="Theme.Sample" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
 
-    <style name="Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.PopupOverlay" parent="ThemeOverlay.Material3.Light" />
 </resources>

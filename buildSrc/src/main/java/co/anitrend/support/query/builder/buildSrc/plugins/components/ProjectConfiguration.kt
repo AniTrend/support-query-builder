@@ -28,8 +28,8 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
     compileSdkVersion(Versions.compileSdk)
     defaultConfig {
-        minSdkVersion(Versions.minSdk)
-        targetSdkVersion(Versions.targetSdk)
+        minSdk = Versions.minSdk
+        targetSdk = Versions.targetSdk
         versionCode = Versions.versionCode
         versionName = Versions.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -64,9 +64,9 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     packagingOptions {
-        exclude("META-INF/NOTICE.txt")
-        exclude("META-INF/LICENSE")
-        exclude("META-INF/LICENSE.txt")
+        excludes.add("META-INF/NOTICE.txt")
+        excludes.add("META-INF/LICENSE")
+        excludes.add("META-INF/LICENSE.txt")
     }
 
     sourceSets {
@@ -95,8 +95,6 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     tasks.withType(KotlinJvmCompile::class.java) {
         kotlinOptions {
             jvmTarget = "1.8"
-            // https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
-            useIR
         }
     }
 
