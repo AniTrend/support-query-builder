@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 AniTrend
+ * Copyright $YEAR AniTrend
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,3 @@
  * limitations under the License.
  */
 
-package co.anitrend.support.query.builder.annotation
-
-/**
- * Marks a class as an entity schema. This will create a file with the room
- * annotations on table name, columns and embeds
- */
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
-annotation class EntitySchema

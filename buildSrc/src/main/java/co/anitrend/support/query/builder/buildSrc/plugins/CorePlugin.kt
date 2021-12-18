@@ -3,6 +3,7 @@ package co.anitrend.support.query.builder.buildSrc.plugins
 
 import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureAndroid
+import co.anitrend.support.query.builder.buildSrc.plugins.components.configureSpotless
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureDependencies
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureOptions
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureKotlinJvm
@@ -44,9 +45,10 @@ open class CorePlugin : Plugin<Project> {
         target.availableExtensions()
         target.availableComponents()
         if (!target.isKotlinLibraryGroup())
-            target.configureAndroid()
+            target.configureAndroid() 
         else target.configureKotlinJvm()
         target.configureDependencies()
         target.configureOptions()
+        //target.configureSpotless()
     }
 }

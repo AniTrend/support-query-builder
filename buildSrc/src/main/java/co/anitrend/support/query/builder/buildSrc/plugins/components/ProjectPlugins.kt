@@ -16,8 +16,11 @@ private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer)
         else -> {
             pluginContainer.apply("maven-publish")
             pluginContainer.apply("com.android.library")
+            pluginContainer.apply("org.jetbrains.dokka")
         }
     }
+    if (!project.isAppModule())
+        pluginContainer.apply("com.diffplug.spotless")
 }
 
 private fun addKotlinAndroidPlugin(project: Project, pluginContainer: PluginContainer) {

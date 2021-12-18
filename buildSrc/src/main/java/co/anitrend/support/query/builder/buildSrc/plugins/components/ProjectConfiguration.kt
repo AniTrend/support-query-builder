@@ -4,6 +4,7 @@ import co.anitrend.support.query.builder.buildSrc.common.Versions
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
 import co.anitrend.support.query.builder.buildSrc.extension.kotlinJvmExtension
+import co.anitrend.support.query.builder.buildSrc.extension.spotlessExtension
 import co.anitrend.support.query.builder.buildSrc.extension.isAppModule
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
@@ -12,6 +13,25 @@ import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.io.File
+
+internal fun Project.configureSpotless() {
+    if (!isAppModule())
+        spotlessExtension().run {
+            kotlin {
+                target("**/kotlin/**/*.kt")
+                targetExclude(
+                    "$buildDir/**/*.kt",
+                    "**/androidTest/**/*.kt",
+                    "**/test/**/*.kt",
+                    "bin/**/*.kt"
+                )
+                ktlint(Versions.ktlint).userData(
+                    mapOf("android" to "true")
+                )
+                licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+            }
+        }
+}
 
 @Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
@@ -100,7 +120,7 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
 
     tasks.withType(KotlinCompile::class.java) {
         val compilerArgumentOptions = mutableListOf(
-            "-Xuse-experimental=kotlin.Experimental",
+            "-Xopt-in=kotlin.Experimental",
             "-Xopt-in=kotlin.ExperimentalStdlibApi",
             "-Xopt-in=kotlin.Experimental"
         )

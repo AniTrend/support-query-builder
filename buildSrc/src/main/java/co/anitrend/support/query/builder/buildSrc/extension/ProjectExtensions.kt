@@ -3,9 +3,9 @@ package co.anitrend.support.query.builder.buildSrc.extension
 import co.anitrend.support.query.builder.buildSrc.module.Modules
 import com.android.build.gradle.*
 import com.android.build.gradle.api.AndroidBasePlugin
-import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.internal.plugins.DefaultArtifactPublicationSet
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPluginExtension
@@ -56,9 +56,6 @@ internal fun Project.sourceSetContainer() =
 internal fun Project.javaPluginExtension() =
     extensions.getByType<JavaPluginExtension>()
 
-internal fun Project.variantOutput() =
-    extensions.getByType<BaseVariantOutput>()
-
 internal fun Project.kotlinAndroidProjectExtension() =
     extensions.getByType<KotlinAndroidProjectExtension>()
 
@@ -73,6 +70,9 @@ internal fun Project.publishingExtension() =
 
 internal fun Project.defaultPublicationSet() =
     extensions.getByType<DefaultArtifactPublicationSet>()
+
+internal fun Project.spotlessExtension() =
+    extensions.getByType<SpotlessExtension>()
 
 internal fun Project.containsAndroidPlugin(): Boolean {
     return project.plugins.toList().any { plugin ->

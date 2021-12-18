@@ -17,10 +17,10 @@ object Versions {
       * **RR**_X.Y.Z_
       * > **RR** reserved for build flavours and **X.Y.Z** follow the [versionName] convention
       */
-    const val versionCode = major.times(10_000) +
-             minor.times(1000) +
+    const val versionCode = major.times(1_000_000) +
+             minor.times(10_000) +
              patch.times(100) +
-             candidate.times(10)
+             candidate
 
     /**
      * Naming schema: X.Y.Z-variant##
@@ -33,4 +33,5 @@ object Versions {
 
     const val mockk = "1.12.0"
     const val junit = "4.13.2"
+    const val ktlint = "0.40.0"
 }
