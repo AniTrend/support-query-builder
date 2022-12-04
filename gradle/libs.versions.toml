@@ -6,7 +6,7 @@ gradle-plugin = "7.3.1"
 androidx-appcompat = "1.5.1"
 
 androidx-core = "1.9.0"
-androidx-lifecycle = "2.4.0"
+androidx-lifecycle = "2.5.1"
 androidx-navigation = "2.3.5"
 androidx-room = "2.2.6"
 androidx-sqlite = "2.1.0"
