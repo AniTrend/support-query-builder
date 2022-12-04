@@ -11,7 +11,7 @@ androidx-navigation = "2.3.5"
 androidx-room = "2.2.6"
 androidx-sqlite = "2.1.0"
 androidx-test = "1.3.0"
-androidx-test-ext = "1.1.2"
+androidx-test-ext = "1.1.4"
 
 jetbrains-dokka = "1.7.20"
 jetbrains-kotlin = "1.7.21"
@@ -29,7 +29,7 @@ androidx-activityKtx = "androidx.activity:activity-ktx:1.4.0"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-appcompatResources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidx-appcompat" }
 
-androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.1"
+androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
 androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.3.0"
 
@@ -69,6 +69,6 @@ mockk-android = { module = "io.mockk:mockk-android", version.ref = "io-mockk" }
 
 gradle-versions = "com.github.ben-manes:gradle-versions-plugin:0.44.0"
 
-spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:5.17.1"
+spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:6.12.0"
 
 squareup-kotlinpoet = "com.squareup:kotlinpoet:1.10.2"
