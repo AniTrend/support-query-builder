@@ -51,7 +51,7 @@ internal class ClassFactory(
     }
 
     fun generateUsing(items: List<Candidate>) = items.forEach { elementItem ->
-        logger.lineBreakWithSeperatorCharacter()
+        logger.lineBreakWithSeparatorCharacter()
         logger.debug("Inspecting element `$elementItem` and preparing to generate object")
         val builder = runCatching { createTypeSpecBuilderWith(elementItem) }
             .onFailure { logger.error(it.message) }

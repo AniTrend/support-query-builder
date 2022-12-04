@@ -27,7 +27,7 @@ class EntitySchemaProcessor : AbstractProcessor() {
         logger = CoreLogger(processingEnv.messager)
         types = processingEnv.typeUtils
         elements = processingEnv.elementUtils
-        logger.lineBreakWithSeperatorCharacter()
+        logger.lineBreakWithSeparatorCharacter()
     }
 
     override fun getSupportedAnnotationTypes() = setOf(

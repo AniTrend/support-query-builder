@@ -13,8 +13,6 @@ import co.anitrend.support.query.builder.core.order.extensions.orderAsc
 import co.anitrend.support.query.builder.core.order.extensions.orderDesc
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.projection.extensions.asColumn
-import org.jetbrains.annotations.TestOnly
-import java.math.BigDecimal
 
 fun AbstractQueryBuilder.select(
     projections: List<Projection>
@@ -207,41 +205,4 @@ infix fun AbstractQueryBuilder.unionAll(query: AbstractQueryBuilder) = also {
 
 fun AbstractQueryBuilder.asSupportSQLiteQuery() : SupportSQLiteQuery {
     return SimpleSQLiteQuery(build(), buildParameters().toTypedArray())
-}
-
-
-@TestOnly
-internal fun AbstractQueryBuilder.asFullSqlString(): String {
-    fun appendEscapedSQLString(sb: StringBuilder, sqlString: String) {
-        sb.append('\'')
-        if (sqlString.indexOf('\'') != -1) {
-            val length = sqlString.length
-            for (i in 0 until length) {
-                val c = sqlString[i]
-                if (c == '\'') {
-                    sb.append('\'')
-                }
-                sb.append(c)
-            }
-        } else sb.append(sqlString)
-        sb.append('\'')
-    }
-
-    fun Any.toPlainString(): String {
-        return when (this) {
-            is String -> this
-            is Float -> BigDecimal(this.toDouble()).stripTrailingZeros().toPlainString()
-            is Double -> BigDecimal(this).stripTrailingZeros().toPlainString()
-            else -> this.toString()
-        }
-    }
-
-    val parameters = buildParameters()
-    var sql = build()
-    for (p in parameters) {
-        val stringBuilder = StringBuilder()
-        appendEscapedSQLString(stringBuilder, p.toPlainString())
-        sql = sql.replaceFirst("\\?".toRegex(), stringBuilder.toString())
-    }
-    return sql
 }

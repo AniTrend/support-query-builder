@@ -3,11 +3,11 @@ package co.anitrend.support.query.builder.core
 import co.anitrend.support.query.builder.core.criteria.extensions.and
 import co.anitrend.support.query.builder.core.criteria.extensions.endsWith
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
+import co.anitrend.support.query.builder.core.extensions.asFullSqlString
 import co.anitrend.support.query.builder.core.from.From
 import co.anitrend.support.query.builder.core.from.extentions.*
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.projection.extensions.`as`
-import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 import co.anitrend.support.query.builder.dsl.*
 import io.mockk.every
 import io.mockk.mockk

@@ -1,6 +1,9 @@
 plugins {
 	id("co.anitrend.support.query.builder.plugin")
-    id("kotlin-android")
+}
+
+android {
+	namespace = "co.anitrend.support.query.builder.sample"
 }
 
 dependencies {

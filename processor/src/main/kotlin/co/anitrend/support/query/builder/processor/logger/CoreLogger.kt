@@ -4,26 +4,25 @@ import co.anitrend.support.query.builder.processor.logger.contract.ILogger
 import javax.annotation.processing.Messager
 import javax.tools.Diagnostic.Kind.*
 
-@Suppress("SpellCheckingInspection")
 internal class CoreLogger(
-    private val messager: Messager
+    private val delegate: Messager
 ) : ILogger {
 
-    private val seperator = (0..120).joinToString("") { "-" }
+    private val separator = (0..120).joinToString("") { "-" }
 
     private fun formatMessage(message: String?) = "$message\r\n"
 
-    override fun lineBreakWithSeperatorCharacter() =
-        messager.printMessage(OTHER, formatMessage(seperator))
+    override fun lineBreakWithSeparatorCharacter() =
+        delegate.printMessage(OTHER, formatMessage(separator))
 
     override fun debug(message: String) =
-        messager.printMessage(NOTE, formatMessage(message))
+        delegate.printMessage(NOTE, formatMessage(message))
 
     override fun warning(message: String) =
-        messager.printMessage(WARNING, formatMessage(message))
+        delegate.printMessage(WARNING, formatMessage(message))
 
     override fun error(message: String?) {
-        messager.printMessage(ERROR, formatMessage(message))
+        delegate.printMessage(ERROR, formatMessage(message))
         throw Throwable(message)
     }
 }
