@@ -1,6 +1,6 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.common.Versions
+import co.anitrend.support.query.builder.buildSrc.common.Configuration
 import co.anitrend.support.query.builder.buildSrc.extension.*
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
@@ -11,11 +11,11 @@ import org.gradle.kotlin.dsl.getValue
 
 @Suppress("UnstableApiUsage")
 internal fun Project.configureOptions() {
-    if (!isAppModule()) {
+    if (!isAppModule() && !isKotlinLibraryGroup()) {
         val isCore = isCoreModule()
         val mainSourceSet = when {
             isCore -> baseExtension().sourceSets["main"].java.srcDirs
-            else -> kotlinJvmExtension().sourceSets["main"].kotlin.srcDirs
+            else -> baseExtension().sourceSets["main"].kotlin.srcDirs()
         }
 
         val sourcesJar by tasks.register("sourcesJar", Jar::class.java) {
@@ -35,11 +35,11 @@ internal fun Project.configureOptions() {
         publishingExtension().publications {
             val component = components.findByName("android")
 
-            println("Configuring maven publication options for ${project.path}:maven with component -> ${component?.name}")
+            logger.info("Configuring maven publication options for ${project.path}:maven with component -> ${component?.name}")
             create("maven", MavenPublication::class.java) {
                 groupId = "co.anitrend.query.builder"
                 artifactId = project.name
-                version = Versions.versionName
+                version = Configuration.versionName
 
                 artifact(sourcesJar)
                 if (isCore)

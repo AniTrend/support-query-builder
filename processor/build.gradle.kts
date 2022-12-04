@@ -1,14 +1,10 @@
-import co.anitrend.support.query.builder.buildSrc.Libraries
-
 plugins {
 	id("co.anitrend.support.query.builder.plugin")
 }
 
 dependencies {
+	implementation(libs.google.auto.service)
 
-	implementation(Libraries.Google.AutoService.autoService)
-	kapt(Libraries.Google.AutoService.autoService)
-
-	api(Libraries.Square.KotlinPoet.kotlinPoet)
-	compileOnly(Libraries.AndroidX.Room.runtime)
+	api(libs.squareup.kotlinpoet)
+	compileOnly(libs.androidx.room.runtime)
 }

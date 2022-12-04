@@ -1,18 +1,26 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.common.Versions
+import co.anitrend.support.query.builder.buildSrc.common.Configuration
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
-import co.anitrend.support.query.builder.buildSrc.extension.kotlinJvmExtension
 import co.anitrend.support.query.builder.buildSrc.extension.spotlessExtension
 import co.anitrend.support.query.builder.buildSrc.extension.isAppModule
+import co.anitrend.support.query.builder.buildSrc.extension.libraryExtension
+import co.anitrend.support.query.builder.buildSrc.extension.version
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.File
+
+private fun Project.configureLint() = libraryExtension().run {
+    lint {
+        abortOnError = false
+        ignoreWarnings = false
+        ignoreTestSources = true
+    }
+}
 
 internal fun Project.configureSpotless() {
     if (!isAppModule())
@@ -25,8 +33,12 @@ internal fun Project.configureSpotless() {
                     "**/test/**/*.kt",
                     "bin/**/*.kt"
                 )
-                ktlint(Versions.ktlint).userData(
-                    mapOf("android" to "true")
+                ktlint(version("ktlint").toString()).userData(
+                    mapOf(
+                        "android" to "true",
+                        "max_line_length" to "150",
+                        "no-wildcard-imports" to "true"
+                    )
                 )
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
@@ -46,12 +58,12 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
-    compileSdkVersion(Versions.compileSdk)
+    compileSdkVersion(Configuration.compileSdk)
     defaultConfig {
-        minSdk = Versions.minSdk
-        targetSdk = Versions.targetSdk
-        versionCode = Versions.versionCode
-        versionName = Versions.versionName
+        minSdk = Configuration.minSdk
+        targetSdk = Configuration.targetSdk
+        versionCode = Configuration.versionCode
+        versionName = Configuration.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applyAdditionalConfiguration(project)
     }
@@ -84,9 +96,8 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     packagingOptions {
-        excludes.add("META-INF/NOTICE.txt")
-        excludes.add("META-INF/LICENSE")
-        excludes.add("META-INF/LICENSE.txt")
+        resources.excludes.add("META-INF/NOTICE.*")
+        resources.excludes.add("META-INF/LICENSE*")
     }
 
     sourceSets {
@@ -101,63 +112,27 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
         unitTests.isReturnDefaultValues = true
     }
 
-    lintOptions {
-        isAbortOnError = false
-        isIgnoreWarnings = false
-        isIgnoreTestSources = false
+    if (!isAppModule()) {
+        configureLint()
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    tasks.withType(KotlinJvmCompile::class.java) {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     tasks.withType(KotlinCompile::class.java) {
-        val compilerArgumentOptions = mutableListOf(
-            "-Xopt-in=kotlin.Experimental",
-            "-Xopt-in=kotlin.ExperimentalStdlibApi",
-            "-Xopt-in=kotlin.Experimental"
-        )
+        val compilerArgumentOptions = emptyList<String>()
 		
         kotlinOptions {
             allWarningsAsErrors = false
             freeCompilerArgs = compilerArgumentOptions
         }
     }
-}
-
-internal fun Project.configureKotlinJvm(): Unit = kotlinJvmExtension().run {
-
-    sourceSets {
-        map { kotlinSourceSet ->
-            kotlinSourceSet.kotlin.srcDir(
-                "src/${kotlinSourceSet.name}/kotlin"
-            )
-        }
-    }
 
     tasks.withType(KotlinJvmCompile::class.java) {
         kotlinOptions {
-            jvmTarget = "1.8"
-        }
-    }
-
-    tasks.withType(KotlinCompile::class.java) {
-        val compilerArgumentOptions = mutableListOf(
-            "-Xuse-experimental=kotlin.Experimental",
-            "-Xopt-in=kotlin.ExperimentalStdlibApi",
-            "-Xopt-in=kotlin.Experimental"
-        )
-
-        kotlinOptions {
-            allWarningsAsErrors = false
-            freeCompilerArgs = compilerArgumentOptions
+            jvmTarget = "11"
         }
     }
 }

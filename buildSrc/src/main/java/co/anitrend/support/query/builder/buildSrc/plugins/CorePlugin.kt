@@ -1,13 +1,11 @@
 package co.anitrend.support.query.builder.buildSrc.plugins
 
-
-import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureAndroid
-import co.anitrend.support.query.builder.buildSrc.plugins.components.configureSpotless
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureDependencies
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureOptions
-import co.anitrend.support.query.builder.buildSrc.plugins.components.configureKotlinJvm
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configurePlugins
+import co.anitrend.support.query.builder.buildSrc.plugins.components.configureSpotless
+import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -20,7 +18,7 @@ open class CorePlugin : Plugin<Project> {
     internal fun Project.availableExtensions() {
         val extensionSchema = project.extensions.extensionsSchema
         extensionSchema.forEach {
-            println("Available extension for module ${project.path}: ${it.name} -> ${it.publicType}")
+            logger.debug("Available extension for module ${project.path}: ${it.name} -> ${it.publicType}")
         }
     }
 
@@ -31,7 +29,7 @@ open class CorePlugin : Plugin<Project> {
     internal fun Project.availableComponents() {
         val collectionSchema = project.components.asMap
         collectionSchema.forEach {
-            println("Available component for module ${project.path}: ${it.key} -> ${it.value}")
+            logger.debug("Available component for module ${project.path}: ${it.key} -> ${it.value}")
         }
     }
 
@@ -45,10 +43,9 @@ open class CorePlugin : Plugin<Project> {
         target.availableExtensions()
         target.availableComponents()
         if (!target.isKotlinLibraryGroup())
-            target.configureAndroid() 
-        else target.configureKotlinJvm()
+            target.configureAndroid()
         target.configureDependencies()
         target.configureOptions()
-        //target.configureSpotless()
+        target.configureSpotless()
     }
 }

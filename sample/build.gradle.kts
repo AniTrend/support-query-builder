@@ -1,27 +1,25 @@
-import co.anitrend.support.query.builder.buildSrc.Libraries
-
 plugins {
 	id("co.anitrend.support.query.builder.plugin")
     id("kotlin-android")
 }
 
 dependencies {
-	implementation(Libraries.AndroidX.Activity.activityKtx)
-	implementation(Libraries.AndroidX.Fragment.fragmentKtx)
+	implementation(libs.androidx.activityKtx)
+	implementation(libs.androidx.fragmentKtx)
 
-	implementation(Libraries.AndroidX.AppCompat.appcompat)
-	implementation(Libraries.AndroidX.AppCompat.appcompatResources)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.appcompatResources)
 
-	implementation(Libraries.AndroidX.ConstraintLayout.constraintLayout)
+	implementation(libs.androidx.constraintLayout)
 
-	implementation(Libraries.AndroidX.Navigation.fragmentKtx)
-	implementation(Libraries.AndroidX.Navigation.uiKtx)
+	implementation(libs.androidx.navigation.fragmentKtx)
+	implementation(libs.androidx.navigation.uiKtx)
 
-	implementation(Libraries.Google.Material.material)
+	implementation(libs.google.android.material)
 
-	implementation(Libraries.AndroidX.Room.ktx)
-	implementation(Libraries.AndroidX.Room.runtime)
-    kapt(Libraries.AndroidX.Room.compiler)
+	implementation(libs.androidx.room.ktx)
+	implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
 
 	implementation(project(":annotations"))
 	implementation(project(":core"))

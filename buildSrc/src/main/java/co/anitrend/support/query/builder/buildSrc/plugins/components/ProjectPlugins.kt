@@ -3,19 +3,19 @@ package co.anitrend.support.query.builder.buildSrc.plugins.components
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginContainer
 import co.anitrend.support.query.builder.buildSrc.extension.isAppModule
-import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import co.anitrend.support.query.builder.buildSrc.extension.isProcessorModule
+import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 
 private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
     when {
         project.isAppModule() -> pluginContainer.apply("com.android.application")
-        project.isKotlinLibraryGroup() -> {
-            pluginContainer.apply("maven-publish")
-            pluginContainer.apply("kotlin")
-        }
         else -> {
+            if (project.isKotlinLibraryGroup())
+                pluginContainer.apply("kotlin")
+            else
+                pluginContainer.apply("com.android.library")
+
             pluginContainer.apply("maven-publish")
-            pluginContainer.apply("com.android.library")
             pluginContainer.apply("org.jetbrains.dokka")
         }
     }
@@ -24,7 +24,7 @@ private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer)
 }
 
 private fun addKotlinAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
-    if (!project.isKotlinLibraryGroup())
+    if (!project.isKotlinLibraryGroup() && project.isAppModule())
         pluginContainer.apply("kotlin-android")
 }
 
