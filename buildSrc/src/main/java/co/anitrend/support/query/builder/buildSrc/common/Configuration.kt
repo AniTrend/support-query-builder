@@ -1,6 +1,6 @@
 package co.anitrend.support.query.builder.buildSrc.common
 
-object Versions {
+object Configuration {
 
     private const val major = 0
     private const val minor = 1
@@ -9,17 +9,17 @@ object Versions {
 
     private const val channel = "alpha"
 
-    const val compileSdk = 31
-    const val targetSdk = 31
+    const val compileSdk = 33
+    const val targetSdk = 33
     const val minSdk = 21
 
      /**
       * **RR**_X.Y.Z_
       * > **RR** reserved for build flavours and **X.Y.Z** follow the [versionName] convention
       */
-    const val versionCode = major.times(1_000_000) +
-             minor.times(10_000) +
-             patch.times(100) +
+    const val versionCode = major.times(1_000_000_000) +
+             minor.times(1_000_000) +
+             patch.times(1_000) +
              candidate
 
     /**
@@ -30,8 +30,4 @@ object Versions {
         "$major.$minor.$patch"
     else
         "$major.$minor.$patch-$channel$candidate"
-
-    const val mockk = "1.12.0"
-    const val junit = "4.13.2"
-    const val ktlint = "0.40.0"
 }

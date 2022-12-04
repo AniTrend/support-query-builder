@@ -1,8 +1,10 @@
-import java.net.URI
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 
 plugins {
 	`kotlin-dsl`
 	`maven-publish`
+	`version-catalog`
 }
 
 repositories {
@@ -10,34 +12,50 @@ repositories {
 	jcenter()
 	mavenCentral()
 	maven {
-		url = URI("https://www.jitpack.io")
+		setUrl("https://www.jitpack.io")
 	}
     maven {
         setUrl("https://plugins.gradle.org/m2/")
     }
 }
 
-val kotlinVersion = "1.5.31"
-val buildToolsVersion = "7.0.4"
-val dokkaVersion = "1.5.31"
-val manesVersion = "0.38.0"
-val spotlessVersion = "5.12.1"
+tasks.withType(KotlinCompile::class) {
+	sourceCompatibility = "11"
+	targetCompatibility = "11"
+}
+
+tasks.withType(KotlinJvmCompile::class) {
+	kotlinOptions {
+		jvmTarget = "11"
+	}
+}
+
+fun Project.library(alias: String) =
+	runCatching {
+		extensions.getByType<VersionCatalogsExtension>()
+			.named("libs")
+			.findLibrary(alias)
+			.get()
+	}.getOrElse { error ->
+		logger.error("Could not find `$alias` within version catalog", error)
+		error("${error.message}, please check full logs for full details")
+	}
 
 dependencies {
-	/** Depend on the android gradle plugin, since we want to access it in our plugin */
-	implementation("com.android.tools.build:gradle:$buildToolsVersion")
-	
-	/** Depend on the kotlin plugin, since we want to access it in our plugin */
-	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-	
-    /* Depend on the dokka plugin, since we want to access it in our plugin */
-    implementation("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion")
-	
+	/* Depend on the android gradle plugin, since we want to access it in our plugin */
+	implementation(library("android-gradle-plugin"))
+
+	/* Depend on the kotlin plugin, since we want to access it in our plugin */
+	implementation(library("jetbrains-kotlin-gradle"))
+
+	/* Depend on the dokka plugin, since we want to access it in our plugin */
+	implementation(library("jetbrains-dokka-gradle"))
+
 	/** Dependency management */
-	implementation("com.github.ben-manes:gradle-versions-plugin:$manesVersion")
-	
-    /** Spotless */
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
+	implementation(library("gradle-versions"))
+
+	/** Spotless */
+	implementation(library("spotless-gradle"))
 
 	/* Depend on the default Gradle API's since we want to build a custom plugin */
 	implementation(gradleApi())

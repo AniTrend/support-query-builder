@@ -1,4 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import co.anitrend.support.query.builder.buildSrc.plugins.resolver.handleDependencySelection
 
 plugins {
     id("com.github.ben-manes.versions")
@@ -7,13 +8,12 @@ plugins {
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 
     dependencies {
-        classpath(co.anitrend.support.query.builder.buildSrc.Libraries.Android.Tools.buildGradle)
-        classpath(co.anitrend.support.query.builder.buildSrc.Libraries.JetBrains.Kotlin.Gradle.plugin)
+        classpath(libs.android.gradle.plugin)
+        classpath(libs.jetbrains.kotlin.gradle)
     }
 }
 
@@ -22,7 +22,7 @@ allprojects {
         google()
         mavenCentral()
         maven {
-            url = java.net.URI("https://www.jitpack.io")
+            setUrl("https://www.jitpack.io")
         }
     }
 }
@@ -41,4 +41,9 @@ tasks.named(
     outputFormatter = "json"
     outputDir = "build/dependencyUpdates"
     reportfileName = "report"
+    resolutionStrategy {
+        componentSelection {
+            all { handleDependencySelection() }
+        }
+    }
 }

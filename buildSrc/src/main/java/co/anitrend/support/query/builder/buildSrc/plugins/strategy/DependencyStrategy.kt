@@ -1,6 +1,5 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.strategy
 
-import co.anitrend.support.query.builder.buildSrc.Libraries
 import co.anitrend.support.query.builder.buildSrc.extension.*
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -8,25 +7,27 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 internal class DependencyStrategy(private val project: Project) {
 
     private fun DependencyHandler.applyDefaultDependencies() {
-        implementation(Libraries.JetBrains.Kotlin.stdlib)
+        implementation(project.library("jetbrains-kotlin-stdlib-jdk8"))
+        implementation(project.library("jetbrains-kotlin-reflect"))
 
-        test(Libraries.junit)
-        test(Libraries.mockk)
+        test(project.library("junit"))
+        test(project.library("mockk"))
+        test(project.library("androidx-junitKtx"))
     }
 
     private fun DependencyHandler.applyAndroidTestDependencies() {
-        androidTest(Libraries.AndroidX.Test.coreKtx)
-        androidTest(Libraries.AndroidX.Test.rules)
-        androidTest(Libraries.AndroidX.Test.runner)
-        androidTest(Libraries.AndroidX.Test.Extension.junitKtx)
-        androidTest(Libraries.mockk)
+        androidTest(project.library("androidx-test-core"))
+        androidTest(project.library("androidx-test-coreKtx"))
+        androidTest(project.library("androidx-test-runner"))
+        androidTest(project.library("androidx-test-rules"))
+        androidTest(project.library("mockk-android"))
     }
 
     private fun DependencyHandler.applyLifeCycleDependencies() {
-        implementation(Libraries.AndroidX.Lifecycle.liveDataCoreKtx)
-        implementation(Libraries.AndroidX.Lifecycle.runTimeKtx)
-        implementation(Libraries.AndroidX.Lifecycle.liveDataKtx)
-        implementation(Libraries.AndroidX.Lifecycle.extensions)
+        implementation(project.library("androidx-lifecycle-extensions"))
+        implementation(project.library("androidx-lifecycle-runTimeKtx"))
+        implementation(project.library("androidx-lifecycle-liveDataKtx"))
+        implementation(project.library("androidx-lifecycle-liveDataCoreKtx"))
     }
 
     fun applyDependenciesOn(handler: DependencyHandler) {
