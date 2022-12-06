@@ -22,5 +22,10 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Run tests 
+    - name: Gradle test
       run: ./gradlew test --stacktrace
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v3
+      if: always()
+      with:
+        report_paths: '**/build/test-results/TEST-*.xml'
