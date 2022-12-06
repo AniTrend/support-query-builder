@@ -14,7 +14,7 @@ androidx-test = "1.5.1"
 androidx-test-ext = "1.1.4"
 
 jetbrains-dokka = "1.7.20"
-jetbrains-kotlin = "1.7.21"
+jetbrains-kotlin = "1.7.22"
 
 io-mockk = "1.13.3"
 
