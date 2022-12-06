@@ -15,7 +15,13 @@ internal data class EmbedItem(
 
     private fun writeForEachColumn(builder: TypeSpec.Builder) {
         columns.forEach { column ->
-            val name = column.toString().uppercase()
+            val name = column.toString()
+                .replaceFirstChar {
+                    if (it.isLowerCase())
+                        it.titlecase()
+                    else
+                        it.toString()
+                }
             builder.addProperty(
                 PropertySpec.builder("$fieldName$name", String::class, KModifier.CONST)
                     .initializer("%S", "$prefix$column")
