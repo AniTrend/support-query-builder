@@ -4,7 +4,6 @@ import co.anitrend.support.query.builder.buildSrc.plugins.components.configureAn
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureDependencies
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureOptions
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configurePlugins
-import co.anitrend.support.query.builder.buildSrc.plugins.components.configureSpotless
 import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -46,6 +45,6 @@ open class CorePlugin : Plugin<Project> {
             target.configureAndroid()
         target.configureDependencies()
         target.configureOptions()
-        target.configureSpotless()
+        //target.configureSpotless()
     }
 }

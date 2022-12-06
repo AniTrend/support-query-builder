@@ -12,7 +12,6 @@ internal class DependencyStrategy(private val project: Project) {
 
         test(project.library("junit"))
         test(project.library("mockk"))
-        test(project.library("androidx-junitKtx"))
     }
 
     private fun DependencyHandler.applyAndroidTestDependencies() {

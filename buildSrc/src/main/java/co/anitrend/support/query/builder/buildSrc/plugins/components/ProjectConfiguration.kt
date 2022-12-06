@@ -33,13 +33,18 @@ internal fun Project.configureSpotless() {
                     "**/test/**/*.kt",
                     "bin/**/*.kt"
                 )
-                ktlint(version("ktlint").toString()).userData(
-                    mapOf(
-                        "android" to "true",
-                        "max_line_length" to "150",
-                        "no-wildcard-imports" to "true"
+                ktlint(version("ktlint").toString())
+                    .userData(
+                        mapOf(
+                            "android" to "true",
+                            "max_line_length" to "150",
+                            "no-wildcard-imports" to "false"
+                        )
+                    ).editorConfigOverride(
+                        mapOf(
+                            "ij_kotlin_packages_to_use_import_on_demand" to "false"
+                        )
                     )
-                )
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
         }
