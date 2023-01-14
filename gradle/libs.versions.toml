@@ -10,7 +10,7 @@ androidx-lifecycle = "2.5.1"
 androidx-navigation = "2.5.3"
 androidx-room = "2.2.6"
 androidx-sqlite = "2.2.0"
-androidx-test = "1.5.1"
+androidx-test = "1.5.2"
 androidx-test-ext = "1.1.4"
 
 jetbrains-dokka = "1.7.20"
