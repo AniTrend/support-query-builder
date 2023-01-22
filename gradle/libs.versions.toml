@@ -3,20 +3,26 @@ ktlint = "0.40.0"
 
 gradle-plugin = "7.4.0"
 
-androidx-appcompat = "1.6.0"
+androidx-appcompat = "1.5.1"
 
 androidx-core = "1.9.0"
 androidx-lifecycle = "2.5.1"
 androidx-navigation = "2.5.3"
 androidx-room = "2.2.6"
 androidx-sqlite = "2.2.0"
-androidx-test = "1.5.2"
 androidx-test-ext = "1.1.5"
 
 jetbrains-dokka = "1.7.20"
 jetbrains-kotlin = "1.7.22"
 
 io-mockk = "1.13.3"
+
+spek2-spek = "2.0.19"
+
+
+[plugins]
+android-junit5 = { id = "de.mannodermaus.android-junit5", version = "1.8.2.1" }
+
 
 [libraries]
 timber = "com.jakewharton.timber:timber:5.0.1"
@@ -48,11 +54,10 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx
 androidx-sqlite = { module = "androidx.sqlite:sqlite", version.ref = "androidx-sqlite" }
 androidx-sqliteKtx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidx-sqlite" }
 
-
-androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
-androidx-test-coreKtx = { module = "androidx.test:core-ktx", version.ref = "androidx-test" }
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
-androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test" }
+androidx-test-core = { module = "androidx.test:core", version = "1.5.0" }
+androidx-test-coreKtx = { module = "androidx.test:core-ktx", version = "1.5.0" }
+androidx-test-runner = { module = "androidx.test:runner", version = "1.5.1" }
+androidx-test-rules = { module = "androidx.test:rules", version = "1.5.0" }
 
 androidx-junitKtx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 
@@ -72,3 +77,10 @@ gradle-versions = "com.github.ben-manes:gradle-versions-plugin:0.44.0"
 spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:6.12.1"
 
 squareup-kotlinpoet = "com.squareup:kotlinpoet:1.12.0"
+
+tschuchortdev-kotlin-compile-testing = "com.github.tschuchortdev:kotlin-compile-testing:1.4.9"
+
+gradle-plugins-android-junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.8.2.1"
+
+spek2-spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek2-spek" }
+spek2-spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek2-spek" }
