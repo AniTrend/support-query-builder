@@ -5,6 +5,7 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.artifacts.VersionCatalog
@@ -22,29 +23,7 @@ fun Project.isProcessorModule() = name == Modules.Processor.Core.id
 
 fun Project.isKotlinLibraryGroup() = isProcessorModule() || isAnnotationModule()
 
-fun Project.versionCatalog(): VersionCatalog =
-    versionCatalogExtension()
-        .named("libs")
-
-fun Project.library(alias: String): Provider<MinimalExternalModuleDependency> =
-    runCatching {
-        versionCatalog()
-            .findLibrary(alias)
-            .get()
-    }.getOrElse { error ->
-        logger.error("Could not find module: `$alias` within version catalog", error)
-        error("${error.message}, please check full logs for full details")
-    }
-
-fun Project.version(alias: String): VersionConstraint =
-    runCatching {
-        versionCatalog()
-            .findVersion(alias)
-            .get()
-    }.getOrElse { error ->
-        logger.error("Could not find version ref: `$alias` within version catalog", error)
-        error("${error.message}, please check full logs for full details")
-    }
+val Project.libs get() = extensions.getByType<LibrariesForLibs>()
 
 internal fun Project.baseExtension() =
     extensions.getByType<BaseExtension>()

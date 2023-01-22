@@ -1,12 +1,11 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
 import co.anitrend.support.query.builder.buildSrc.common.Configuration
+import co.anitrend.support.query.builder.buildSrc.extension.*
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
-import co.anitrend.support.query.builder.buildSrc.extension.spotlessExtension
-import co.anitrend.support.query.builder.buildSrc.extension.isAppModule
 import co.anitrend.support.query.builder.buildSrc.extension.libraryExtension
-import co.anitrend.support.query.builder.buildSrc.extension.version
+import co.anitrend.support.query.builder.buildSrc.extension.spotlessExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -33,7 +32,7 @@ internal fun Project.configureSpotless() {
                     "**/test/**/*.kt",
                     "bin/**/*.kt"
                 )
-                ktlint(version("ktlint").toString())
+                ktlint(libs.versions.ktlint.get().toString())
                     .userData(
                         mapOf(
                             "android" to "true",
