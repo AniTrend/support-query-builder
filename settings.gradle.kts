@@ -15,5 +15,5 @@ include(
 	":processor"
 )
 
-if (!System.getenv().containsKey("CI"))
-    include(":sample")
+//if (!System.getenv().containsKey("CI"))
+//    include(":sample")

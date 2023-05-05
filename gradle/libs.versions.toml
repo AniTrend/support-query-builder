@@ -12,6 +12,8 @@ androidx-room = "2.2.6"
 androidx-sqlite = "2.3.1"
 androidx-test-ext = "1.1.5"
 
+google-ksp = "1.7.22-1.0.8"
+
 jetbrains-dokka = "1.8.20"
 jetbrains-kotlin = "1.8.22"
 
@@ -63,6 +65,7 @@ androidx-junitKtx = { module = "androidx.test.ext:junit-ktx", version.ref = "and
 
 google-auto-service = "com.google.auto.service:auto-service:1.1.1"
 google-android-material = "com.google.android.material:material:1.9.0"
+google-kotlin-symbol-processor = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "google-ksp" }
 
 jetbrains-dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "jetbrains-dokka" }
 jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }

@@ -3,9 +3,8 @@ plugins {
 }
 
 dependencies {
-	compileOnly(libs.google.auto.service)
-	kapt(libs.google.auto.service)
-
-	api(libs.squareup.kotlinpoet)
 	compileOnly(libs.androidx.room.runtime)
+
+	implementation(libs.google.kotlin.symbol.processor)
+	implementation(libs.squareup.kotlinpoet)
 }

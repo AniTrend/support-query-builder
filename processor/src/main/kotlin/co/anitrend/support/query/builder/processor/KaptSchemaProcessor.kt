@@ -8,15 +8,15 @@ import co.anitrend.support.query.builder.processor.extensions.createCandidate
 import co.anitrend.support.query.builder.processor.factory.ClassFactory
 import co.anitrend.support.query.builder.processor.logger.CoreLogger
 import co.anitrend.support.query.builder.processor.logger.contract.ILogger
-import com.google.auto.service.AutoService
-import javax.annotation.processing.*
+import javax.annotation.processing.AbstractProcessor
+import javax.annotation.processing.ProcessingEnvironment
+import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
 
-@AutoService(Processor::class)
-class EntitySchemaProcessor : AbstractProcessor() {
+class KaptSchemaProcessor : AbstractProcessor() {
 
     private lateinit var logger: ILogger
     private lateinit var types: Types

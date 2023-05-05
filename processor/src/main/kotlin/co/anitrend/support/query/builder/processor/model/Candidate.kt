@@ -10,7 +10,6 @@ import co.anitrend.support.query.builder.processor.model.core.Item
 import co.anitrend.support.query.builder.processor.model.embed.EmbedItem
 import co.anitrend.support.query.builder.processor.model.table.TableItem
 import javax.lang.model.element.Element
-import javax.lang.model.element.ElementKind
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
 
