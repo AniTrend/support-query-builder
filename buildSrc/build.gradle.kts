@@ -19,17 +19,6 @@ repositories {
     }
 }
 
-tasks.withType(KotlinCompile::class) {
-	sourceCompatibility = "11"
-	targetCompatibility = "11"
-}
-
-tasks.withType(KotlinJvmCompile::class) {
-	kotlinOptions {
-		jvmTarget = "11"
-	}
-}
-
 val libs get() = extensions.getByType<LibrariesForLibs>()
 
 dependencies {
