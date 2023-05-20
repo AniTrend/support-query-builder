@@ -1,5 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	`kotlin-dsl`
@@ -29,34 +30,28 @@ tasks.withType(KotlinJvmCompile::class) {
 	}
 }
 
-fun Project.library(alias: String) =
-	runCatching {
-		extensions.getByType<VersionCatalogsExtension>()
-			.named("libs")
-			.findLibrary(alias)
-			.get()
-	}.getOrElse { error ->
-		logger.error("Could not find `$alias` within version catalog", error)
-		error("${error.message}, please check full logs for full details")
-	}
+val libs get() = extensions.getByType<LibrariesForLibs>()
 
 dependencies {
 	/* Depend on the android gradle plugin, since we want to access it in our plugin */
-	implementation(library("android-gradle-plugin"))
+	implementation(libs.android.gradle.plugin)
 
 	/* Depend on the kotlin plugin, since we want to access it in our plugin */
-	implementation(library("jetbrains-kotlin-gradle"))
+	implementation(libs.jetbrains.kotlin.gradle)
 
 	/* Depend on the dokka plugin, since we want to access it in our plugin */
-	implementation(library("jetbrains-dokka-gradle"))
+	implementation(libs.jetbrains.dokka.gradle)
 
 	/** Dependency management */
-	implementation(library("gradle-versions"))
+	implementation(libs.gradle.versions)
 
 	/** Spotless */
-	implementation(library("spotless-gradle"))
+	implementation(libs.spotless.gradle)
 
 	/* Depend on the default Gradle API's since we want to build a custom plugin */
 	implementation(gradleApi())
 	implementation(localGroovy())
+
+	/** Work around to include ../.gradle/LibrariesForLibs generated file for version catalog */
+	implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

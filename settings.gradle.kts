@@ -1,3 +1,13 @@
+pluginManagement {
+	repositories {
+		google()
+		mavenCentral()
+		maven {
+			setUrl("https://www.jitpack.io")
+		}
+	}
+}
+
 rootProject.name= "support-query-builder"
 include(
 	":core",
