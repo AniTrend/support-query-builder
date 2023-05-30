@@ -76,7 +76,7 @@ gradle-versions = "com.github.ben-manes:gradle-versions-plugin:0.45.0"
 
 spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:6.19.0"
 
-squareup-kotlinpoet = "com.squareup:kotlinpoet:1.13.2"
+squareup-kotlinpoet = "com.squareup:kotlinpoet:1.14.2"
 
 tschuchortdev-kotlin-compile-testing = "com.github.tschuchortdev:kotlin-compile-testing:1.5.0"
 
