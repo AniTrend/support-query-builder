@@ -37,7 +37,7 @@ androidx-appcompatResources = { module = "androidx.appcompat:appcompat-resources
 
 androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
-androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.5.7"
+androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.6.0"
 
 androidx-lifecycle-extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
 androidx-lifecycle-runTimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
