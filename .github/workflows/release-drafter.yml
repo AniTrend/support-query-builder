@@ -53,9 +53,10 @@ jobs:
           git commit -m "Bump version to $(cat VERSION)"
         
       - name: Push changes
+        if: github.ref == 'refs/heads/develop'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: develop
+          branch: release/$(cat VERSION)
           directory: .
 
