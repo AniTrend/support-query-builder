@@ -23,7 +23,7 @@ jobs:
     - name: Gradle test
       run: ./gradlew test --stacktrace
     - name: Publish Test Report
-      uses: mikepenz/action-junit-report@v3
+      uses: mikepenz/action-junit-report@v4
       if: always()
       with:
         report_paths: '**/build/test-results/TEST-*.xml'
