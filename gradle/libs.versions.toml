@@ -8,7 +8,7 @@ androidx-appcompat = "1.6.1"
 androidx-core = "1.9.0"
 androidx-lifecycle = "2.6.2"
 androidx-navigation = "2.7.2"
-androidx-room = "2.2.6"
+androidx-room = "2.5.2"
 androidx-sqlite = "2.3.1"
 androidx-test-ext = "1.1.5"
 
@@ -48,6 +48,7 @@ androidx-navigation-fragmentKtx = { module = "androidx.navigation:navigation-fra
 androidx-navigation-uiKtx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
 
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-common = { module = "androidx.room:room-common", version.ref = "androidx-room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 

@@ -1,6 +1,7 @@
 package co.anitrend.support.query.builder.buildSrc.extension
 
 import co.anitrend.support.query.builder.buildSrc.module.Modules
+import co.anitrend.support.query.builder.buildSrc.plugins.components.PropertiesReader
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
@@ -24,6 +25,9 @@ fun Project.isProcessorModule() = name == Modules.Processor.Core.id
 fun Project.isKotlinLibraryGroup() = isProcessorModule() || isAnnotationModule()
 
 val Project.libs get() = extensions.getByType<LibrariesForLibs>()
+
+internal val Project.props: PropertiesReader
+    get() = PropertiesReader(this)
 
 internal fun Project.baseExtension() =
     extensions.getByType<BaseExtension>()

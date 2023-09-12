@@ -1,6 +1,5 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.common.Configuration
 import co.anitrend.support.query.builder.buildSrc.extension.*
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
@@ -24,7 +23,7 @@ internal fun Project.configureOptions() {
         }
 
         val classesJar by tasks.register("classesJar", Jar::class.java) {
-            from("${project.buildDir}/intermediates/classes/release")
+            from("${project.layout.buildDirectory}/intermediates/classes/release")
         }
 
         artifacts {
@@ -39,13 +38,13 @@ internal fun Project.configureOptions() {
             create("maven", MavenPublication::class.java) {
                 groupId = "co.anitrend.query.builder"
                 artifactId = project.name
-                version = Configuration.versionName
+                version = props[PropertyTypes.VERSION]
 
                 artifact(sourcesJar)
                 if (isCore)
-                    artifact("${project.buildDir}/outputs/aar/${project.name}-release.aar")
+                    artifact("${project.layout.buildDirectory}/outputs/aar/${project.name}-release.aar")
                 else
-                    artifact("${project.buildDir}/libs/${project.name}.jar")
+                    artifact("${project.layout.buildDirectory}/libs/${project.name}.jar")
                 from(component)
 
                 pom {

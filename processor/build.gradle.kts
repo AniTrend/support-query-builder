@@ -7,5 +7,5 @@ dependencies {
 	kapt(libs.google.auto.service)
 
 	api(libs.squareup.kotlinpoet)
-	compileOnly(libs.androidx.room.runtime)
+	compileOnly(libs.androidx.room.common)
 }
