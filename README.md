@@ -9,10 +9,11 @@ While [Room](https://developer.android.com/reference/androidx/room/Room) offers 
 **support-query-builder** aims to solve these problems and comes in the form of 3 libraries with the following features:
 - **annotations** - Annotation only which is used to inform the **processor** of entities to inspect
 - **core** - The main query builder library for constructing queries
+- **core-ext** - Contains helper extention functions for the `core` modules, specifically `asSupportSQLiteQuery`
 - **processor** - Kotlin annotation proccessor that generates kotlin object classes that mirror your Room entity annotations supporting inspection `@Entity`, `@ColumnInfo` and `@Embedded`
 
 
-See a list of changes from [here](./CHANGELOG.md)
+See a list of changes from [releases](https://github.com/AniTrend/support-query-builder/releases)
 
 > Inspired by [QueryBuilder](https://github.com/reinaldoarrosi/QueryBuilder)
 

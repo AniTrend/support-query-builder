@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core.criteria
 
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
@@ -8,14 +24,16 @@ sealed class Criteria : IQueryBuilder {
 
     data class And(
         private val left: Criteria?,
-        private val right: Criteria?
+        private val right: Criteria?,
     ) : Criteria() {
         override fun build(): String {
             var expression = " AND "
-            if (left != null)
+            if (left != null) {
                 expression = "${left.build()}$expression"
-            if (right != null)
+            }
+            if (right != null) {
                 expression = "$expression${right.build()}"
+            }
 
             return "(${expression.trim()})"
         }
@@ -28,11 +46,11 @@ sealed class Criteria : IQueryBuilder {
     data class Between(
         private val projection: Projection,
         private val start: Any,
-        private val end: Any
+        private val end: Any,
     ) : Criteria() {
         override fun build(): String {
             val stringBuilder = StringBuilder(
-                projection.removeAliasIfExists().build()
+                projection.removeAliasIfExists().build(),
             )
             stringBuilder.append(" BETWEEN ")
                 .append("?")
@@ -43,11 +61,11 @@ sealed class Criteria : IQueryBuilder {
 
         override fun buildParameters() =
             projection.buildParameters() +
-            listOf(start, end)
+                listOf(start, end)
     }
 
     data class Exists(
-        private val subQueryBuilder: IQueryBuilder
+        private val subQueryBuilder: IQueryBuilder,
     ) : Criteria() {
         override fun build(): String {
             return "EXISTS(${subQueryBuilder.build()})"
@@ -57,7 +75,7 @@ sealed class Criteria : IQueryBuilder {
     }
 
     data class NotExists(
-        private val subQueryBuilder: IQueryBuilder
+        private val subQueryBuilder: IQueryBuilder,
     ) : Criteria() {
         override fun build(): String {
             return "NOT EXISTS(${subQueryBuilder.build()})"
@@ -72,19 +90,20 @@ sealed class Criteria : IQueryBuilder {
     data class Contains<T : Any>(
         private val projection: Projection,
         private val values: Collection<T>,
-        private val include: Boolean
+        private val include: Boolean,
     ) : Criteria() {
         override fun build(): String {
             require(values.isNotEmpty()) {
                 "values cannot be empty"
             }
             val stringBuilder = StringBuilder(
-                projection.removeAliasIfExists().build()
+                projection.removeAliasIfExists().build(),
             )
-            if (include)
+            if (include) {
                 stringBuilder.append(" IN (")
-            else
+            } else {
                 stringBuilder.append(" NOT IN (")
+            }
             repeat(values.size) {
                 stringBuilder.append("?, ")
             }
@@ -101,7 +120,7 @@ sealed class Criteria : IQueryBuilder {
 
     data class Or(
         private val left: Criteria?,
-        private val right: Criteria?
+        private val right: Criteria?,
     ) : Criteria() {
         override fun build(): String {
             val expression = "(${left?.build()} OR ${right?.build()})"
@@ -113,10 +132,10 @@ sealed class Criteria : IQueryBuilder {
                 right?.buildParameters().orEmpty()
     }
 
-    data class Operator<T: Any>(
+    data class Operator<T : Any>(
         private val projection: Projection,
         private val operator: Type = Type.EQUALS,
-        private val value: T? = null
+        private val value: T? = null,
     ) : Criteria() {
 
         private fun createOperator(): Type {
@@ -124,15 +143,18 @@ sealed class Criteria : IQueryBuilder {
                 when (operator) {
                     Type.LIKE,
                     Type.EQUALS,
-                    Type.IS_NULL -> Type.IS_NULL
+                    Type.IS_NULL,
+                    -> Type.IS_NULL
                     else -> Type.IS_NOT_NULL
                 }
-            } else operator
+            } else {
+                operator
+            }
         }
 
         override fun build(): String {
             val stringBuilder = StringBuilder(
-                projection.removeAliasIfExists().build()
+                projection.removeAliasIfExists().build(),
             )
             stringBuilder.append(" ${createOperator().actual} ")
             value?.also {
@@ -146,8 +168,8 @@ sealed class Criteria : IQueryBuilder {
         }
 
         override fun buildParameters() =
-             projection.buildParameters() +
-                 value?.let { listOf(it) }.orEmpty()
+            projection.buildParameters() +
+                value?.let { listOf(it) }.orEmpty()
 
         enum class Type(val actual: String) {
             IS_NULL("IS NULL"),
@@ -160,14 +182,14 @@ sealed class Criteria : IQueryBuilder {
             LESSER_OR_EQUALS("<="),
             MATCH("MATCH"),
             LIKE("LIKE"),
-            NOT_LIKE("NOT LIKE")
+            NOT_LIKE("NOT LIKE"),
         }
     }
 
-    data class ValueBetween<T: Any>(
+    data class ValueBetween<T : Any>(
         private val start: Projection,
         private val end: Projection,
-        private val value: T
+        private val value: T,
     ) : Criteria() {
         override fun build(): String {
             val stringBuilder = StringBuilder("?")

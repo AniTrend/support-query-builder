@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core.projection.extensions
 
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
@@ -14,37 +30,37 @@ fun Any?.asConstant() = Projection.Constant(this)
 fun Projection.Column.min() =
     Projection.Aggregate(
         this,
-        Projection.Aggregate.Function.MIN
+        Projection.Aggregate.Function.MIN,
     )
 
 fun Projection.Column.max() =
     Projection.Aggregate(
         this,
-        Projection.Aggregate.Function.MAX
+        Projection.Aggregate.Function.MAX,
     )
 
 fun Projection.Column.average() =
     Projection.Aggregate(
         this,
-        Projection.Aggregate.Function.AVG
+        Projection.Aggregate.Function.AVG,
     )
 
 fun Projection.Column.count() =
     Projection.Aggregate(
         this,
-        Projection.Aggregate.Function.COUNT
+        Projection.Aggregate.Function.COUNT,
     )
 
 fun Projection.Column.sum() =
     Projection.Aggregate(
         this,
-        Projection.Aggregate.Function.SUM
+        Projection.Aggregate.Function.SUM,
     )
 
 fun Projection.Column.total() =
     Projection.Aggregate(
         this,
-        Projection.Aggregate.Function.TOTAL
+        Projection.Aggregate.Function.TOTAL,
     )
 
 fun String.min() = asColumn().min()
@@ -66,7 +82,9 @@ infix fun Projection.Column.`as`(alias: String): Projection {
 }
 
 internal fun Projection.removeAliasIfExists(): Projection {
-    return if (this is Projection.Alias)
+    return if (this is Projection.Alias) {
         this.removeAlias()
-    else this
+    } else {
+        this
+    }
 }

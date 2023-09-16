@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package co.anitrend.support.query.builder.core.contract.query
+package co.anitrend.support.query.builder.core.ext
 
-interface IQueryBuilder {
-    fun build(): String
-    fun buildParameters(): List<Any>
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
+import co.anitrend.support.query.builder.core.contract.AbstractQueryBuilder
+
+/**
+ * Translates [co.anitrend.support.query.builder.core.contract.AbstractQueryBuilder] into a SQLiteQuery
+ *
+ * @return [androidx.sqlite.db.SupportSQLiteQuery]
+ */
+fun AbstractQueryBuilder.asSupportSQLiteQuery(): SupportSQLiteQuery {
+    return SimpleSQLiteQuery(build(), buildParameters().toTypedArray())
 }

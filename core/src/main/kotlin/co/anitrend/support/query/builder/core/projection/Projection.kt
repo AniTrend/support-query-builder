@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core.projection
 
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
@@ -12,15 +28,17 @@ sealed class Projection : IQueryBuilder {
      */
     data class Column(
         private val column: String,
-        private val table: String? = null
+        private val table: String? = null,
     ) : Projection() {
 
         override fun build(): String {
             var selector = ""
-            if (!table.isNullOrBlank())
-                selector += "${table}."
-            if (column.isNotBlank())
+            if (!table.isNullOrBlank()) {
+                selector += "$table."
+            }
+            if (column.isNotBlank()) {
                 selector += column
+            }
 
             return selector
         }
@@ -36,7 +54,7 @@ sealed class Projection : IQueryBuilder {
      */
     data class Aggregate(
         private val projection: Column,
-        private val function: Function
+        private val function: Function,
     ) : Projection() {
 
         override fun build(): String {
@@ -53,7 +71,7 @@ sealed class Projection : IQueryBuilder {
             SUM,
             AVG,
             TOTAL,
-            COUNT
+            COUNT,
         }
     }
 
@@ -62,13 +80,14 @@ sealed class Projection : IQueryBuilder {
      */
     data class Alias(
         private val projection: Projection,
-        private val alias: String
+        private val alias: String,
     ) : Projection() {
 
         internal fun removeAlias(): Projection {
             var temp = projection
-            if (temp is Alias)
+            if (temp is Alias) {
                 temp = temp.projection
+            }
             return temp
         }
 
@@ -81,7 +100,7 @@ sealed class Projection : IQueryBuilder {
     }
 
     data class Constant(
-        private val constant: Any?
+        private val constant: Any?,
     ) : Projection() {
 
         override fun build(): String {
@@ -93,7 +112,7 @@ sealed class Projection : IQueryBuilder {
 
     /** Sub query projection */
     data class SubQuery(
-        private val queryBuilder: IQueryBuilder
+        private val queryBuilder: IQueryBuilder,
     ) : Projection() {
 
         override fun build(): String {

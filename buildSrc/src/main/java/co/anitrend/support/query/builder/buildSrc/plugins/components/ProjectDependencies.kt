@@ -6,14 +6,6 @@ import co.anitrend.support.query.builder.buildSrc.module.Modules
 import co.anitrend.support.query.builder.buildSrc.extension.implementation
 import org.gradle.api.Project
 
-
-internal fun Project.applyAnnotationDependency() {
-    if (isProcessorModule())
-        dependencies.implementation(
-            project(Modules.Common.Annotation.path())
-        )
-}
-
 internal fun Project.configureDependencies() {
     dependencies.implementation(
         fileTree("libs") {
@@ -21,5 +13,4 @@ internal fun Project.configureDependencies() {
         }
     )
     DependencyStrategy(project).applyDependenciesOn(dependencies)
-    applyAnnotationDependency()
 }

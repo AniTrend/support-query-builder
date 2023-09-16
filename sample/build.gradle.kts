@@ -6,6 +6,10 @@ android {
 	namespace = "co.anitrend.support.query.builder.sample"
 }
 
+tasks.withType<com.android.build.gradle.tasks.JavaPreCompileTask> {
+	dependsOn(":annotations:classesJar", ":processor:classesJar", ":core:classesJar", ":core-ext:classesJar")
+}
+
 dependencies {
 	implementation(libs.androidx.activityKtx)
 	implementation(libs.androidx.fragmentKtx)
@@ -24,7 +28,13 @@ dependencies {
 	implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
 
-	implementation(project(":annotations"))
-	implementation(project(":core"))
-	kapt(project(":processor"))
+	androidTestImplementation(libs.androidx.test.coreKtx)
+	androidTestImplementation(libs.androidx.test.rules)
+	androidTestImplementation(libs.androidx.test.runner)
+	androidTestImplementation(libs.mockk.android)
+
+    implementation(project(":annotations"))
+    implementation(project(":core"))
+    implementation(project(":core-ext"))
+    kapt(project(":processor"))
 }

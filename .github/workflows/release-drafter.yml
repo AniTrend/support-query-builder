@@ -45,17 +45,17 @@ jobs:
       - name: Show version
         run: cat gradle/version.properties
 
-      - name: Commit version.properties
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add gradle/version.properties
-          git commit -m "Bump version to $(cat VERSION)"
-        
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: develop
-          directory: .
-
+      # - name: Commit version.properties
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add gradle/version.properties
+      #     git commit -m "Bump version to $(cat VERSION)"
+      #
+      # - name: Push changes
+      #   if: github.ref == 'refs/heads/develop'
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: release/$(cat VERSION)
+      #     directory: .

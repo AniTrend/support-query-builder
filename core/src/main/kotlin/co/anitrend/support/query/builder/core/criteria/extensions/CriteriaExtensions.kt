@@ -1,11 +1,36 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core.criteria.extensions
 
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
 import co.anitrend.support.query.builder.core.criteria.Criteria
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.EQUALS
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.GREATER
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.GREATER_OR_EQUALS
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.IS_NOT_NULL
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.IS_NULL
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.LESSER
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.LESSER_OR_EQUALS
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.LIKE
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.MATCH
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.NOT_EQUALS
+import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.NOT_LIKE
 import co.anitrend.support.query.builder.core.projection.Projection
-import co.anitrend.support.query.builder.core.criteria.Criteria.Operator.Type.*
 import co.anitrend.support.query.builder.core.projection.extensions.asColumn
-
 
 infix fun Criteria?.and(criteria: Criteria?) = Criteria.And(this, criteria)
 infix fun Criteria?.or(criteria: Criteria?) = Criteria.Or(this, criteria)
@@ -74,7 +99,6 @@ infix fun String.match(value: Any): Criteria {
     return asColumn().match(value)
 }
 
-
 infix fun Projection.Column.startsWith(value: String): Criteria {
     return Criteria.Operator(this, LIKE, "$value%")
 }
@@ -98,7 +122,6 @@ infix fun Projection.Column.like(value: String): Criteria {
 infix fun Projection.Column.notLike(value: String): Criteria {
     return Criteria.Operator(this, NOT_LIKE, "%$value%")
 }
-
 
 fun Projection.Column.between(valueMin: Any, valueMax: Any): Criteria {
     return Criteria.Between(this, valueMin, valueMax)
@@ -132,12 +155,9 @@ fun String.between(valueMin: Any, valueMax: Any): Criteria {
     return asColumn().between(valueMin, valueMax)
 }
 
-
 fun Any.valueBetween(columnMin: Projection.Column, columnMax: Projection.Column): Criteria {
     return Criteria.ValueBetween(columnMin, columnMax, this)
 }
-
-
 
 fun IQueryBuilder.exists(): Criteria {
     return Criteria.Exists(this)
@@ -146,8 +166,6 @@ fun IQueryBuilder.exists(): Criteria {
 fun IQueryBuilder.notExists(): Criteria {
     return Criteria.NotExists(this)
 }
-
-
 
 infix fun Projection.Column.`in`(values: Collection<Any>): Criteria {
     return Criteria.Contains(this, values, true)

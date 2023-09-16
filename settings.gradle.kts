@@ -11,8 +11,9 @@ pluginManagement {
 rootProject.name= "support-query-builder"
 include(
 	":core",
+	":core-ext",
 	":annotations",
-	":processor"
+	":processor",
 )
 
 if (!System.getenv().containsKey("CI"))

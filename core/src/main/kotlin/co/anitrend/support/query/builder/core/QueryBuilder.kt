@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core
 
 import co.anitrend.support.query.builder.core.contract.AbstractQueryBuilder
@@ -40,7 +56,7 @@ class QueryBuilder : AbstractQueryBuilder() {
             union.skip = -1
             union.take = -1
             selectClauseParameters.addAll(
-                union.buildParameters()
+                union.buildParameters(),
             )
             union.orderBy = oldOrderBy
             union.skip = oldSkip
@@ -130,14 +146,14 @@ class QueryBuilder : AbstractQueryBuilder() {
     }
 
     override fun buildTakeClause(builder: StringBuilder) {
-        if(take > 0) {
+        if (take > 0) {
             builder.append(" LIMIT ")
             builder.append(take)
         }
     }
 
     override fun buildSkipClause(builder: StringBuilder) {
-        if(skip > 0) {
+        if (skip > 0) {
             builder.append(" OFFSET ")
             builder.append(skip)
         }

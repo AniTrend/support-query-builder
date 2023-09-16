@@ -14,14 +14,6 @@ internal class DependencyStrategy(private val project: Project) {
         test(project.libs.mockk)
     }
 
-    private fun DependencyHandler.applyAndroidTestDependencies() {
-        androidTest(project.libs.androidx.test.core)
-        androidTest(project.libs.androidx.test.coreKtx)
-        androidTest(project.libs.androidx.test.runner)
-        androidTest(project.libs.androidx.test.rules)
-        androidTest(project.libs.mockk.android)
-    }
-
     private fun DependencyHandler.applyLifeCycleDependencies() {
         implementation(project.libs.androidx.lifecycle.extensions)
         implementation(project.libs.androidx.lifecycle.runTimeKtx)
@@ -31,9 +23,7 @@ internal class DependencyStrategy(private val project: Project) {
 
     fun applyDependenciesOn(handler: DependencyHandler) {
         handler.applyDefaultDependencies()
-        if (project.isAppModule())
+        if (project.isSampleModule())
             handler.applyLifeCycleDependencies()
-        if (!project.isKotlinLibraryGroup())
-            handler.applyAndroidTestDependencies()
     }
 }
