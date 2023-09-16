@@ -1,14 +1,61 @@
-name: Release drafter
+name: release-drafter
 
 on:
   push:
     branches:
-      - 'develop' 
+      - 'develop'
+  pull_request:
+    # Only following types are handled by the action, but one can default to all as well
+    types: [ opened, reopened, synchronize ]
+
+permissions:
+  contents: read
 
 jobs:
-  update_draft_release:
+  update-draft-release:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v5
+      - uses: release-drafter/release-drafter@v5.24.0
+        id: release_drafter
+        with:
+          config-name: release-drafter-config.yml
+          disable-autolabeler: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Extract version
+        id: version
+        run: echo "${{ steps.release_drafter.outputs.resolved_version }}" > VERSION
+      - name: Calculate code
+        id: code
+        run: |
+          IFS='.' read -ra VER <<< "$(cat VERSION)"
+          MAJOR=$((VER[0] * 1000000000))
+          MINOR=$((VER[1] * 10000))
+          PATCH=${VER[2]}
+          CODE=$((MAJOR + MINOR + PATCH))
+          echo "version=$(cat VERSION)" > gradle/version.properties
+          echo "code=$CODE" >> gradle/version.properties
+          echo "name=v$(cat VERSION)" >> gradle/version.properties
+
+      - name: Show version
+        run: cat gradle/version.properties
+
+      - name: Commit version.properties
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add gradle/version.properties
+          git commit -m "Bump version to $(cat VERSION)"
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: develop
+          directory: .
+
