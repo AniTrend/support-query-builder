@@ -1,7 +1,3 @@
-import org.gradle.accessors.dm.LibrariesForLibs
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	`kotlin-dsl`
 	`maven-publish`
@@ -18,8 +14,6 @@ repositories {
         setUrl("https://plugins.gradle.org/m2/")
     }
 }
-
-val libs get() = extensions.getByType<LibrariesForLibs>()
 
 dependencies {
 	/* Depend on the android gradle plugin, since we want to access it in our plugin */

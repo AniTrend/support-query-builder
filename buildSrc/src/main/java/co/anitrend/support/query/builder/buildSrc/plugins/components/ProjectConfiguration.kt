@@ -1,6 +1,5 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.common.Configuration
 import co.anitrend.support.query.builder.buildSrc.extension.*
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
@@ -27,7 +26,7 @@ internal fun Project.configureSpotless() {
             kotlin {
                 target("**/kotlin/**/*.kt")
                 targetExclude(
-                    "$buildDir/**/*.kt",
+                    "${layout.buildDirectory}/**/*.kt",
                     "**/androidTest/**/*.kt",
                     "**/test/**/*.kt",
                     "bin/**/*.kt"
@@ -62,12 +61,12 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
-    compileSdkVersion(Configuration.compileSdk)
+    compileSdkVersion(34)
     defaultConfig {
-        minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
+        minSdk = 23
+        targetSdk = 34
+        versionCode = props[PropertyTypes.CODE].toInt()
+        versionName = props[PropertyTypes.VERSION]
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applyAdditionalConfiguration(project)
     }
