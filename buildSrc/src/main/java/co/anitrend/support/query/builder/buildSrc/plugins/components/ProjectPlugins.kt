@@ -2,13 +2,13 @@ package co.anitrend.support.query.builder.buildSrc.plugins.components
 
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginContainer
-import co.anitrend.support.query.builder.buildSrc.extension.isAppModule
+import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
 import co.anitrend.support.query.builder.buildSrc.extension.isProcessorModule
 import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 
 private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
     when {
-        project.isAppModule() -> pluginContainer.apply("com.android.application")
+        project.isSampleModule() -> pluginContainer.apply("com.android.application")
         else -> {
             if (project.isKotlinLibraryGroup())
                 pluginContainer.apply("kotlin")
@@ -19,17 +19,17 @@ private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer)
             pluginContainer.apply("org.jetbrains.dokka")
         }
     }
-    if (!project.isAppModule())
+    if (!project.isSampleModule())
         pluginContainer.apply("com.diffplug.spotless")
 }
 
 private fun addKotlinAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
-    if (!project.isKotlinLibraryGroup() && project.isAppModule())
+    if (!project.isKotlinLibraryGroup())
         pluginContainer.apply("kotlin-android")
 }
 
 private fun addAnnotationProcessor(project: Project, pluginContainer: PluginContainer) {
-    if (project.isAppModule() || project.isProcessorModule())
+    if (project.isSampleModule() || project.isProcessorModule())
         pluginContainer.apply("kotlin-kapt")
 }
 

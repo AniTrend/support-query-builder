@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core.from
 
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
@@ -22,52 +38,51 @@ sealed class From : IQueryBuilder {
         private val left: From,
         private val right: From,
         private val type: Type,
-        private val criteria: Criteria
+        private val criteria: Criteria,
     ) : From() {
 
         data class Partial(
             private val left: From,
             private val right: From,
-            private val type: Type
+            private val type: Type,
         ) : From() {
 
-            /** 
-            * Creates a Join on the [criteria] 
-            *
-            * __Usage:__
-            * ```
-            * "table_name".asTable() innerJoin "other_table_name".asTable() on column.equal("jack")
-            * ```
-            *
-            * @return Join
-            */
+            /**
+             * Creates a Join on the [criteria]
+             *
+             * __Usage:__
+             * ```
+             * "table_name".asTable() innerJoin "other_table_name".asTable() on column.equal("jack")
+             * ```
+             *
+             * @return Join
+             */
             infix fun on(criteria: Criteria) =
                 Join(left, right, type, criteria)
 
-            /** 
-            * Creates a Join on the [left] constraint and the [right] constraint 
-            *
-            * __Usage:__
-            * ```
-            * "table_name".asTable().innerJoin("other_table_name".asTable()).on("column", "some_column")
-            * ```
-            *
-            * @return on
-            */
+            /**
+             * Creates a Join on the [left] constraint and the [right] constraint
+             *
+             * __Usage:__
+             * ```
+             * "table_name".asTable().innerJoin("other_table_name".asTable()).on("column", "some_column")
+             * ```
+             *
+             * @return on
+             */
             fun on(left: String, right: String) =
                 on(left.asColumn() equal right.asColumn())
 
-
-            /** 
-            * Creates a Join on the [left] constraint and the [right] constraint
-            *
-            * __Usage:__
-            * ```
-            * "table_name".asTable().innerJoin("other_table_name".asTable()).on(column, some_column)
-            * ```
-            *
-            * @return on
-            */
+            /**
+             * Creates a Join on the [left] constraint and the [right] constraint
+             *
+             * __Usage:__
+             * ```
+             * "table_name".asTable().innerJoin("other_table_name".asTable()).on(column, some_column)
+             * ```
+             *
+             * @return on
+             */
             fun on(left: Projection.Column, right: Projection.Column) =
                 on(left equal right)
 
@@ -82,19 +97,19 @@ sealed class From : IQueryBuilder {
 
         override fun buildParameters() =
             left.buildParameters() +
-            right.buildParameters() +
-            criteria.buildParameters()
+                right.buildParameters() +
+                criteria.buildParameters()
 
         enum class Type(val actual: String) {
             JOIN("JOIN"),
             INNER("INNER JOIN"),
             LEFT("LEFT JOIN"),
-            CROSS("CROSS JOIN")
+            CROSS("CROSS JOIN"),
         }
     }
 
     data class SubQuery(
-        private val subQuery: IQueryBuilder
+        private val subQuery: IQueryBuilder,
     ) : Aliasable() {
         override fun build(): String {
             val query = "(${subQuery.build()})"
@@ -107,7 +122,7 @@ sealed class From : IQueryBuilder {
     }
 
     data class Table(
-        private val table: String
+        private val table: String,
     ) : Aliasable() {
         override fun build(): String {
             return alias?.let {

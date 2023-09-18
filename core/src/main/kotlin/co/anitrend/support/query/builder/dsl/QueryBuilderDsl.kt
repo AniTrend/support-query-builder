@@ -1,49 +1,67 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.dsl
 
-import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.sqlite.db.SupportSQLiteQuery
 import co.anitrend.support.query.builder.core.contract.AbstractQueryBuilder
 import co.anitrend.support.query.builder.core.contract.query.IQueryBuilder
 import co.anitrend.support.query.builder.core.criteria.Criteria
 import co.anitrend.support.query.builder.core.criteria.extensions.and
 import co.anitrend.support.query.builder.core.criteria.extensions.or
 import co.anitrend.support.query.builder.core.from.From
-import co.anitrend.support.query.builder.core.from.extentions.*
+import co.anitrend.support.query.builder.core.from.extentions.asTable
+import co.anitrend.support.query.builder.core.from.extentions.crossJoin
+import co.anitrend.support.query.builder.core.from.extentions.innerJoin
+import co.anitrend.support.query.builder.core.from.extentions.join
+import co.anitrend.support.query.builder.core.from.extentions.leftJoin
 import co.anitrend.support.query.builder.core.order.extensions.orderAsc
 import co.anitrend.support.query.builder.core.order.extensions.orderDesc
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.projection.extensions.asColumn
 
 fun AbstractQueryBuilder.select(
-    projections: List<Projection>
+    projections: List<Projection>,
 ) = also { this.projections.addAll(projections) }
 
 fun AbstractQueryBuilder.select(
-    vararg columns: String
+    vararg columns: String,
 ) = select(columns.asColumn())
 
 infix fun AbstractQueryBuilder.select(
-    column: String
+    column: String,
 ) = also { this.projections.add(column.asColumn()) }
 
 infix fun AbstractQueryBuilder.select(
-    column: Projection
+    column: Projection,
 ) = also { this.projections.add(column) }
 
 infix fun AbstractQueryBuilder.from(
-    from: From
+    from: From,
 ) = also { this.from = from }
 
 infix fun AbstractQueryBuilder.from(
-    subQuery: IQueryBuilder
+    subQuery: IQueryBuilder,
 ) = also { this.from = From.SubQuery(subQuery) }
 
 infix fun AbstractQueryBuilder.from(
-    table: String
+    table: String,
 ) = also { this.from = From.Table(table) }
 
 inline infix fun AbstractQueryBuilder.from(
-    block: AbstractQueryBuilder.() -> From
+    block: AbstractQueryBuilder.() -> From,
 ): AbstractQueryBuilder {
     this.from = block()
     return this
@@ -51,7 +69,7 @@ inline infix fun AbstractQueryBuilder.from(
 
 inline fun AbstractQueryBuilder.join(
     other: From.Table,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = let {
     val joinResult = requireNotNull(from) {
         "`from` has not been set on your query yet"
@@ -61,13 +79,12 @@ inline fun AbstractQueryBuilder.join(
 
 inline fun AbstractQueryBuilder.join(
     other: String,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = join(other.asTable(), block)
-
 
 inline fun AbstractQueryBuilder.innerJoin(
     other: From.Table,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = let {
     val joinResult = requireNotNull(from) {
         "`from` has not been set on your query yet"
@@ -77,12 +94,12 @@ inline fun AbstractQueryBuilder.innerJoin(
 
 inline fun AbstractQueryBuilder.innerJoin(
     other: String,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = innerJoin(other.asTable(), block)
 
 inline fun AbstractQueryBuilder.leftJoin(
     other: From.Table,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = let {
     val joinResult = requireNotNull(from) {
         "`from` has not been set on your query yet"
@@ -92,12 +109,12 @@ inline fun AbstractQueryBuilder.leftJoin(
 
 inline fun AbstractQueryBuilder.leftJoin(
     other: String,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = leftJoin(other.asTable(), block)
 
 inline fun AbstractQueryBuilder.crossJoin(
     other: From.Table,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = let {
     val joinResult = requireNotNull(from) {
         "`from` has not been set on your query yet"
@@ -107,11 +124,11 @@ inline fun AbstractQueryBuilder.crossJoin(
 
 inline fun AbstractQueryBuilder.crossJoin(
     other: String,
-    block: From.Join.Partial.() -> From.Join
+    block: From.Join.Partial.() -> From.Join,
 ) = crossJoin(other.asTable(), block)
 
 inline infix fun AbstractQueryBuilder.where(
-    block: AbstractQueryBuilder.() -> Criteria
+    block: AbstractQueryBuilder.() -> Criteria,
 ): AbstractQueryBuilder {
     this.criteria = block()
     return this
@@ -121,7 +138,7 @@ inline infix fun AbstractQueryBuilder.where(
  * Applied AND operator with a when statement, this is useful when chaining multiple WHERE clauses
  */
 inline infix fun AbstractQueryBuilder.whereAnd(
-    block: AbstractQueryBuilder.() -> Criteria
+    block: AbstractQueryBuilder.() -> Criteria,
 ): AbstractQueryBuilder {
     criteria = when {
         criteria != null -> criteria and block()
@@ -134,7 +151,7 @@ inline infix fun AbstractQueryBuilder.whereAnd(
  * Applied OR operator with a when statement, this is useful when chaining multiple WHERE clauses
  */
 inline infix fun AbstractQueryBuilder.whereOr(
-    block: AbstractQueryBuilder.() -> Criteria
+    block: AbstractQueryBuilder.() -> Criteria,
 ): AbstractQueryBuilder {
     criteria = when {
         criteria != null -> criteria or block()
@@ -144,11 +161,11 @@ inline infix fun AbstractQueryBuilder.whereOr(
 }
 
 infix fun AbstractQueryBuilder.groupBy(
-    projections: List<Projection>
+    projections: List<Projection>,
 ) = also { this.groupBy.addAll(projections) }
 
 infix fun AbstractQueryBuilder.groupBy(
-    column: Projection
+    column: Projection,
 ) = also { this.groupBy.add(column) }
 
 fun AbstractQueryBuilder.clearGroupBy() = also {
@@ -156,25 +173,25 @@ fun AbstractQueryBuilder.clearGroupBy() = also {
 }
 
 infix fun AbstractQueryBuilder.orderByAsc(
-    column: Projection
+    column: Projection,
 ) = also { this.orderBy.add(column.orderAsc(false)) }
 
 /**
  * Order by asc case insensitive
  */
 infix fun AbstractQueryBuilder.orderByAscCollate(
-    column: Projection
+    column: Projection,
 ) = also { this.orderBy.add(column.orderAsc(true)) }
 
 infix fun AbstractQueryBuilder.orderByDesc(
-    column: Projection
+    column: Projection,
 ) = also { this.orderBy.add(column.orderDesc(false)) }
 
 /**
  * Order by desc case insensitive
  */
 infix fun AbstractQueryBuilder.orderByDescCollate(
-    column: Projection
+    column: Projection,
 ) = also { this.orderBy.add(column.orderDesc(true)) }
 
 fun AbstractQueryBuilder.clearOrderBy() = also {
@@ -201,8 +218,4 @@ infix fun AbstractQueryBuilder.union(query: AbstractQueryBuilder) = also {
 infix fun AbstractQueryBuilder.unionAll(query: AbstractQueryBuilder) = also {
     query.unionAll = true
     this.unionQueryBuilders.add(query)
-}
-
-fun AbstractQueryBuilder.asSupportSQLiteQuery() : SupportSQLiteQuery {
-    return SimpleSQLiteQuery(build(), buildParameters().toTypedArray())
 }

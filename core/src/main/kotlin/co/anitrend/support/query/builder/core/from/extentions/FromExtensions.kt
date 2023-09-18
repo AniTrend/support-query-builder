@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package co.anitrend.support.query.builder.core.from.extentions
 
 import co.anitrend.support.query.builder.core.contract.AbstractQueryBuilder
@@ -77,7 +93,7 @@ infix fun From.innerJoin(other: String) = innerJoin(other.asTable())
  * @see innerJoin
  */
 infix fun AbstractQueryBuilder.innerJoin(other: From) =
-    requireNotNull(from){
+    requireNotNull(from) {
         "`from` has not been set on your query yet"
     }.innerJoin(other)
 
@@ -130,7 +146,7 @@ infix fun String.innerJoin(other: String) =
  */
 inline fun From.innerJoin(
     other: From.Table,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = let {
     val result = innerJoin(other)
     block(result)
@@ -153,7 +169,7 @@ inline fun From.innerJoin(
  */
 inline fun From.innerJoin(
     other: String,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = innerJoin(other.asTable(), block)
 
 /*-----------------------------------------------------------------*/
@@ -204,7 +220,7 @@ infix fun From.leftJoin(other: String) = leftJoin(other.asTable())
  * @see leftJoin
  */
 infix fun AbstractQueryBuilder.leftJoin(other: From) =
-    requireNotNull(from){
+    requireNotNull(from) {
         "`from` has not been set on your query yet"
     }.leftJoin(other)
 
@@ -257,7 +273,7 @@ infix fun String.leftJoin(other: String) =
  */
 inline fun From.leftJoin(
     other: From.Table,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = let {
     val result = leftJoin(other)
     block(result)
@@ -280,7 +296,7 @@ inline fun From.leftJoin(
  */
 inline fun From.leftJoin(
     other: String,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = leftJoin(other.asTable(), block)
 
 /*-----------------------------------------------------------------*/
@@ -331,7 +347,7 @@ infix fun From.crossJoin(other: String) = crossJoin(other.asTable())
  * @see crossJoin
  */
 infix fun AbstractQueryBuilder.crossJoin(other: From) =
-    requireNotNull(from){
+    requireNotNull(from) {
         "`from` has not been set on your query yet"
     }.crossJoin(other)
 
@@ -384,7 +400,7 @@ infix fun String.crossJoin(other: String) =
  */
 inline fun From.crossJoin(
     other: From.Table,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = let {
     val result = crossJoin(other)
     block(result)
@@ -407,7 +423,7 @@ inline fun From.crossJoin(
  */
 inline fun From.crossJoin(
     other: String,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = crossJoin(other.asTable(), block)
 
 /*-----------------------------------------------------------------*/
@@ -458,7 +474,7 @@ infix fun From.join(other: String) = join(other.asTable())
  * @see join
  */
 infix fun AbstractQueryBuilder.join(other: From) =
-    requireNotNull(from){
+    requireNotNull(from) {
         "`from` has not been set on your query yet"
     }.join(other)
 
@@ -511,7 +527,7 @@ infix fun String.join(other: String) =
  */
 inline fun From.join(
     other: From.Table,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = let {
     val result = join(other)
     block(result)
@@ -534,5 +550,5 @@ inline fun From.join(
  */
 inline fun From.join(
     other: String,
-    block: From.Join.Partial.() -> From
+    block: From.Join.Partial.() -> From,
 ) = join(other.asTable(), block)

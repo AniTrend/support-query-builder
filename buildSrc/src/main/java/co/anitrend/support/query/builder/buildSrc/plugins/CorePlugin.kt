@@ -1,9 +1,11 @@
 package co.anitrend.support.query.builder.buildSrc.plugins
 
+import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureAndroid
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configureDependencies
-import co.anitrend.support.query.builder.buildSrc.plugins.components.configureOptions
+import co.anitrend.support.query.builder.buildSrc.plugins.components.configureSources
 import co.anitrend.support.query.builder.buildSrc.plugins.components.configurePlugins
+import co.anitrend.support.query.builder.buildSrc.plugins.components.configureSpotless
 import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -44,7 +46,9 @@ open class CorePlugin : Plugin<Project> {
         if (!target.isKotlinLibraryGroup())
             target.configureAndroid()
         target.configureDependencies()
-        target.configureOptions()
-        //target.configureSpotless()
+        if (!target.isSampleModule()) {
+            target.configureSources()
+            target.configureSpotless()
+        }
     }
 }

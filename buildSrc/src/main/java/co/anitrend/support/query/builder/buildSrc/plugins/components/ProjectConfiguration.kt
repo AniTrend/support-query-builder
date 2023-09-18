@@ -1,11 +1,8 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.common.Configuration
 import co.anitrend.support.query.builder.buildSrc.extension.*
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
-import co.anitrend.support.query.builder.buildSrc.extension.libraryExtension
-import co.anitrend.support.query.builder.buildSrc.extension.spotlessExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -13,45 +10,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.File
 
-private fun Project.configureLint() = libraryExtension().run {
-    lint {
-        abortOnError = false
-        ignoreWarnings = false
-        ignoreTestSources = true
-    }
-}
-
-internal fun Project.configureSpotless() {
-    if (!isAppModule())
-        spotlessExtension().run {
-            kotlin {
-                target("**/kotlin/**/*.kt")
-                targetExclude(
-                    "$buildDir/**/*.kt",
-                    "**/androidTest/**/*.kt",
-                    "**/test/**/*.kt",
-                    "bin/**/*.kt"
-                )
-                ktlint(libs.versions.ktlint.get().toString())
-                    .userData(
-                        mapOf(
-                            "android" to "true",
-                            "max_line_length" to "150",
-                            "no-wildcard-imports" to "false"
-                        )
-                    ).editorConfigOverride(
-                        mapOf(
-                            "ij_kotlin_packages_to_use_import_on_demand" to "false"
-                        )
-                    )
-                licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
-            }
-        }
-}
 
 @Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
-    if (project.isAppModule()) {
+    if (project.isSampleModule()) {
         applicationId = "co.anitrend.support.query.builder.sample"
         project.baseAppExtension().buildFeatures {
             viewBinding = true
@@ -62,12 +24,12 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
-    compileSdkVersion(Configuration.compileSdk)
+    compileSdkVersion(34)
     defaultConfig {
-        minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
+        minSdk = 23
+        targetSdk = 34
+        versionCode = props[PropertyTypes.CODE].toInt()
+        versionName = props[PropertyTypes.VERSION]
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applyAdditionalConfiguration(project)
     }
@@ -110,13 +72,19 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
                 "src/${androidSourceSet.name}/kotlin"
             )
         }
+        if (!project.isSampleModule()) {
+            getByName("test") {
+                resources.srcDirs(file("src/test/resources"))
+            }
+        }
     }
 
     testOptions {
+        unitTests.isIncludeAndroidResources = true
         unitTests.isReturnDefaultValues = true
     }
 
-    if (!isAppModule()) {
+    if (!isSampleModule()) {
         configureLint()
     }
 
@@ -127,7 +95,7 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
 
     tasks.withType(KotlinCompile::class.java) {
         val compilerArgumentOptions = emptyList<String>()
-		
+
         kotlinOptions {
             allWarningsAsErrors = false
             freeCompilerArgs = compilerArgumentOptions

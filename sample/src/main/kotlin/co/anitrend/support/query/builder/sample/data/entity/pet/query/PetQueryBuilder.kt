@@ -3,8 +3,8 @@ package co.anitrend.support.query.builder.sample.data.entity.pet.query
 import co.anitrend.support.query.builder.core.QueryBuilder
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
 import co.anitrend.support.query.builder.core.criteria.extensions.match
+import co.anitrend.support.query.builder.core.ext.asSupportSQLiteQuery
 import co.anitrend.support.query.builder.core.projection.extensions.asColumn
-import co.anitrend.support.query.builder.dsl.asSupportSQLiteQuery
 import co.anitrend.support.query.builder.dsl.from
 import co.anitrend.support.query.builder.dsl.whereAnd
 import co.anitrend.support.query.builder.sample.data.entity.pet.PetEntity

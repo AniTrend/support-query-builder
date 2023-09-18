@@ -16,12 +16,13 @@ internal object Modules {
     }
 
     enum class Processor(override val id: String) : Module {
-        Core("processor")
+        Kapt("processor")
     }
 
     enum class Common(override val id: String) : Module {
         Annotation("annotations"),
-        Core("core")
+        Core("core"),
+        Ext("core-ext"),
     }
 }
 
