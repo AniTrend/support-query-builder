@@ -1,6 +1,17 @@
 package co.anitrend.support.query.builder.core.criteria
 
-import co.anitrend.support.query.builder.core.criteria.extensions.*
+import co.anitrend.support.query.builder.core.criteria.extensions.and
+import co.anitrend.support.query.builder.core.criteria.extensions.between
+import co.anitrend.support.query.builder.core.criteria.extensions.exists
+import co.anitrend.support.query.builder.core.criteria.extensions.greaterThan
+import co.anitrend.support.query.builder.core.criteria.extensions.`in`
+import co.anitrend.support.query.builder.core.criteria.extensions.isNull
+import co.anitrend.support.query.builder.core.criteria.extensions.lesserThanOrEqual
+import co.anitrend.support.query.builder.core.criteria.extensions.like
+import co.anitrend.support.query.builder.core.criteria.extensions.match
+import co.anitrend.support.query.builder.core.criteria.extensions.notExists
+import co.anitrend.support.query.builder.core.criteria.extensions.notIsNull
+import co.anitrend.support.query.builder.core.criteria.extensions.or
 import co.anitrend.support.query.builder.core.projection.Projection
 import io.mockk.every
 import io.mockk.mockk
@@ -19,7 +30,7 @@ class CriteriaTest : TestCase() {
     }
 
     fun `test and criteria`() {
-        val expected = "(column_name IS NULL AND column_last IS NOT NULL)"
+        val expected = "column_name IS NULL AND column_last IS NOT NULL"
         val criteria = columnName.isNull() and columnLast.notIsNull()
         val actual = criteria.build()
 
@@ -67,7 +78,7 @@ class CriteriaTest : TestCase() {
     }
 
     fun `test or criteria`() {
-        val expected = "(column_name > ? OR column_last <= ?)"
+        val expected = "column_name > ? OR column_last <= ?"
         val criteria = columnName greaterThan 6 or columnLast.lesserThanOrEqual(4)
         val actual = criteria.build()
 

@@ -5,10 +5,18 @@ import co.anitrend.support.query.builder.core.criteria.extensions.endsWith
 import co.anitrend.support.query.builder.core.criteria.extensions.equal
 import co.anitrend.support.query.builder.core.extensions.asFullSqlString
 import co.anitrend.support.query.builder.core.from.From
-import co.anitrend.support.query.builder.core.from.extentions.*
+import co.anitrend.support.query.builder.core.from.extentions.`as`
+import co.anitrend.support.query.builder.core.from.extentions.asTable
+import co.anitrend.support.query.builder.core.from.extentions.innerJoin
+import co.anitrend.support.query.builder.core.from.extentions.leftJoin
 import co.anitrend.support.query.builder.core.projection.Projection
 import co.anitrend.support.query.builder.core.projection.extensions.`as`
-import co.anitrend.support.query.builder.dsl.*
+import co.anitrend.support.query.builder.dsl.from
+import co.anitrend.support.query.builder.dsl.groupBy
+import co.anitrend.support.query.builder.dsl.innerJoin
+import co.anitrend.support.query.builder.dsl.orderByDesc
+import co.anitrend.support.query.builder.dsl.select
+import co.anitrend.support.query.builder.dsl.where
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase
@@ -117,7 +125,7 @@ class QueryBuilderTest : TestCase() {
     }
 
     fun `test select with inner join and where clause plus filter`() {
-        val expected = "SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')"
+        val expected = "SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id WHERE column_name = 'something' AND column_name LIKE '%pe'"
         builder from {
             table.innerJoin("other_table_name").on(
                 "other_column_id", "column_id"
@@ -131,7 +139,7 @@ class QueryBuilderTest : TestCase() {
     }
 
     fun `test select with inner join, left join and where clause plus filter`() {
-        val expected = "SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')"
+        val expected = "SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE column_name = 'something' AND column_name LIKE '%pe'"
         builder from {
             table.innerJoin("other_table_name").on(
                 "other_column_id", "column_id"
@@ -148,7 +156,7 @@ class QueryBuilderTest : TestCase() {
     }
 
     fun `test select with inner join, left join and where clause plus filter segmented`() {
-        val expected = "SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE (column_name = 'something' AND column_name LIKE '%pe')"
+        val expected = "SELECT * FROM table_name INNER JOIN other_table_name ON other_column_id = column_id LEFT JOIN some_table_name ON some_other_column_id = column_id WHERE column_name = 'something' AND column_name LIKE '%pe'"
         builder from table
         builder from {
             innerJoin("other_table_name") {
