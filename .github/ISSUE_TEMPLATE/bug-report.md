@@ -1,51 +1,23 @@
 ---
 name: Bug Report
-about: Report any issues regarding the project and help us identify bugs quicker
-
+about: Create a bug report to help us identify bugs faster and improve the application
+labels: ["bug"]
 ---
 
-# Issue Guidelines
+# AniTrend Issue Guidelines
 
-Before opening a new issue, please take a moment to review our [**community guidelines**](https://github.com/AniTrend/support-query-builder/blob/main/CONTRIBUTING.md) to make the contribution process easy and effective for everyone involved.
+Before opening a new issue, please take a moment to review our [**community guidelines**](https://github.com/AniTrend/support-query-builder/blob/master/CONTRIBUTING.md) to make the contribution process easy and effective for everyone involved.
 
-**You may find an answer in already closed issues**:
-https://github.com/AniTrend/retrofit-graphql/issues?q=is%3Aissue+is%3Aclosed
-
-
-## Description Of Bug
-<!--- A clear and concise description of what the bug is. -->
-
-Something is not working...
-
-**Steps To Reproduce**
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**You may find an answer in closed issues**:
+https://github.com/AniTrend/support-query-builder/issues?q=is%3Aissue+is%3Aclosed
 
 
-## Expected Behavior
-<!--- A clear and concise description of what you expect to happen. -->
-
-Perhaps it would be best if option a.. b.. and c..
-
-
-## Screenshots/Videos
-<!--- If applicable, add screenshots to help explain your problem. If none of these are available please remove this section alone -->
-
-
-## Device & Build Information
-<!--- Please provide any relevant information about your device. This is important in case the issue is not reproducible except for under certain conditions. -->
-
-* OS Version: Lollipop 5.0.1
-* App Version: 1.2.0
-* Phone Model: Xperia SP
-* Phone Brand: Sony
+## Description of Bug
+<!-- A clear and concise short description of what the bug is. e.g. -->
 
 
 ## Additional Context
-<!--- What are you trying to accomplish? Providing context helps us come up with a solution that is most useful in the real world, also include an logs if you have any in this section -->
-
-I have tested with multiple devices and the issue doesn't seem to be bound to any specific device, OS version or form factor.
-
-I have tested with ......
+<!--
+Providing context helps us come up with a solution that is most useful in the real world, 
+also include any logs if you have any in this section, if not please remove this section
+-->

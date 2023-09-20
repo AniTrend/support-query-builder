@@ -1,18 +1,19 @@
 ---
 name: Question
-about: Ask any general question regarding the project, also if you use this if you don't know what category to use
-
+about: Ask any general question regarding the project or application
+labels: ["question"]
 ---
 
-# Issue Guidelines
+# AniTrend Issue Guidelines
 
-Before opening a new issue, please take a moment to review our [**community guidelines**](https://github.com/AniTrend/support-query-builder/blob/main/CONTRIBUTING.md) to make the contribution process easy and effective for everyone involved.
+Before opening a new issue, please take a moment to review our [**community guidelines**](https://github.com/AniTrend/support-query-builder/blob/develop/CONTRIBUTING.md) to make the contribution process easy and effective for everyone involved.
 
-**You may find an answer in already closed issues**:
+**You may find an answer in closed issues**:
 https://github.com/AniTrend/support-query-builder/issues?q=is%3Aissue+is%3Aclosed
 
 ## Question
 <!-- Clearly and explicitly explain the details about your question -->
+
 I would like to know if... I have also searched in the closed issues and...
 
 ## Additional Context
