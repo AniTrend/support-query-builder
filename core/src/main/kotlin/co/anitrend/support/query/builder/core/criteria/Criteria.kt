@@ -35,7 +35,7 @@ sealed class Criteria : IQueryBuilder {
                 expression = "$expression${right.build()}"
             }
 
-            return "(${expression.trim()})"
+            return expression.trim()
         }
 
         override fun buildParameters() =
@@ -123,7 +123,7 @@ sealed class Criteria : IQueryBuilder {
         private val right: Criteria?,
     ) : Criteria() {
         override fun build(): String {
-            val expression = "(${left?.build()} OR ${right?.build()})"
+            val expression = "${left?.build()} OR ${right?.build()}"
             return expression.trim()
         }
 
