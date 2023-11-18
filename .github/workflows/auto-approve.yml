@@ -2,7 +2,7 @@ name: auto-approve
 on: pull_request_target
 
 jobs:
-  build:
+  auto-approve:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
