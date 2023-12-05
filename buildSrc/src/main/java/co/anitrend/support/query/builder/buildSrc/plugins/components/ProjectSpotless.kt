@@ -15,7 +15,6 @@ internal fun Project.configureSpotless() {
                 "bin/**/*.kt"
             )
             ktlint(libs.versions.ktlint.get().toString())
-                .userData(mapOf("android" to "true",))
             licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
         }
     }
