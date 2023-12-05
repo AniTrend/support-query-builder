@@ -48,7 +48,6 @@ open class CorePlugin : Plugin<Project> {
         target.configureDependencies()
         if (!target.isSampleModule()) {
             target.configureSources()
-            target.configureSpotless()
         }
     }
 }
