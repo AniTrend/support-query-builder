@@ -30,7 +30,7 @@ junit = "junit:junit:4.13.2"
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
 
-androidx-activityKtx = "androidx.activity:activity-ktx:1.8.1"
+androidx-activityKtx = "androidx.activity:activity-ktx:1.8.2"
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-appcompatResources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidx-appcompat" }
