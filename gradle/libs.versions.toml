@@ -12,7 +12,7 @@ androidx-room = "2.6.1"
 androidx-sqlite = "2.4.0"
 androidx-test-ext = "1.1.5"
 
-jetbrains-dokka = "1.9.10"
+jetbrains-dokka = "1.9.20"
 jetbrains-kotlin = "1.9.22"
 
 io-mockk = "1.13.10"
