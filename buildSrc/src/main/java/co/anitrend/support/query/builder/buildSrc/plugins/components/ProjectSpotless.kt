@@ -6,16 +6,22 @@ import org.gradle.api.Project
 
 internal fun Project.configureSpotless() {
     spotlessExtension().run {
+        val withLicenseHeader: (String) -> File = { extension ->
+            rootProject.file("spotless/copyright$extension")
+        }
+        val buildDirectory = layout.buildDirectory.get()
         kotlin {
-            target("**/kotlin/**/*.kt")
+            target("**/*.kt")
             targetExclude(
-                "${buildDir}/**/*.kt",
+                "${buildDirectory}/**/*.kt",
                 "**/androidTest/**/*.kt",
                 "**/test/**/*.kt",
                 "bin/**/*.kt"
             )
-            ktlint(libs.versions.ktlint.get().toString())
-            licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+            ktlint(libs.pintrest.ktlint.get().version)
+            licenseHeaderFile(
+                withLicenseHeader(".kt")
+            )
         }
     }
 }

@@ -20,7 +20,7 @@ internal fun Project.configureSources() {
     }
 
     val classesJar by tasks.register("classesJar", Jar::class.java) {
-        from("${project.buildDir}/intermediates/classes/release")
+        from("${project.layout.buildDirectory.get()}/intermediates/classes/release")
     }
 
     artifacts {
