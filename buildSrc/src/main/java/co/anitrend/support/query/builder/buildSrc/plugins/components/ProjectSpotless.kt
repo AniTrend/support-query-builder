@@ -3,6 +3,7 @@ package co.anitrend.support.query.builder.buildSrc.plugins.components
 import co.anitrend.support.query.builder.buildSrc.extension.libs
 import co.anitrend.support.query.builder.buildSrc.extension.spotlessExtension
 import org.gradle.api.Project
+import java.io.File
 
 internal fun Project.configureSpotless() {
     spotlessExtension().run {
