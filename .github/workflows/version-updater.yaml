@@ -1,5 +1,3 @@
- name: version-update
-
 on:
   repository_dispatch:
     types: [version-update-and-push]
