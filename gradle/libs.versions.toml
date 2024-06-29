@@ -58,7 +58,7 @@ androidx-sqliteKtx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "and
 androidx-test-core = { module = "androidx.test:core", version = "1.5.0" }
 androidx-test-coreKtx = { module = "androidx.test:core-ktx", version = "1.5.0" }
 androidx-test-runner = { module = "androidx.test:runner", version = "1.5.2" }
-androidx-test-rules = { module = "androidx.test:rules", version = "1.5.0" }
+androidx-test-rules = { module = "androidx.test:rules", version = "1.6.1" }
 
 androidx-junitKtx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 
