@@ -1,83 +1,90 @@
-/*
- * Copyright 2023 AniTrend
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package co.anitrend.support.query.builder.processor.factory
 
-import co.anitrend.support.query.builder.processor.logger.contract.ILogger
 import co.anitrend.support.query.builder.processor.model.Candidate
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
-import java.io.File
-import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.util.Elements
+import java.nio.file.FileAlreadyExistsException
 
 internal class ClassFactory(
-    private val processingEnvironment: ProcessingEnvironment,
-    private val elements: Elements,
-    private val logger: ILogger,
+    private val codeGenerator: CodeGenerator,
+    private val options: Map<String, String>,
+    private val logger: KSPLogger,
 ) {
+
+    // prevent duplicate writes across rounds
+    private val emitted = mutableSetOf<String>() // key = "$pkg.$fileName"
 
     private fun TypeSpec.Builder.construct(item: Candidate): FileSpec {
         val typeSpec = build()
-        logger.debug("Created type spec:")
-        logger.debug("$typeSpec")
-        return FileSpec.builder(
-            item.packageName(elements),
-            item.createFileName(),
-        ).addType(typeSpec).build()
+        logger.info("Created type spec:\n$typeSpec")
+        return FileSpec.builder(item.packageName, item.fileName)
+            .addType(typeSpec)
+            .build()
     }
 
-    private fun FileSpec.commit() {
-        logger.debug(
-            "Committing construct using available options [${
-                processingEnvironment.options.entries.joinToString { "${it.key}: ${it.value}" }
-            }]",
+    private fun FileSpec.commitFrom(origin: KSClassDeclaration) {
+        val key = "${packageName}.$name"
+        if (!emitted.add(key)) {
+            logger.info("[ClassFactory] Skipping duplicate emission of $key")
+            return
+        }
+
+        logger.info(
+            "Committing construct using options: ${
+                options.entries.joinToString { "${it.key}=${it.value}" }
+            }"
         )
-        runCatching {
-            val generatedDirectory = processingEnvironment.options[
-                GENERATED_OPTION_KEY,
-            ]
-            writeTo(
-                File(
-                    requireNotNull(generatedDirectory) {
-                        "processingEnvironment does not have options with key: $GENERATED_OPTION_KEY "
-                    },
-                ),
-            )
-        }.onFailure {
-            logger.error(it.message)
+
+        val sourceFile = origin.containingFile
+        val deps = if (sourceFile != null) {
+            // isolating, one output per source
+            Dependencies(aggregating = false, sources = arrayOf(sourceFile))
+        } else {
+            // symbol came from classpath, fall back to aggregating
+            Dependencies(aggregating = true)
+        }
+
+        try {
+            codeGenerator.createNewFile(
+                dependencies = deps,
+                packageName = packageName,
+                fileName = name,
+            ).bufferedWriter().use { writer ->
+                writeTo(writer)
+            }
+        } catch (e: FileAlreadyExistsException) {
+            // Harmless in incremental/rounded runs
+            logger.info("[ClassFactory] Already generated: $key")
+        } catch (t: Throwable) {
+            logger.warn("[ClassFactory] Failed to write $key: $t")
         }
     }
 
     private fun createTypeSpecBuilderWith(item: Candidate): TypeSpec.Builder {
-        val builder = TypeSpec.objectBuilder(item.createFileName())
+        val builder = TypeSpec.objectBuilder(item.fileName)
         item.getTable().writeToBuilder(builder)
         return builder
     }
 
-    fun generateUsing(items: List<Candidate>) = items.forEach { elementItem ->
-        logger.lineBreakWithSeparatorCharacter()
-        logger.debug("Inspecting element `$elementItem` and preparing to generate object")
-        val builder = runCatching { createTypeSpecBuilderWith(elementItem) }
-            .onFailure { logger.error(it.message) }
-            .getOrNull()
-        builder?.construct(elementItem)?.commit()
-    }
+    fun generateUsing(items: List<Candidate>) {
+        if (items.isEmpty()) {
+            logger.info("[ClassFactory] No @EntitySchema candidates in this round")
+            return
+        }
 
-    private companion object {
-        const val GENERATED_OPTION_KEY = "kapt.kotlin.generated"
+        items.forEach { elementItem ->
+            logger.info("[ClassFactory] Inspecting element `$elementItem` and preparing to generate object")
+            val builder = runCatching { createTypeSpecBuilderWith(elementItem) }
+                .onFailure { logger.warn("[ClassFactory] $it") }
+                .getOrNull()
+
+            // Use the declaration we came from to attach proper deps
+            val origin = elementItem.classDeclaration
+            builder?.construct(elementItem)?.commitFrom(origin)
+        }
     }
 }

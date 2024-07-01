@@ -1,11 +1,13 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.extension.*
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
+import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
+import co.anitrend.support.query.builder.buildSrc.extension.props
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
@@ -98,6 +100,11 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
             allWarningsAsErrors.set(false)
             freeCompilerArgs.set(emptyList())
         }
+    }
+
+    tasks.withType(Test::class.java) {
+        useJUnitPlatform()
+        failOnNoDiscoveredTests.set(false)
     }
 
     tasks.withType(KotlinJvmCompile::class.java) {

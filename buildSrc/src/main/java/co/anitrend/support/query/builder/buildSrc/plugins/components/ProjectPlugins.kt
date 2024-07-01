@@ -1,10 +1,10 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
+import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
+import co.anitrend.support.query.builder.buildSrc.extension.isProcessorModule
+import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginContainer
-import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
-import co.anitrend.support.query.builder.buildSrc.extension.isProcessorModule
-import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
 
 private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
     when {
@@ -28,14 +28,7 @@ private fun addKotlinAndroidPlugin(project: Project, pluginContainer: PluginCont
         pluginContainer.apply("kotlin-android")
 }
 
-private fun addAnnotationProcessor(project: Project, pluginContainer: PluginContainer) {
-    if (project.isSampleModule() || project.isProcessorModule())
-        pluginContainer.apply("kotlin-kapt")
-}
-
-
 internal fun Project.configurePlugins() {
     addAndroidPlugin(project, plugins)
     addKotlinAndroidPlugin(project, plugins)
-    addAnnotationProcessor(project, plugins)
 }
