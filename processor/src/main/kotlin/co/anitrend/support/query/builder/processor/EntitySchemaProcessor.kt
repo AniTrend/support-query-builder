@@ -20,36 +20,27 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import co.anitrend.support.query.builder.annotation.EntitySchema
-import co.anitrend.support.query.builder.processor.extensions.createCandidate
-import co.anitrend.support.query.builder.processor.factory.ClassFactory
-import co.anitrend.support.query.builder.processor.logger.CoreLogger
-import co.anitrend.support.query.builder.processor.logger.contract.ILogger
-import com.google.auto.service.AutoService
-import javax.annotation.processing.AbstractProcessor
-import javax.annotation.processing.ProcessingEnvironment
-import javax.annotation.processing.Processor
-import javax.annotation.processing.RoundEnvironment
-import javax.lang.model.SourceVersion
-import javax.lang.model.element.TypeElement
-import javax.lang.model.util.Elements
-import javax.lang.model.util.Types
+import co.anitrend.support.query.builder.processor.codegen.EntitySchemaCodeGenerator
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 
-@AutoService(Processor::class)
-class EntitySchemaProcessor : AbstractProcessor() {
+class EntitySchemaProcessor(
+    codeGenerator: CodeGenerator,
+    private val logger: KSPLogger,
+    private val options: Map<String, String>,
+) : SymbolProcessor {
 
-    private lateinit var logger: ILogger
-    private lateinit var types: Types
-    private lateinit var elements: Elements
+    private val navParamCodeGenerator =
+        EntitySchemaCodeGenerator(
+            codeGenerator = codeGenerator,
+            logger = logger,
+        )
 
-    override fun init(processingEnv: ProcessingEnvironment) {
-        super.init(processingEnv)
-        logger = CoreLogger(processingEnv.messager)
-        types = processingEnv.typeUtils
-        elements = processingEnv.elementUtils
-        logger.lineBreakWithSeparatorCharacter()
-    }
-
-    override fun getSupportedAnnotationTypes() = setOf(
+    private fun getSupportedAnnotationTypes() = setOf(
         EntitySchema::class.java.canonicalName,
         ColumnInfo::class.java.canonicalName,
         Embedded::class.java.canonicalName,
@@ -57,23 +48,24 @@ class EntitySchemaProcessor : AbstractProcessor() {
     )
 
     /**
-     * If [EntitySchema] has any overrides we'd specify them here
+     * Called by Kotlin Symbol Processing to run the processing task.
+     *
+     * @param resolver provides [SymbolProcessor] with access to compiler details such as Symbols.
+     * @return A list of deferred symbols that the processor can't process. Only symbols that can't be processed at this round should be returned. Symbols in compiled code (libraries) are always valid and are ignored if returned in the deferral list.
      */
-    override fun getSupportedOptions() = emptySet<String>()
+    override fun process(resolver: Resolver): List<KSAnnotated> {
+        val schema = requireNotNull(EntitySchema::class.qualifiedName)
 
-    override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latestSupported()
+        val schemaSymbols = resolver.getSymbolsWithAnnotation(schema)
+            .filterIsInstance<KSClassDeclaration>()
 
-    override fun process(
-        annotations: MutableSet<out TypeElement>,
-        roundEnvironment: RoundEnvironment,
-    ): Boolean {
-        val elementItems = roundEnvironment.getElementsAnnotatedWith(
-            EntitySchema::class.java,
-        ).map { element -> element.createCandidate(types, logger, roundEnvironment) }
-        if (elementItems.isNotEmpty()) {
-            logger.debug("Available candidates: [${elementItems.joinToString(separator = ", ")}]")
-            ClassFactory(processingEnv, elements, logger).generateUsing(elementItems)
-        }
-        return true
+        logger.logging("Available candidates: [${schemaSymbols.joinToString(separator = ", ")}]")
+
+        schemaSymbols
+            .groupBy { it.parentDeclaration?.qualifiedName?.asString() }
+            .map(transform = Map.Entry<String?, List<KSClassDeclaration>>::value)
+            .forEach(action = navParamCodeGenerator::invoke)
+
+        return emptyList()
     }
 }

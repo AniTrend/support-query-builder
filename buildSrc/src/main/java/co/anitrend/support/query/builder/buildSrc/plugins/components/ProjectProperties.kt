@@ -10,11 +10,11 @@ enum class PropertyTypes(val key: String) {
     VERSION("version"),
 }
 
-class PropertiesReader(project: Project) {
+class PropertiesReader(project: Project, path: String = "gradle/version.properties") {
     private val properties = Properties(2)
 
     init {
-        val releaseFile = File(project.rootDir, "gradle/version.properties")
+        val releaseFile = File(project.rootDir, path)
         if (!releaseFile.exists()) {
             project.logger.error("Release file cannot be found in path: $releaseFile")
         }

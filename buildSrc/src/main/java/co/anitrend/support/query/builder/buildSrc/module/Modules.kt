@@ -16,7 +16,8 @@ internal object Modules {
     }
 
     enum class Processor(override val id: String) : Module {
-        Kapt("processor")
+        Kapt("processor"),
+        Ksp("processor")
     }
 
     enum class Common(override val id: String) : Module {

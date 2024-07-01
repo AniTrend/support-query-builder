@@ -1,17 +1,18 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
-import co.anitrend.support.query.builder.buildSrc.extension.*
 import co.anitrend.support.query.builder.buildSrc.extension.baseAppExtension
 import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
+import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
+import co.anitrend.support.query.builder.buildSrc.extension.props
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.gradle.api.tasks.testing.Test
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.File
 
-
-@Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isSampleModule()) {
         applicationId = "co.anitrend.support.query.builder.sample"
@@ -93,18 +94,22 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    tasks.withType(KotlinCompile::class.java) {
+    tasks.withType(KotlinCompilationTask::class.java) {
         val compilerArgumentOptions = emptyList<String>()
 
-        kotlinOptions {
-            allWarningsAsErrors = false
-            freeCompilerArgs = compilerArgumentOptions
+        compilerOptions {
+            allWarningsAsErrors.set(false)
+            freeCompilerArgs.addAll(compilerArgumentOptions)
         }
     }
 
+    tasks.withType(Test::class.java) {
+        useJUnitPlatform()
+    }
+
     tasks.withType(KotlinJvmCompile::class.java) {
-        kotlinOptions {
-            jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 }

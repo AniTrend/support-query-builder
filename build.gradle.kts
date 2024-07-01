@@ -1,11 +1,15 @@
-import co.anitrend.support.query.builder.buildSrc.plugins.resolver.handleDependencySelection
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 
 plugins {
-    id("com.github.ben-manes.versions")
+    id("org.jetbrains.dokka")
 }
 
 buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
     dependencies {
         classpath(libs.android.gradle.plugin)
         classpath(libs.jetbrains.kotlin.gradle)
@@ -28,17 +32,7 @@ tasks {
     }
 }
 
-tasks.named(
-    "dependencyUpdates",
-    DependencyUpdatesTask::class.java
-).configure {
-    checkForGradleUpdate = false
-    outputFormatter = "json"
-    outputDir = "build/dependencyUpdates"
-    reportfileName = "report"
-    resolutionStrategy {
-        componentSelection {
-            all { handleDependencySelection() }
-        }
-    }
+tasks.withType(DokkaMultiModuleTask::class.java) {
+    outputDirectory.set(rootProject.file("dokka-docs"))
+    failOnWarning.set(false)
 }
