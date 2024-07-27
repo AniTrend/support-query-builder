@@ -21,7 +21,7 @@ spek2-spek = "2.0.19"
 
 
 [plugins]
-android-junit5 = { id = "de.mannodermaus.android-junit5", version = "1.10.0.0" }
+android-junit5 = { id = "de.mannodermaus.android-junit5", version = "1.10.2.0" }
 
 
 [libraries]
