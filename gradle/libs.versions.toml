@@ -81,7 +81,7 @@ squareup-kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
 
 tschuchortdev-kotlin-compile-testing = "com.github.tschuchortdev:kotlin-compile-testing:1.6.0"
 
-gradle-plugins-android-junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.10.2.0"
+gradle-plugins-android-junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.11.0.0"
 
 spek2-spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek2-spek" }
 spek2-spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek2-spek" }
