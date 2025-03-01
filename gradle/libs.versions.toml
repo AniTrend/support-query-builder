@@ -35,7 +35,7 @@ androidx-activityKtx = "androidx.activity:activity-ktx:1.10.1"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-appcompatResources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidx-appcompat" }
 
-androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.2.0"
+androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.2.1"
 
 androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.8.6"
 
