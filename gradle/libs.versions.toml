@@ -15,7 +15,7 @@ androidx-test-ext = "1.2.1"
 jetbrains-dokka = "2.0.0"
 jetbrains-kotlin = "2.1.20"
 
-io-mockk = "1.14.0"
+io-mockk = "1.14.2"
 
 spek2-spek = "2.0.19"
 
