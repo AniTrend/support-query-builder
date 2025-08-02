@@ -4,13 +4,13 @@ A simple yet comprehensive sql **select** query builder with featuring an annota
 
 ## Why This Project Exists?
 
-While [Room](https://developer.android.com/reference/androidx/room/Room) offers an excelent service loader based approach to generate an ORM layer for android application through static annotated queries, if you need to have some form of dynamic queries that might be user generated at runtime you would have to consider using [SupportSQLiteQueryBuilder](https://developer.android.com/reference/androidx/sqlite/db/SupportSQLiteQueryBuilder) to generate dynamic queries. However the [SupportSQLiteQueryBuilder](https://developer.android.com/reference/androidx/sqlite/db/SupportSQLiteQueryBuilder) API does a great job of constructing fairly simple queries, but lacks a fluent builder style API with joins, unions and large chains. In addition to this you have to write out table and column names as plain strings which is not only cumbersome but also error prone and adds additional overhead as you'd have to make sure that any changes you make to the entity related names are reflected throughout all your query builder references.
+While [Room](https://developer.android.com/reference/androidx/room/Room) offers an excellent service loader based approach to generate an ORM layer for android application through static annotated queries, if you need to have some form of dynamic queries that might be user generated at runtime you would have to consider using [SupportSQLiteQueryBuilder](https://developer.android.com/reference/androidx/sqlite/db/SupportSQLiteQueryBuilder) to generate dynamic queries. However the [SupportSQLiteQueryBuilder](https://developer.android.com/reference/androidx/sqlite/db/SupportSQLiteQueryBuilder) API does a great job of constructing fairly simple queries, but lacks a fluent builder style API with joins, unions and large chains. In addition to this you have to write out table and column names as plain strings which is not only cumbersome but also error prone and adds additional overhead as you'd have to make sure that any changes you make to the entity related names are reflected throughout all your query builder references.
 
 **support-query-builder** aims to solve these problems and comes in the form of 3 libraries with the following features:
 - **annotations** - Annotation only which is used to inform the **processor** of entities to inspect
 - **core** - The main query builder library for constructing queries
-- **core-ext** - Contains helper extention functions for the `core` modules, specifically `asSupportSQLiteQuery`
-- **processor** - Kotlin annotation proccessor that generates kotlin object classes that mirror your Room entity annotations supporting inspection `@Entity`, `@ColumnInfo` and `@Embedded`
+- **core:ext** - Contains helper extension functions for the `core` modules, specifically `asSupportSQLiteQuery`
+- **processor** - Kotlin annotation processor that generates kotlin object classes that mirror your Room entity annotations supporting inspection `@Entity`, `@ColumnInfo` and `@Embedded`
 
 
 See a list of changes from [releases](https://github.com/AniTrend/support-query-builder/releases)

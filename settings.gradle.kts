@@ -1,7 +1,8 @@
 pluginManagement {
-	repositories {
+    repositories {
 		google()
 		mavenCentral()
+        gradlePluginPortal()
 		maven {
 			setUrl("https://www.jitpack.io")
 		}
@@ -11,7 +12,7 @@ pluginManagement {
 rootProject.name= "support-query-builder"
 include(
 	":core",
-	":core-ext",
+	":core:ext",
 	":annotations",
 	":processor",
 )

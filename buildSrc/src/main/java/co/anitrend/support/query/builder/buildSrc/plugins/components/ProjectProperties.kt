@@ -11,6 +11,7 @@ enum class PropertyTypes(val key: String) {
 }
 
 class PropertiesReader(project: Project) {
+    @Suppress("NewApi")
     private val properties = Properties(2)
 
     init {

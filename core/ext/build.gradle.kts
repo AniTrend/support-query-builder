@@ -15,3 +15,8 @@ dependencies {
 
     implementation(libs.androidx.sqliteKtx)
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    failOnNoDiscoveredTests = false
+}

@@ -7,7 +7,6 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getValue
 
 
-@Suppress("UnstableApiUsage")
 internal fun Project.configureSources() {
     val mainSourceSets = when {
         !isKotlinLibraryGroup() -> baseExtension().sourceSets["main"].java.srcDirs
