@@ -22,7 +22,7 @@ internal object Modules {
     enum class Common(override val id: String) : Module {
         Annotation("annotations"),
         Core("core"),
-        Ext("core-ext"),
+        Ext("core:ext"),
     }
 }
 

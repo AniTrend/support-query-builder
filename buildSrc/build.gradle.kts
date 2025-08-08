@@ -7,12 +7,10 @@ plugins {
 repositories {
 	google()
 	mavenCentral()
+    gradlePluginPortal()
 	maven {
 		setUrl("https://www.jitpack.io")
 	}
-    maven {
-        setUrl("https://plugins.gradle.org/m2/")
-    }
 }
 
 dependencies {
@@ -24,9 +22,6 @@ dependencies {
 
 	/* Depend on the dokka plugin, since we want to access it in our plugin */
 	implementation(libs.jetbrains.dokka.gradle)
-
-	/** Dependency management */
-	implementation(libs.gradle.versions)
 
 	/** Spotless */
 	implementation(libs.spotless.gradle)

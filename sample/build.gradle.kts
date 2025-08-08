@@ -7,7 +7,7 @@ android {
 }
 
 tasks.withType<com.android.build.gradle.tasks.JavaPreCompileTask> {
-	dependsOn(":annotations:classesJar", ":processor:classesJar", ":core:classesJar", ":core-ext:classesJar")
+	dependsOn(":annotations:classesJar", ":processor:classesJar", ":core:classesJar", ":core:ext:classesJar")
 }
 
 dependencies {
@@ -35,6 +35,6 @@ dependencies {
 
     implementation(project(":annotations"))
     implementation(project(":core"))
-    implementation(project(":core-ext"))
+    implementation(project(":core:ext"))
     kapt(project(":processor"))
 }

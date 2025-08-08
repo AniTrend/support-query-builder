@@ -6,12 +6,12 @@ import co.anitrend.support.query.builder.buildSrc.extension.baseExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.File
 
 
-@Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isSampleModule()) {
         applicationId = "co.anitrend.support.query.builder.sample"
@@ -24,10 +24,10 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
-    compileSdkVersion(34)
+    compileSdkVersion(35)
     defaultConfig {
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = props[PropertyTypes.CODE].toInt()
         versionName = props[PropertyTypes.VERSION]
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -89,22 +89,20 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
-    tasks.withType(KotlinCompile::class.java) {
-        val compilerArgumentOptions = emptyList<String>()
-
-        kotlinOptions {
-            allWarningsAsErrors = false
-            freeCompilerArgs = compilerArgumentOptions
+    tasks.withType(KotlinCompilationTask::class.java) {
+        compilerOptions {
+            allWarningsAsErrors.set(false)
+            freeCompilerArgs.set(emptyList())
         }
     }
 
     tasks.withType(KotlinJvmCompile::class.java) {
-        kotlinOptions {
-            jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 }
