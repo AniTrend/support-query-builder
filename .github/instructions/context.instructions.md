@@ -5,7 +5,7 @@ description: This file describes the architecture and module structure of the su
 
 # Support Query Builder Architecture
 
-The support-query-builder project is a Kotlin library that provides a fluent SQL query builder with annotation processing capabilities for Android Room database integration. The library is designed to generate type-safe SQL queries dynamically while maintaining compile-time verification through annotation processing.
+The support-query-builder project is a Kotlin library that provides a fluent SQL query builder with annotation processing capabilities for Android Room database integration. Its design goal is to generate type-safe SQL queries dynamically while maintaining compile-time verification through annotation processing.
 
 ## Module Structure
 
