@@ -17,3 +17,13 @@ Please ensure your pull request adheres to the following guidelines:
 - Check your spelling and grammar.
 
 See [code of conduct](./CODE_OF_CONDUCT.md)
+
+## GitHub Copilot customization
+
+This repository includes custom GitHub Copilot chat modes, prompts, and instructions to enhance the development experience:
+
+- **Chat modes and prompts** are located under `.github/chatmodes/` and `.github/prompts/` respectively
+- **Repo-specific instructions** under `.github/instructions/` provide context that influences GitHub Copilot Chat responses for better understanding of the project structure and patterns
+- Use the **conventional commit prompt** to generate standardized commit messages following the conventional commits specification. Keep commit scopes generic (e.g., `feat`, `fix`, `docs`, `refactor`, `test`, `chore`)
+
+For comprehensive documentation, visit the [Dokka site](https://anitrend.github.io/support-query-builder/)
