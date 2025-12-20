@@ -13,7 +13,7 @@ androidx-sqlite = "2.6.2"
 androidx-test-ext = "1.3.0"
 
 jetbrains-dokka = "2.1.0"
-jetbrains-kotlin = "2.2.21"
+jetbrains-kotlin = "2.3.0"
 
 io-mockk = "1.14.7"
 
