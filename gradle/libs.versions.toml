@@ -73,7 +73,7 @@ jetbrains-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin"
 mockk = { module = "io.mockk:mockk", version.ref = "io-mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "io-mockk" }
 
-spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:8.2.1"
+spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:8.3.0"
 
 squareup-kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
 
