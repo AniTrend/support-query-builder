@@ -1,89 +1,56 @@
 ---
 applyTo: **
-description: This file describes the architecture and module structure of the support-query-builder project.
+description: Use when understanding support-query-builder architecture, module boundaries, consumer-facing APIs, annotation processing, Room integration, or shared Gradle/buildSrc behavior.
 ---
 
-# Support Query Builder Architecture
+# Support Query Builder Context
 
-The support-query-builder project is a Kotlin library that provides a fluent SQL query builder with annotation processing capabilities for Android Room database integration. Its design goal is to generate type-safe SQL queries dynamically while maintaining compile-time verification through annotation processing.
+- `support-query-builder` is a reusable Kotlin library, not an app. Favor reusable abstractions, extension points, and stable consumer-facing APIs over app-specific behavior.
+- The library's primary purpose is to provide a fluent, type-safe SQL query builder that integrates with Android Room via generated schema objects and `SupportSQLiteQuery`.
+- Treat the published Dokka site as part of the product surface: `https://anitrend.github.io/support-query-builder/`.
 
-## Module Structure
+## Module Groups
 
-The project is organized into distinct Gradle modules, each with specific responsibilities:
+- Core JVM modules: `:annotations`, `:core`, `:processor`
+- Android integration module: `:core:ext`
+- Development-only module: `:sample` (excluded from CI via `settings.gradle.kts`)
 
-### Core Modules
-- **`:core`** - The main query builder library containing the core SQL query construction logic. This module provides the fluent builder API with support for complex queries including joins, unions, and chaining operations. It contains no Android-specific dependencies, making it a pure Kotlin library that can be used in any JVM environment.
-- **`:core:ext`** - Extension functions for the core module, primarily providing integration with Android Room's `SupportSQLiteQuery`. The main function `asSupportSQLiteQuery()` converts query builder instances to Room-compatible query objects.
+## Dependency Direction
 
-### Annotation Processing
-- **`:annotations`** - Contains the annotation definitions used to mark Room entities for processing. This module is dependency-free and only defines the annotations that other modules consume.
-- **`:processor`** - Kotlin annotation processor (KAPT) that inspects Room entity annotations (`@Entity`, `@ColumnInfo`, `@Embedded`) and generates corresponding schema object classes. These generated objects mirror the entity structure and provide type-safe column references for the query builder.
+- `:annotations` is a JVM-only API module with no project dependencies. It only defines the `@EntitySchema` annotation and is the lowest layer.
+- `:core` is a pure JVM Kotlin module with no project dependencies. It owns the entire query builder API surface: `QueryBuilder`, `AbstractQueryBuilder`, `IQueryBuilder`, `Criteria`, `From`, `Order`, `Projection`, and their DSL helpers.
+- `:core:ext` is an Android library that depends on `:core`. It bridges the query builder to Room's `SupportSQLiteQuery` via extension functions.
+- `:processor` is a JVM KAPT module that depends on `:annotations`. It reads Room entity annotations and generates schema object classes using KotlinPoet and `auto-service`.
+- `:sample` depends on everything and is an Android application used for local development only.
+- Avoid introducing new dependencies that cause lower modules to depend on higher-layer ones.
 
-### Development and Testing
-- **`:sample`** - Example application demonstrating library usage. This module is excluded from CI builds but serves as a practical reference for integration patterns and usage examples.
+## Package Expectations
 
-## Architecture Principles
+- `:annotations` exposes `co.anitrend.support.query.builder.annotation` — the `@EntitySchema` annotation.
+- `:core` exposes `contract/`, `criteria/`, `from/`, `order/`, `projection/`, and the top-level `QueryBuilder` and `dsl/` entrypoints.
+- `:core:ext` exposes `co.anitrend.support.query.builder.core.ext` — the `asSupportSQLiteQuery()` extension and related Room helpers.
+- `:processor` exposes `extensions/`, `factory/`, `logger/`, and `model/` under `co.anitrend.support.query.builder.processor`. The `EntitySchemaProcessor` is the KAPT entry point.
 
-### Type Safety
-The library emphasizes compile-time type safety through:
-- Generated schema objects that mirror Room entity definitions
-- Fluent builder API that prevents malformed SQL construction
-- Extension functions that seamlessly integrate with Room's type system
+## Build And Tooling Facts
 
-### Room Integration
-The library is designed specifically for Room database integration:
-- Annotation processor reads Room entity annotations directly
-- Generated queries are compatible with Room's `@RawQuery` annotation
-- Support for Room's `SupportSQLiteQuery` interface through extension functions
+- All modules apply the shared `co.anitrend.support.query.builder.plugin` Gradle plugin from `buildSrc`.
+- Shared Android defaults live in `buildSrc/.../ProjectConfiguration.kt`: `compileSdk = 35`, `minSdk = 23`, `targetSdk = 35`, Java 21 source/target compatibility, and `JvmTarget.JVM_21` for Kotlin.
+- The repo Java pin is `.java-version = 21.0.8`. Systems are expected to have `jenv` installed; `.java-version` is picked up by `jenv local` to set the active JDK automatically. `buildSrc/.../ProjectConfiguration.kt` must stay aligned: `JavaVersion.VERSION_21` for Java source/target compatibility and `JvmTarget.JVM_21` for Kotlin must both match the `.java-version` major version (21).
+- Kotlin library group (JVM-only, no Android plugin): `:annotations`, `:core`, `:processor`. All other non-sample modules are Android libraries.
+- Dependency versions belong in `gradle/libs.versions.toml` before they are referenced from module build files.
+- Spotless and ktlint are enforced centrally via `buildSrc/.../ProjectSpotless.kt`, with the license header sourced from `spotless/copyright.kt`.
+- Publishing is configured centrally in `buildSrc/.../ProjectMaven.kt`; artifacts are distributed through JitPack under group `co.anitrend.query.builder`.
 
-### Modularity
-The multi-module approach ensures:
-- Core logic is separate from Android-specific integrations
-- Annotation processing is isolated for clean build dependencies
-- Extensions can be optionally included based on project needs
+## Documentation Contract
 
-## Build System
+- Dokka is configured centrally and the published site documents the public API surface.
+- When changing public behavior, update KDoc in the same change.
+- Document what the API does, when to use it, and what a consumer must provide or expect.
 
-The project uses Gradle with Kotlin DSL and includes:
-- Custom build plugins in `buildSrc` for consistent configuration
-- Android library configuration for Room compatibility
-- Annotation processor configuration for code generation
-- JitPack integration for distribution
+## Working Heuristics
 
-## Key Components
-
-### Query Builder Core
-The core module provides a fluent API for constructing SQL SELECT queries with support for:
-- Table selection and aliasing
-- Column projection with type safety
-- JOIN operations (INNER, LEFT, RIGHT, FULL)
-- WHERE clause construction with parameter binding
-- GROUP BY and HAVING clauses
-- ORDER BY with multiple columns
-- UNION and UNION ALL operations
-- Subquery support
-
-### Schema Generation
-The annotation processor generates Kotlin object classes that:
-- Mirror Room entity class structure
-- Provide compile-time column name verification
-- Support nested objects for `@Embedded` annotations
-- Generate table metadata for query construction
-
-### Room Extensions
-Extension functions bridge the query builder with Room:
-- Convert builder instances to `SupportSQLiteQuery`
-- Handle parameter binding for dynamic queries
-- Maintain compatibility with Room's query execution model
-
-## Documentation
-
-Full documentation is available at: https://anitrend.github.io/support-query-builder/
-
-The documentation includes:
-- API reference for all public classes and methods
-- Integration guides for Room database usage
-- Examples of complex query construction
-- Best practices for annotation processor usage
-
-This modular architecture ensures the library remains focused on its core purpose while providing flexible integration options for different use cases and maintaining compatibility with the Android ecosystem.
+- Put new query builder logic in `:core` if it has no Android dependency; put Room-specific glue in `:core:ext`.
+- Annotation additions go in `:annotations` first; corresponding processor changes go in `:processor` in the same change.
+- Prefer shared build logic changes in `buildSrc` over copy-pasting Gradle configuration into individual modules.
+- When running Gradle locally, use the `jenv-gradle-low-ram` skill to align the JDK and manage memory pressure before invoking `./gradlew`.
+- When unsure where code belongs, consult the dependency direction above and confirm it before editing.
