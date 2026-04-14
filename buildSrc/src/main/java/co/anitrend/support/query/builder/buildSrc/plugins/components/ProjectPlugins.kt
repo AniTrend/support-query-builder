@@ -23,11 +23,6 @@ private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer)
         pluginContainer.apply("com.diffplug.spotless")
 }
 
-private fun addKotlinAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
-    if (!project.isKotlinLibraryGroup())
-        pluginContainer.apply("kotlin-android")
-}
-
 private fun addAnnotationProcessor(project: Project, pluginContainer: PluginContainer) {
     if (project.isSampleModule() || project.isProcessorModule())
         pluginContainer.apply("kotlin-kapt")
@@ -36,6 +31,5 @@ private fun addAnnotationProcessor(project: Project, pluginContainer: PluginCont
 
 internal fun Project.configurePlugins() {
     addAndroidPlugin(project, plugins)
-    addKotlinAndroidPlugin(project, plugins)
     addAnnotationProcessor(project, plugins)
 }
