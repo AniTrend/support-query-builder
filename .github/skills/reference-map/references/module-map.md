@@ -29,3 +29,8 @@ Use this map to determine where code belongs before searching for a specific fil
 - `:annotations` and `:core` are JVM-only and can be used in non-Android Kotlin projects.
 - `:core:ext` is an Android library; add it only when Room integration is needed.
 - If a change affects a public type, assume the Dokka page is part of the deliverable.
+
+## Related Maps
+
+- SQLite and Android bridge flow: `support-query-builder-sqlite-android-map` -> `references/sqlite-android-query-map.md`
+- Annotation processing and KotlinPoet flow: `support-query-builder-sqlite-android-map` -> `references/annotation-processing-map.md`

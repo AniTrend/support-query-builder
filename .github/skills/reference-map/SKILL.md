@@ -37,3 +37,4 @@ argument-hint: 'Describe the feature, type, or consumer workflow you are trying 
 ## References
 
 - [module reference map](./references/module-map.md)
+- Related SQLite and processor flow guidance: `support-query-builder-sqlite-android-map`
