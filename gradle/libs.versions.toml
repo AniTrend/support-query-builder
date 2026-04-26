@@ -38,7 +38,7 @@ junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
 
-androidx-activity = { module = "androidx.activity:activity", version = "1.10.1" }
+androidx-activity = { module = "androidx.activity:activity", version = "1.13.0" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version = "1.13.0" }
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
