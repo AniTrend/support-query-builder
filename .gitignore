@@ -241,3 +241,5 @@ fabric.properties
 jacoco.exec
 
 .idea/
+# Added by code-review-graph
+.code-review-graph/
