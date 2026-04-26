@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.TypeSpec
 internal data class TableItem(
     private val name: String,
     private val columns: List<Item>,
-    private val embedded: List<Item>,
+    private val embeddings: List<Item>,
 ) : Item {
     override fun writeToBuilder(builder: TypeSpec.Builder) {
         builder.addProperty(
@@ -32,7 +32,7 @@ internal data class TableItem(
                 .initializer("%S", name)
                 .build(),
         )
-        (columns + embedded).forEach { it.writeToBuilder(builder) }
+        (columns + embeddings).forEach { it.writeToBuilder(builder) }
     }
 
     /**

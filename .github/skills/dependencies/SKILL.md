@@ -1,6 +1,6 @@
 ---
 name: support-query-builder-build-dependencies
-description: 'Understand and change support-query-builder build logic, module dependencies, version catalog entries, Dokka setup, KAPT wiring, and shared Gradle conventions. Use for buildSrc edits, new dependencies, module graph changes, or publishing pipeline work.'
+description: 'Understand and change support-query-builder build logic, module dependencies, version catalog entries, Dokka setup, KSP wiring, and shared Gradle conventions. Use for buildSrc edits, new dependencies, module graph changes, or publishing pipeline work.'
 argument-hint: 'Describe the dependency, Gradle change, or build pipeline task you need to make'
 ---
 
@@ -17,7 +17,7 @@ argument-hint: 'Describe the dependency, Gradle change, or build pipeline task y
 - Adding or upgrading dependencies.
 - Changing module relationships.
 - Editing Spotless, JDK, Android, publishing, or test conventions.
-- Understanding how the annotation and processor modules are wired with KAPT.
+- Understanding how the annotation and processor modules are wired with KSP.
 
 ## Procedure
 

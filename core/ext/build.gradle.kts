@@ -13,7 +13,7 @@ tasks.withType<com.android.build.gradle.internal.lint.AndroidLintAnalysisTask> {
 dependencies {
     implementation(project(":core"))
 
-    implementation(libs.androidx.sqliteKtx)
+    implementation(libs.androidx.sqlite.ktx)
 }
 
 tasks.withType<Test> {

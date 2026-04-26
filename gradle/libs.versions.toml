@@ -1,5 +1,5 @@
 [versions]
-ktlint = "1.1.1"
+ktlint = "1.5.0"
 
 gradle-plugin = "8.13.2"
 
@@ -17,35 +17,47 @@ jetbrains-kotlin = "2.3.21"
 
 io-mockk = "1.14.9"
 
-spek2-spek = "2.0.19"
+google-devtools-ksp = "2.3.7"
 
+squareup-kotlinpoet = "2.2.0"
+google-auto-service = "1.1.1"
+
+kotlin-compile-testing = "0.8.0"
+
+junit5 = "5.13.4"
 
 [plugins]
 android-junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
-
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "google-devtools-ksp" }
 
 [libraries]
-timber = "com.jakewharton.timber:timber:5.0.1"
-junit = "junit:junit:4.13.2"
+timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
+junit = { module ="junit:junit", version = "4.13.2" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
 
-androidx-activityKtx = "androidx.activity:activity-ktx:1.13.0"
+androidx-activity = { module = "androidx.activity:activity", version = "1.10.1" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version = "1.13.0" }
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-appcompatResources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidx-appcompat" }
 
 androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.2.1"
 
-androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.8.9"
+androidx-fragment = { module = "androidx.fragment:fragment", version = "1.8.9" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version = "1.8.9" }
 
-androidx-lifecycle-extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
-androidx-lifecycle-runTimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-liveDataKtx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-liveDataCoreKtx = { module = "androidx.lifecycle:lifecycle-livedata-core-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version = "2.2.0" }
+androidx-lifecycle-runTime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-liveData-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-liveDataCore-ktx = { module = "androidx.lifecycle:lifecycle-livedata-core-ktx", version.ref = "androidx-lifecycle" }
 
-androidx-navigation-fragmentKtx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
-androidx-navigation-uiKtx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "androidx-navigation" }
+androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "androidx-navigation" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
 
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-common = { module = "androidx.room:room-common", version.ref = "androidx-room" }
@@ -53,35 +65,37 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 
 androidx-sqlite = { module = "androidx.sqlite:sqlite", version.ref = "androidx-sqlite" }
-androidx-sqliteKtx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidx-sqlite" }
+androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "androidx-sqlite" }
 
 androidx-test-core = { module = "androidx.test:core", version = "1.7.0" }
-androidx-test-coreKtx = { module = "androidx.test:core-ktx", version = "1.7.0" }
+androidx-test-core-ktx = { module = "androidx.test:core-ktx", version = "1.7.0" }
 androidx-test-runner = { module = "androidx.test:runner", version = "1.7.0" }
 androidx-test-rules = { module = "androidx.test:rules", version = "1.7.0" }
 
 androidx-junitKtx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 
-google-auto-service = "com.google.auto.service:auto-service:1.1.1"
+google-auto-service = { module = "com.google.auto.service:auto-service-annotations", version.ref = "google-auto-service" }
+auto-service-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.2.0"
 google-android-material = "com.google.android.material:material:1.13.0"
 
 jetbrains-dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "jetbrains-dokka" }
 jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
+jetbrains-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "jetbrains-kotlin" }
 
 mockk = { module = "io.mockk:mockk", version.ref = "io-mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "io-mockk" }
 
 spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:8.4.0"
 
-squareup-kotlinpoet = "com.squareup:kotlinpoet:2.3.0"
+squareup-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "squareup-kotlinpoet" }
+squareup-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "squareup-kotlinpoet" }
 
-tschuchortdev-kotlin-compile-testing = "com.github.tschuchortdev:kotlin-compile-testing:1.6.0"
+google-devtools-ksp = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "google-devtools-ksp" }
+google-devtools-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "google-devtools-ksp" }
 
 gradle-plugins-android-junit5 = "de.mannodermaus.gradle.plugins:android-junit5:2.0.1"
-
-spek2-spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek2-spek" }
-spek2-spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek2-spek" }
-
+kotlin-compile-testing = { module = "dev.zacsweers.kctfork:core", version.ref = "kotlin-compile-testing" }
+kotlin-compile-testing-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref ="kotlin-compile-testing" }
 pintrest-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }

@@ -13,7 +13,7 @@ Repository-level orientation for coding agents working in support-query-builder.
 - `:annotations` (JVM-only): defines annotation API, currently `@EntitySchema`.
 - `:core` (JVM-only): query builder contracts, SQL clause types, and DSL entrypoints.
 - `:core:ext` (Android library): translates builder output into `SupportSQLiteQuery`.
-- `:processor` (JVM-only): KAPT processor that reads Room metadata and emits schema objects via KotlinPoet.
+- `:processor` (JVM-only): KSP processor that reads Room metadata and emits schema objects via KotlinPoet.
 - `:sample` (Android app, local development): demonstrates end-to-end usage; excluded from CI.
 
 Dependency direction:
@@ -76,8 +76,9 @@ Dependency direction:
 
 - Annotation and processing pipeline:
   - `annotations/src/main/kotlin/co/anitrend/support/query/builder/annotation/EntitySchema.kt`
-  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/EntitySchemaProcessor.kt`
-  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/extensions/ElementExtensions.kt`
+  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/Provider.kt`
+  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/Processor.kt`
+  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/extensions/CodeAnalyserExtension.kt`
   - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/model/Candidate.kt`
   - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/factory/ClassFactory.kt`
 
@@ -104,22 +105,21 @@ This repository should align with Android SQLite behavior first, then broader up
 ## Annotation Processing Flow
 
 1. Entity class is marked with `@EntitySchema`.
-2. `EntitySchemaProcessor` scans annotations using KAPT `AbstractProcessor` API.
+2. `Provider` creates `Processor`, which scans annotations using the KSP `SymbolProcessor` API.
 3. Candidate extraction reads Room `@Entity`, `@ColumnInfo`, `@Embedded` metadata.
 4. KotlinPoet writes `<EntityName>Schema` object constants.
-5. Output path is resolved from `kapt.kotlin.generated`.
+5. Output is written through the KSP `CodeGenerator` using KotlinPoet.
 
-## KAPT, KSP, and KotlinPoet Notes
+## KSP and KotlinPoet Notes
 
-- Current processor implementation is KAPT-first (`AbstractProcessor`, `kapt.kotlin.generated`).
-- KSP migration is not active in source ownership yet; migration requires a new KSP processor entrypoint and output pipeline.
+- Current processor implementation is KSP-first (`SymbolProcessorProvider`, `SymbolProcessor`, `CodeGenerator`).
+- Consumer wiring uses the KSP Gradle plugin and `ksp(project(":processor"))` in the sample module.
 - KotlinPoet is the code-generation backbone for emitted schema objects.
 
 ## External Documentation Anchors
 
 - SQLite docs index: https://sqlite.org/docs.html
 - Android SQLite package summary: https://developer.android.com/reference/android/database/sqlite/package-summary
-- KAPT docs: https://kotlinlang.org/docs/kapt.html
 - KSP overview: https://kotlinlang.org/docs/ksp-overview.html
 - KSP migration guide: https://developer.android.com/build/migrate-to-ksp
 - KotlinPoet docs: https://square.github.io/kotlinpoet/
@@ -138,3 +138,42 @@ This repository should align with Android SQLite behavior first, then broader up
 3. If task is SQLite or raw query related, use the SQLite map skill.
 4. If task changes build wiring, use build dependencies skill.
 5. If task changes public API docs, use kdoc-dokka skill.
+
+<!-- code-review-graph MCP tools -->
+## MCP Tools: code-review-graph
+
+**IMPORTANT: This project has a knowledge graph. ALWAYS use the
+code-review-graph MCP tools BEFORE using Grep/Glob/Read to explore
+the codebase.** The graph is faster, cheaper (fewer tokens), and gives
+you structural context (callers, dependents, test coverage) that file
+scanning cannot.
+
+### When to use graph tools FIRST
+
+- **Exploring code**: `semantic_search_nodes` or `query_graph` instead of Grep
+- **Understanding impact**: `get_impact_radius` instead of manually tracing imports
+- **Code review**: `detect_changes` + `get_review_context` instead of reading entire files
+- **Finding relationships**: `query_graph` with callers_of/callees_of/imports_of/tests_for
+- **Architecture questions**: `get_architecture_overview` + `list_communities`
+
+Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
+
+### Key Tools
+
+| Tool | Use when |
+|------|----------|
+| `detect_changes` | Reviewing code changes — gives risk-scored analysis |
+| `get_review_context` | Need source snippets for review — token-efficient |
+| `get_impact_radius` | Understanding blast radius of a change |
+| `get_affected_flows` | Finding which execution paths are impacted |
+| `query_graph` | Tracing callers, callees, imports, tests, dependencies |
+| `semantic_search_nodes` | Finding functions/classes by name or keyword |
+| `get_architecture_overview` | Understanding high-level codebase structure |
+| `refactor_tool` | Planning renames, finding dead code |
+
+### Workflow
+
+1. The graph auto-updates on file changes (via hooks).
+2. Use `detect_changes` for code review.
+3. Use `get_affected_flows` to understand impact.
+4. Use `query_graph` pattern="tests_for" to check coverage.

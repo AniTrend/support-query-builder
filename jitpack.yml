@@ -1,9 +1,8 @@
 jdk:
-  - openjdk17
+  - openjdk21
 install:
-  - echo "Running test, build documentation generator and publish commands"
-  - echo "Running build commands"
-  - ./gradlew clean build --stacktrace
-  - ./gradlew publishMavenPublicationToMavenLocal
+   - echo "Running build commands"
+   - ./gradlew build --stacktrace
+   - ./gradlew publishMavenPublicationToMavenLocal
 env:
   CI: "true"

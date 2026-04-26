@@ -1,7 +1,6 @@
 plugins {
 	`kotlin-dsl`
 	`maven-publish`
-	`version-catalog`
 }
 
 repositories {
@@ -29,6 +28,8 @@ dependencies {
 	/* Depend on the default Gradle API's since we want to build a custom plugin */
 	implementation(gradleApi())
 	implementation(localGroovy())
+    
+    implementation(kotlin("test"))
 
 	/** Work around to include ../.gradle/LibrariesForLibs generated file for version catalog */
 	implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
