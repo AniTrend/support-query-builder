@@ -7,7 +7,8 @@ import com.google.devtools.ksp.symbol.KSValueArgument
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-fun KSClassDeclaration.annotationArgOf(block: (KSValueArgument) -> Boolean) = annotations.flatMap { it.arguments }.first(block)
+fun KSClassDeclaration.annotationArgOf(block: (KSValueArgument) -> Boolean): KSValueArgument? =
+    annotations.flatMap { it.arguments }.firstOrNull(block)
 
 fun KSDeclaration.annotationOf(clazz: KClass<*>): KSAnnotation? {
     return annotations.firstOrNull {

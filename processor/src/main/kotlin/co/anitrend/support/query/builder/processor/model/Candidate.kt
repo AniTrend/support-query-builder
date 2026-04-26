@@ -29,12 +29,14 @@ internal class Candidate(
             logger.warn("[KSCandidate] Column property `${simpleName.getShortName()}` does not have a column annotation")
             return null
         }
-        logger.info("[KSCandidate] Column name for $classDeclaration as `${columnInfo.shortName.asString()}`")
 
-        val columnName = columnInfo.arguments.find { argument ->
+        val columnName = (columnInfo.arguments.find { argument ->
             argument.name?.getShortName() == ColumnInfo::name.name
-        }?.value as String
+        }?.value as? String)
+            ?.takeIf { it.isNotEmpty() && it != ColumnInfo.INHERIT_FIELD_NAME }
+            ?: simpleName.getShortName()
 
+        logger.info("[KSCandidate] Column name for `${simpleName.getShortName()}` as `$columnName`")
 
         return ColumnItem(
             name = columnName,
@@ -58,7 +60,7 @@ internal class Candidate(
                 logger.warn("[KSCandidate] Embedded property `${propertyDeclaration.simpleName.getShortName()}` does not have a prefix argument")
             } else {
                 logger.info(
-                    "[KSCandidate] Embedded prefix for `${argument.name}` as `${prefix}`}",
+                    "[KSCandidate] Embedded prefix for `${argument.name}` as `${prefix}`",
                 )
             }
 
@@ -88,10 +90,14 @@ internal class Candidate(
     }
 
     fun getTable(): Item {
-        val tableName = classDeclaration.annotationArgOf { valueArgument ->
-            logger.info("[KSCandidate.getTable] Argument name: ${valueArgument.name?.getShortName()} should match ${Entity::tableName.name}")
-            valueArgument.name?.getShortName() == Entity::tableName.name
-        }.value as String
+        val entityAnnotation = classDeclaration.annotationOf(Entity::class)
+        val tableName = (entityAnnotation?.arguments
+            ?.find { it.name?.getShortName() == Entity::tableName.name }
+            ?.value as? String)
+            ?.takeIf { it.isNotEmpty() }
+            ?: classDeclaration.simpleName.asString().also {
+                logger.info("[KSCandidate.getTable] `tableName` not set on $classDeclaration, using class name `$it`")
+            }
 
         logger.info("[KSCandidate] Table name for $classDeclaration will be displayed as `$tableName`")
 
@@ -103,7 +109,7 @@ internal class Candidate(
         val embeddings = classDeclaration.getDeclaredProperties().getEmbeddings()
 
         return TableItem(
-            name = requireNotNull(tableName) { "[KSCandidate.getTable] Table name cannot be null" },
+            name = tableName,
             columns = columns,
             embeddings = embeddings,
         )
