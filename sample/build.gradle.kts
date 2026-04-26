@@ -1,9 +1,3 @@
-import com.google.devtools.ksp.gradle.KspAATask
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.google.devtools.ksp.gradle.KspTask
-import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
-
 plugins {
 	id("co.anitrend.support.query.builder.plugin")
     alias(libs.plugins.google.devtools.ksp)

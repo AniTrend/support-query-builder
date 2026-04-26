@@ -13,7 +13,7 @@ Repository-level orientation for coding agents working in support-query-builder.
 - `:annotations` (JVM-only): defines annotation API, currently `@EntitySchema`.
 - `:core` (JVM-only): query builder contracts, SQL clause types, and DSL entrypoints.
 - `:core:ext` (Android library): translates builder output into `SupportSQLiteQuery`.
-- `:processor` (JVM-only): KAPT processor that reads Room metadata and emits schema objects via KotlinPoet.
+- `:processor` (JVM-only): KSP processor that reads Room metadata and emits schema objects via KotlinPoet.
 - `:sample` (Android app, local development): demonstrates end-to-end usage; excluded from CI.
 
 Dependency direction:
@@ -76,8 +76,9 @@ Dependency direction:
 
 - Annotation and processing pipeline:
   - `annotations/src/main/kotlin/co/anitrend/support/query/builder/annotation/EntitySchema.kt`
-  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/EntitySchemaProcessor.kt`
-  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/extensions/ElementExtensions.kt`
+  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/Provider.kt`
+  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/Processor.kt`
+  - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/extensions/CodeAnalyserExtension.kt`
   - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/model/Candidate.kt`
   - `processor/src/main/kotlin/co/anitrend/support/query/builder/processor/factory/ClassFactory.kt`
 
@@ -104,22 +105,21 @@ This repository should align with Android SQLite behavior first, then broader up
 ## Annotation Processing Flow
 
 1. Entity class is marked with `@EntitySchema`.
-2. `EntitySchemaProcessor` scans annotations using KAPT `AbstractProcessor` API.
+2. `Provider` creates `Processor`, which scans annotations using the KSP `SymbolProcessor` API.
 3. Candidate extraction reads Room `@Entity`, `@ColumnInfo`, `@Embedded` metadata.
 4. KotlinPoet writes `<EntityName>Schema` object constants.
-5. Output path is resolved from `kapt.kotlin.generated`.
+5. Output is written through the KSP `CodeGenerator` using KotlinPoet.
 
-## KAPT, KSP, and KotlinPoet Notes
+## KSP and KotlinPoet Notes
 
-- Current processor implementation is KAPT-first (`AbstractProcessor`, `kapt.kotlin.generated`).
-- KSP migration is not active in source ownership yet; migration requires a new KSP processor entrypoint and output pipeline.
+- Current processor implementation is KSP-first (`SymbolProcessorProvider`, `SymbolProcessor`, `CodeGenerator`).
+- Consumer wiring uses the KSP Gradle plugin and `ksp(project(":processor"))` in the sample module.
 - KotlinPoet is the code-generation backbone for emitted schema objects.
 
 ## External Documentation Anchors
 
 - SQLite docs index: https://sqlite.org/docs.html
 - Android SQLite package summary: https://developer.android.com/reference/android/database/sqlite/package-summary
-- KAPT docs: https://kotlinlang.org/docs/kapt.html
 - KSP overview: https://kotlinlang.org/docs/ksp-overview.html
 - KSP migration guide: https://developer.android.com/build/migrate-to-ksp
 - KotlinPoet docs: https://square.github.io/kotlinpoet/

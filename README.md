@@ -1,6 +1,6 @@
 # support-query-builder &nbsp; [![Run unit tests](https://github.com/AniTrend/support-query-builder/actions/workflows/android-test.yml/badge.svg)](https://github.com/AniTrend/support-query-builder/actions/workflows/android-test.yml) &nbsp; [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2bcc9217df74403a9d4afd8664b20c34)](https://www.codacy.com/gh/AniTrend/support-query-builder/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AniTrend/support-query-builder&amp;utm_campaign=Badge_Grade) &nbsp; [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAniTrend%2Fsupport-query-builder.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FAniTrend%2Fsupport-query-builder?ref=badge_shield) &nbsp; [![](https://jitpack.io/v/AniTrend/support-query-builder.svg)](https://jitpack.io/#AniTrend/support-query-builder)
 
-A simple yet comprehensive sql **select** query builder with featuring an annotation processor to generate schema objects from [Room](https://developer.android.com/reference/androidx/room/Room) annotations that plugs straight into [RawQuery](https://developer.android.com/reference/androidx/room/RawQuery)
+A simple yet comprehensive sql **select** query builder featuring a KSP processor that generates schema objects from [Room](https://developer.android.com/reference/androidx/room/Room) annotations and plugs straight into [RawQuery](https://developer.android.com/reference/androidx/room/RawQuery)
 
 ## Why This Project Exists?
 
@@ -10,7 +10,7 @@ While [Room](https://developer.android.com/reference/androidx/room/Room) offers 
 - **annotations** - Annotation only which is used to inform the **processor** of entities to inspect
 - **core** - The main query builder library for constructing queries
 - **core:ext** - Contains helper extension functions for the `core` modules, specifically `asSupportSQLiteQuery`
-- **processor** - Kotlin annotation processor that generates kotlin object classes that mirror your Room entity annotations supporting inspection `@Entity`, `@ColumnInfo` and `@Embedded`
+- **processor** - Kotlin Symbol Processing (KSP) processor that generates kotlin object classes mirroring your Room entity annotations, supporting inspection of `@Entity`, `@ColumnInfo`, and `@Embedded`
 
 
 See a list of changes from [releases](https://github.com/AniTrend/support-query-builder/releases)
@@ -64,16 +64,20 @@ builder.asSupportSQLiteQuery()
 
 ### Annotation processor
 
-If you want to have your entity classes inspected and generate schema objects add the following to yout module gradle file
+If you want to have your entity classes inspected and generate schema objects, apply KSP and add the following to your module Gradle file
 
 ```javascript
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 dependencies {
-    implementation 'com.github.anitrend:support-query-builder:annotaion:{latest_version}'
-    kapt 'com.github.anitrend:support-query-builder:processor:{latest_version}'
+    implementation 'com.github.anitrend:support-query-builder:annotation:{latest_version}'
+    ksp 'com.github.anitrend:support-query-builder:processor:{latest_version}'
 }
 ```
 
-After you can annotate your entity classes with `@EnititySchema` as shown below, which should only be on your top level entity e.g.:
+After that you can annotate your entity classes with `@EntitySchema` as shown below, which should only be on your top level entity, e.g.:
 
 ```kotlin
 @EntitySchema
@@ -102,7 +106,7 @@ internal data class PetEntity(
 }
 ```
 
-When your build completes your should be able to access a generated object called `PetEntitySchema` which would have the following format.
+When your build completes you should be able to access a generated object called `PetEntitySchema`, which has the following format.
 
 ```kotlin
 public object PetEntitySchema {
@@ -122,7 +126,7 @@ public object PetEntitySchema {
 
 You may use the newly created schema object when building out your queries
 
-> **N.B.** If you do not set the `tableName` protery on @Entity then the class name is used instead, the same applies to `name` property on `@ColumnInfo` and `prefix` on `@Embedded`
+> **N.B.** If you do not set the `tableName` property on `@Entity` then the class name is used instead, the same applies to the `name` property on `@ColumnInfo` and `prefix` on `@Embedded`
 > **Check out the sample project and tests located [in the core module](./core/src/test/kotlin/co/anitrend/support/query/builder/core) for more samples**
 
 ### Basic statement

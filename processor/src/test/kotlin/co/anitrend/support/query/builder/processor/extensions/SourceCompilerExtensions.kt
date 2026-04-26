@@ -5,6 +5,7 @@ import com.tschuchort.compiletesting.JvmCompilationResult
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.configureKsp
+import com.tschuchort.compiletesting.sourcesGeneratedBySymbolProcessor
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import java.io.File
 
@@ -32,9 +33,7 @@ fun SourceFile.compilation(
 
 @OptIn(ExperimentalCompilerApi::class)
 fun JvmCompilationResult.generatedKotlinSources(): List<File> {
-    val kspSourcesDir = outputDirectory.resolve("../ksp/sources")
-        .walkTopDown()
+    return sourcesGeneratedBySymbolProcessor
         .filter { it.isFile && it.extension == "kt" }
         .toList()
-    return kspSourcesDir
 }

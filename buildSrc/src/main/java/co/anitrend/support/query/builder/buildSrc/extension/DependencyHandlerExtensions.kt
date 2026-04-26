@@ -7,7 +7,6 @@ private enum class DependencyType(val configurationName: String) {
     API("api"),
     COMPILE("compileOnly"),
     DEBUG("debugOnly"),
-    KAPT("kapt"),
     IMPLEMENTATION("implementation"),
     RUNTIME("runtimeOnly"),
     TEST("testImplementation"),
@@ -22,19 +21,6 @@ private fun DependencyHandler.addDependency(
     null -> add(dependencyType.configurationName, dependencyNotation)
     else -> add(dependencyType.configurationName, dependencyNotation, configureClosure)
 }
-
-/**
- * Adds a dependency to the given configuration, and configures the dependency using the given closure.
- *
- * @param dependencyNotation The dependency notation, in one of the notations described above.
- * @param configureClosure The closure to use to configure the dependency.
- *
- * @return The dependency.
- */
-internal fun DependencyHandler.kapt(
-    dependencyNotation: Any,
-    configureClosure: Closure<*>? = null
-) = addDependency(dependencyNotation, DependencyType.KAPT, configureClosure)
 
 /**
  * Adds a dependency to the given configuration, and configures the dependency using the given closure.

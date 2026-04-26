@@ -17,7 +17,7 @@ jetbrains-kotlin = "2.3.21"
 
 io-mockk = "1.14.9"
 
-google-devtools-ksp = "2.2.0-2.0.2"
+google-devtools-ksp = "2.3.7"
 
 squareup-kotlinpoet = "2.2.0"
 google-auto-service = "1.1.1"
@@ -88,7 +88,6 @@ mockk = { module = "io.mockk:mockk", version.ref = "io-mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "io-mockk" }
 
 spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:8.4.0"
-pintrest-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
 
 squareup-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "squareup-kotlinpoet" }
 squareup-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "squareup-kotlinpoet" }
@@ -99,6 +98,4 @@ google-devtools-ksp-api = { module = "com.google.devtools.ksp:symbol-processing-
 gradle-plugins-android-junit5 = "de.mannodermaus.gradle.plugins:android-junit5:2.0.1"
 kotlin-compile-testing = { module = "dev.zacsweers.kctfork:core", version.ref = "kotlin-compile-testing" }
 kotlin-compile-testing-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref ="kotlin-compile-testing" }
-spek2-spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek2-spek" }
-spek2-spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek2-spek" }
 pintrest-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
