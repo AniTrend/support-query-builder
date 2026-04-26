@@ -24,7 +24,7 @@ google-auto-service = "1.1.1"
 
 kotlin-compile-testing = "0.8.0"
 
-junit5 = "5.13.4"
+junit5 = "5.14.4"
 
 [plugins]
 android-junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
