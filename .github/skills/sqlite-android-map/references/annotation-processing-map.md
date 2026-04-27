@@ -40,9 +40,9 @@ Use this map to understand how room metadata becomes generated schema constants.
 
 ## Migration Notes
 
-The KAPT-to-KSP migration is complete in current source:
+The migration to KSP is complete in current source:
 
-1. `Provider` and `Processor` replace the old KAPT entrypoint shape.
+1. `Provider` and `Processor` define the current entrypoint shape.
 2. Symbol traversal is KSP-based through `KSClassDeclaration` and related symbols.
 3. Generated Kotlin is emitted through `CodeGenerator` plus KotlinPoet.
 4. Module and sample wiring use `ksp(...)`.

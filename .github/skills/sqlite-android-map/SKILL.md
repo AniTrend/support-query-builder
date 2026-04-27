@@ -69,7 +69,7 @@ val sqliteQuery = builder.asSupportSQLiteQuery()
 | Excuse | Reality |
 | --- | --- |
 | "KSP folders exist, so migration is done" | Folder artifacts are not build wiring truth. Confirm plugin and processor APIs in source/build files. |
-| "I can infer output path without reading processor code" | Verify the current KSP `CodeGenerator` and test-harness APIs instead of relying on old KAPT output assumptions. |
+| "I can infer output path without reading processor code" | Verify the current KSP `CodeGenerator` and test-harness APIs instead of relying on outdated annotation-processing assumptions. |
 | "Bridge code is obvious" | Verify owner module. This repo keeps SQL building and Android bridge in different modules. |
 
 ## Red Flags

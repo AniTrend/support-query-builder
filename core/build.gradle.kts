@@ -5,3 +5,4 @@ plugins {
 tasks.withType<GenerateModuleMetadata> {
     dependsOn(":core:classesJar")
 }
+
