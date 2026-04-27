@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import java.net.URI
+import org.jetbrains.dokka.gradle.DokkaExtension
 
 plugins {
     id("org.jetbrains.dokka")
@@ -26,7 +27,34 @@ allprojects {
     }
 }
 
-tasks.withType(DokkaMultiModuleTask::class.java) {
-    outputDirectory.set(rootProject.file("dokka-docs"))
-    failOnWarning.set(false)
+dokka {
+    dokkaPublications.html {
+        outputDirectory.set(rootProject.file("dokka-docs"))
+        failOnWarning.set(false)
+    }
+}
+
+subprojects {
+    plugins.withId("org.jetbrains.dokka") {
+        extensions.configure(DokkaExtension::class.java) {
+            val modulePath = project.path.removePrefix(":").replace(":", "/")
+
+            dokkaSourceSets.configureEach {
+                reportUndocumented.set(true)
+                skipEmptyPackages.set(true)
+
+                sourceLink {
+                    localDirectory.set(layout.projectDirectory.dir("src/main/kotlin"))
+                    remoteUrl.set(URI("https://github.com/AniTrend/support-query-builder/tree/develop/$modulePath/src/main/kotlin"))
+                    remoteLineSuffix.set("#L")
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    dokka(project(":annotations"))
+    dokka(project(":core"))
+    dokka(project(":core:ext"))
 }
