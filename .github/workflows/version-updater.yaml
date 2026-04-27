@@ -33,6 +33,24 @@ jobs:
           echo "code=$CODE" >> gradle/version.properties
           echo "name=v$(cat VERSION)" >> gradle/version.properties
 
+      - name: Build PR metadata
+        id: pr_metadata
+        run: |
+          VERSION="$(cat gradle/version.properties | grep '^version=' | cut -d'=' -f2)"
+          CODE="$(cat gradle/version.properties | grep '^code=' | cut -d'=' -f2)"
+          NAME="$(cat gradle/version.properties | grep '^name=' | cut -d'=' -f2)"
+          echo "title=platform: bump version.properties to ${VERSION} (${NAME})" >> "$GITHUB_OUTPUT"
+          {
+            echo "body<<EOF"
+            echo "This PR was automatically generated to update version metadata for ${VERSION}."
+            echo ""
+            echo "Updated values in gradle/version.properties:"
+            echo "- version=${VERSION}"
+            echo "- code=${CODE}"
+            echo "- name=${NAME}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Clean up version information file
         run: rm VERSION
 
@@ -47,9 +65,8 @@ jobs:
           delete-branch: true
           commit-message: "automation: update version.properties"
           author: "Author <actions@github.com>"
-          title: "platform: automated version update"
-          body: |
-            This PR was automatically generated to update `version.properties`
+          title: ${{ steps.pr_metadata.outputs.title }}
+          body: ${{ steps.pr_metadata.outputs.body }}
           branch: platform/update-version-meta-data
           labels: "skip-changelog"
           assignees: "wax911"
