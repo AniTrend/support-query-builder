@@ -18,12 +18,20 @@ internal fun Project.configureSources() {
         from(mainSourceSets)
     }
 
-    val classesJar by tasks.register("classesJar", Jar::class.java) {
-        from("${project.layout.buildDirectory.get()}/intermediates/classes/release")
+    val classesJar = if (isCoreModule()) {
+        tasks.register("classesJar", Jar::class.java) {
+            dependsOn(tasks.named("classes"))
+            from(layout.buildDirectory.dir("classes/kotlin/main"))
+            from(layout.buildDirectory.dir("classes/java/main"))
+        }
+    } else {
+        null
     }
 
     artifacts {
-        add("archives", classesJar)
+        if (classesJar != null) {
+            add("archives", classesJar)
+        }
         add("archives", sourcesJar)
     }
 

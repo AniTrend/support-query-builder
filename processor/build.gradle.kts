@@ -1,6 +1,3 @@
-import com.google.devtools.ksp.gradle.KspAATask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	id("co.anitrend.support.query.builder.plugin")
     alias(libs.plugins.google.devtools.ksp)
@@ -28,28 +25,6 @@ dependencies {
     testRuntimeOnly(libs.junit5.engine)
 }
 
-// Ensure KSP tasks wait for annotations to be fully built
-tasks.withType<KspAATask> {
-    dependsOn(":annotations:jar")
-    mustRunAfter(":annotations:classesJar")
-}
-
-// Ensure compilation tasks wait for annotations
-tasks.withType<KotlinCompile> {
-    dependsOn(":annotations:jar")
-}
-
-// Ensure test tasks wait for annotations
-tasks.withType<Test> {
-    dependsOn(":annotations:jar")
-}
-
 tasks.test {
     useJUnitPlatform()
-    // Ensure test classpath includes annotations
-    dependsOn(":annotations:jar")
-}
-
-tasks.withType<GenerateModuleMetadata> {
-	dependsOn(":processor:classesJar")
 }

@@ -1,24 +1,9 @@
-import com.google.devtools.ksp.gradle.KspAATask
-
 plugins {
 	id("co.anitrend.support.query.builder.plugin")
     alias(libs.plugins.google.devtools.ksp)
 }
 android {
 	namespace = "co.anitrend.support.query.builder.sample"
-}
-
-tasks.withType<KspAATask> {
-	dependsOn(":processor:classesJar")
-}
-
-tasks.withType<com.android.build.gradle.tasks.JavaPreCompileTask> {
-	dependsOn(
-		":annotations:classesJar",
-		":processor:classesJar",
-		":core:classesJar",
-		":core:ext:classesJar",
-	)
 }
 
 dependencies {

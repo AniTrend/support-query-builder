@@ -21,6 +21,3 @@ tasks.jar {
     }
 }
 
-tasks.withType<GenerateModuleMetadata> {
-    dependsOn(":annotations:classesJar")
-}
