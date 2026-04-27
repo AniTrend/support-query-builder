@@ -49,3 +49,7 @@ tasks.test {
     // Ensure test classpath includes annotations
     dependsOn(":annotations:jar")
 }
+
+tasks.withType<GenerateModuleMetadata> {
+	dependsOn(":processor:classesJar")
+}
