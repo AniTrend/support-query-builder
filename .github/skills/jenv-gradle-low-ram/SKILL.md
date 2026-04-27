@@ -113,8 +113,8 @@ org.gradle.jvmargs=-Xmx1536m -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8
   Retry with `--no-daemon --max-workers=1` and lower `-Xmx` if the OS is reclaiming memory aggressively.
 - Kotlin compile OOM:
   Keep workers low, disable parallel, and run module-targeted tasks (for example `:core:test` or `:processor:test`) instead of full-project builds.
-- KAPT out of memory (`:processor` module):
-  Add `-Dkapt.use.worker.api=false` to avoid spawning an extra worker process during annotation processing.
+- KSP processing OOM (`:processor` module):
+  Keep worker pressure low (`--max-workers=1` or `2`) and run `:processor:test` directly before full-project tasks.
 
 ## Completion Checks
 
@@ -128,4 +128,4 @@ org.gradle.jvmargs=-Xmx1536m -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8
 - "Align my shell to `.java-version` and run debug build with 8GB RAM settings"
 - "I get class file major version errors; fix jenv and verify Gradle JVM"
 - "Run unit tests with a low-memory Gradle profile and fallback if OOM occurs"
-- "Run only the processor module tests without spawning extra KAPT workers"
+- "Run only the processor module tests with a low-memory profile"

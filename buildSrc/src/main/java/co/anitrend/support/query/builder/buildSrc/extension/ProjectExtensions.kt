@@ -18,7 +18,7 @@ fun Project.isSampleModule() = name == Modules.App.Main.id
 fun Project.isAnnotationModule() = name == Modules.Common.Annotation.id
 fun Project.isCoreModule() = name == Modules.Common.Core.id
 fun Project.isCoreExtModule() = name == Modules.Common.Ext.id
-fun Project.isProcessorModule() = name == Modules.Processor.Kapt.id
+fun Project.isProcessorModule() = name == Modules.Processor.Ksp.id
 
 fun Project.isKotlinLibraryGroup() = isProcessorModule() || isAnnotationModule() || isCoreModule()
 
