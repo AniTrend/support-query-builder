@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":core:ext/main":[],":core:ext/release":[],":core/main":[],":annotations/main":[]}'
