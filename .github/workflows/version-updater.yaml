@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   version-update:
+    name: Update version.properties and create PR
     permissions:
       contents: write
       pull-requests: write

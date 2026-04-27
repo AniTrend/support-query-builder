@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   update-draft-release:
+    name: Update Draft Release
     permissions:
       contents: write
       pull-requests: write
