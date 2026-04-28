@@ -1,7 +1,6 @@
 package co.anitrend.support.query.builder.buildSrc.plugins.components
 
 import co.anitrend.support.query.builder.buildSrc.extension.isKotlinLibraryGroup
-import co.anitrend.support.query.builder.buildSrc.extension.isProcessorModule
 import co.anitrend.support.query.builder.buildSrc.extension.isSampleModule
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginContainer
@@ -23,12 +22,6 @@ private fun addAndroidPlugin(project: Project, pluginContainer: PluginContainer)
         pluginContainer.apply("com.diffplug.spotless")
 }
 
-private fun addKotlinAndroidPlugin(project: Project, pluginContainer: PluginContainer) {
-    if (!project.isKotlinLibraryGroup())
-        pluginContainer.apply("kotlin-android")
-}
-
 internal fun Project.configurePlugins() {
     addAndroidPlugin(project, plugins)
-    addKotlinAndroidPlugin(project, plugins)
 }
