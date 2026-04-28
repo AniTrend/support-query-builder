@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.getValue
 
 internal fun Project.configureSources() {
     val mainSourceSets = when {
-        !isKotlinLibraryGroup() -> baseExtension().sourceSets["main"].java.srcDirs
+        !isKotlinLibraryGroup() -> baseExtension().sourceSets["main"].java.srcDirs()
         else -> kotlinJvmExtension().sourceSets["main"].kotlin.srcDirs()
     }
 
