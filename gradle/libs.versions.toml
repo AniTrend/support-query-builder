@@ -76,7 +76,7 @@ androidx-junitKtx = { module = "androidx.test.ext:junit-ktx", version.ref = "and
 
 google-auto-service = { module = "com.google.auto.service:auto-service-annotations", version.ref = "google-auto-service" }
 auto-service-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.2.0"
-google-android-material = "com.google.android.material:material:1.13.0"
+google-android-material = "com.google.android.material:material:1.14.0"
 
 jetbrains-dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "jetbrains-dokka" }
 jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }
