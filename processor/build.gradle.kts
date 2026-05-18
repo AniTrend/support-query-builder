@@ -13,7 +13,7 @@ dependencies {
     compileOnly(libs.google.devtools.ksp)
 
     api(libs.squareup.kotlinpoet)
-    compileOnly(libs.androidx.room.common)
+    implementation(libs.androidx.room.common)
 
     testImplementation(project(":annotations"))
     testImplementation(libs.androidx.room.common)
@@ -26,5 +26,6 @@ dependencies {
 }
 
 tasks.test {
+    dependsOn(tasks.named("generateMetadataFileForMavenPublication"))
     useJUnitPlatform()
 }
