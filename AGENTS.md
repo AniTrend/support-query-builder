@@ -139,6 +139,17 @@ This repository should align with Android SQLite behavior first, then broader up
 4. If task changes build wiring, use build dependencies skill.
 5. If task changes public API docs, use kdoc-dokka skill.
 
+## Repository Map
+
+A full codemap is available at `codemap.md` in the project root.
+
+Before working on any task, read `codemap.md` to understand:
+- Project architecture and entry points
+- Directory responsibilities and design patterns
+- Data flow and integration points between modules
+
+For deep work on a specific folder, also read that folder's `codemap.md`.
+
 <!-- code-review-graph MCP tools -->
 ## MCP Tools: code-review-graph
 
