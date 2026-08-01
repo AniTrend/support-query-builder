@@ -87,7 +87,7 @@ jetbrains-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.r
 mockk = { module = "io.mockk:mockk", version.ref = "io-mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "io-mockk" }
 
-spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:8.8.0"
+spotless-gradle = "com.diffplug.spotless:spotless-plugin-gradle:8.9.0"
 
 squareup-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "squareup-kotlinpoet" }
 squareup-kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "squareup-kotlinpoet" }
