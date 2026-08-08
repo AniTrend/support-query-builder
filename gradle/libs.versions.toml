@@ -17,7 +17,7 @@ jetbrains-kotlin = "2.3.21"
 
 io-mockk = "1.14.11"
 
-google-devtools-ksp = "2.3.10"
+google-devtools-ksp = "2.3.11"
 
 squareup-kotlinpoet = "2.3.0"
 google-auto-service = "1.1.1"
