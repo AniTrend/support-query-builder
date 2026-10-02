@@ -19,7 +19,7 @@ io-mockk = "1.14.11"
 
 google-devtools-ksp = "2.3.12"
 
-squareup-kotlinpoet = "2.3.0"
+squareup-kotlinpoet = "2.4.0"
 google-auto-service = "1.1.1"
 
 kotlin-compile-testing = "0.8.0"
